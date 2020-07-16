@@ -1,7 +1,5 @@
 package de.hsrm.mi.eibo.business.tone;
 
-import de.hsrm.mi.eibo.tone.Tone;
-
 import java.util.LinkedList;
 import java.util.List;
 
