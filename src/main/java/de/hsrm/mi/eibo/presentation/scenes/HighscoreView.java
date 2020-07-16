@@ -1,10 +1,12 @@
 package de.hsrm.mi.eibo.presentation.scenes;
 
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
-public class HighscoreView extends AnchorPane{
+public class HighscoreView extends VBox{
 
     public HighscoreView(){
+
+        getStyleClass().add("window");
         
     }
     

@@ -2,26 +2,42 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora");
 
 .window {
-    -fx-background-color: #2E2E2E;
+    -fx-background-color: #2e2e2e;
 }
 
 .h1 {
     -fx-font-family: Sora;
     -fx-font-size: 80px;
     -fx-text-alignment: center;
-    -fx-text-fill: #F2F2F2;
+    -fx-text-fill: #fafafa;
 }
 
 .h2 {
     -fx-font-family: Sora;
     -fx-font-size: 50px;
     -fx-text-alignment: center;
-    -fx-text-fill: #F2F2F2;
+    -fx-text-fill: #fafafa;
 }
 
 .normal-text {
     -fx-font-family: Montserrat;
     -fx-font-size: 24px;
     -fx-text-alignment: center;
-    -fx-text-fill: #F2F2F2;
+    -fx-text-fill: #fafafa;
+}
+
+.icon-button {
+
+}
+
+.text-button {
+    -fx-background-color: transparent;
+    -fx-font-family: Sora;
+    -fx-font-size: 28px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #fafafa;
+}
+
+.text-button:hover {
+    -fx-text-fill: #cef6e3;
 }
