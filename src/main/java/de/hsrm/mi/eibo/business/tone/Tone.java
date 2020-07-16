@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.tone;
+package de.hsrm.mi.eibo.business.tone;
 
 public enum Tone {
     C(264),

@@ -1,6 +1,6 @@
 package de.hsrm.mi.eibo.business.tone;
 
-import de.hsrm.mi.eibo.tone.Tone;
+import de.hsrm.mi.eibo.business.tone.Tone;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.util.LinkedList;
