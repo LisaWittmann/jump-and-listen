@@ -1,4 +1,6 @@
-package de.hsrm.mi.eibo.tone;
+package de.hsrm.mi.eibo.business.tone;
+
+import de.hsrm.mi.eibo.tone.Tone;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -8,11 +10,16 @@ import java.util.List;
 
 public class ToneMaker {
 
+    private int volume;
+
+    public ToneMaker() {
+        volume = 80;
+    }
+
 
 
     public void createTone(int Hertz, int volume)
             throws LineUnavailableException {
-        /** Exception is thrown when line cannot be opened */
 
         float rate = 44100;
         byte[] buf;
@@ -48,4 +55,12 @@ public class ToneMaker {
         }
     }
 
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        if (volume < 0 || volume > 100) throw new IllegalArgumentException("Volume has to be between 0 and 100 but was " + volume);
+        this.volume = volume;
+    }
 }

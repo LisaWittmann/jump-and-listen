@@ -1,18 +1,16 @@
-package de.hsrm.mi.eibo.tone;
+package de.hsrm.mi.eibo.business.tone;
 
 import de.hsrm.mi.eibo.tone.Tone;
-import de.hsrm.mi.eibo.tone.ToneMaker;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Test{
-
-    final static int VOL = 100;
     static ToneMaker tm = new ToneMaker();
 
     public static void main(String[] args){
+        tm.setVolume(100);
         List<Tone> toene = new LinkedList<>();
         toene.add(Tone.E);
         toene.add(Tone.E);
