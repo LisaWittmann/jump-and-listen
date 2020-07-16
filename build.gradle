@@ -1,0 +1,45 @@
+
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+mainClassName = "de.hsrm.mi.eibo.MainController"
+
+group = 'de.hsrm.mi.eibo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+
+// Konfiguration des JavaFX-Plugins: Version und benötigte Module
+javafx {
+    version = "11.0.1"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+// Abzufragendes Internet-Repository für Bibliotheken (z.B. JavaFX)
+repositories { 
+    jcenter() 
+}
+
+// Abhängigkeiten (benötigte und einzubindende Bibliotheken)
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testImplementation 'org.junit.platform:junit-platform-console-standalone:1.6.0'
+    testRuntimeOnly    'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    compile            'com.google.code.gson:gson:2.8.6'
+    implementation     'com.google.code.gson:gson:2.8.6'
+}
+
+// Initialisierung für JUnit-Testing
+test {
+    useJUnitPlatform()
+}
+
