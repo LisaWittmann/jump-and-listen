@@ -31,7 +31,7 @@ public class LevelViewController extends ViewController<MainApplication> {
             name.getStyleClass().add("h3");
             options.getChildren().add(name);
 
-            name.setOnMouseClicked(event -> application.switchScene(Scenes.GAME_VIEW));
+            name.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); //TODO: wieder zu GameView ändern
         }
     }
 
