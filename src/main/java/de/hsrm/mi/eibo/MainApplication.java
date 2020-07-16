@@ -27,11 +27,11 @@ public class MainApplication extends Application {
             controller = new StartViewController(this);
             scenes.put(Scenes.START_VIEW, controller.getRootView());
 
-            controller = new AuswahlViewController(this);
-            scenes.put(Scenes.AUSWAHL_VIEW, controller.getRootView());
+            controller = new LevelViewController(this);
+            scenes.put(Scenes.LEVEL_VIEW, controller.getRootView());
 
-            controller = new SpielViewController(this);
-            scenes.put(Scenes.SPIEL_VIEW, controller.getRootView());
+            controller = new GameViewController(this);
+            scenes.put(Scenes.GAME_VIEW, controller.getRootView());
 
             controller = new HighscoreViewController(this);
             scenes.put(Scenes.HIGHCSCORE_VIEW, controller.getRootView());
@@ -41,7 +41,7 @@ public class MainApplication extends Application {
             scene.getStylesheets().add(getClass().getResource("/stylesheets/application.css").toExternalForm());
             
             this.primaryStage = primaryStage;
-            this.primaryStage.setTitle("Willkommen");
+            this.primaryStage.setTitle("jump & listen");
             this.primaryStage.setScene(scene);
             this.primaryStage.show();
 

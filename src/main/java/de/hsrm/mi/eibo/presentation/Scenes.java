@@ -2,6 +2,6 @@ package de.hsrm.mi.eibo.presentation;
 
 public enum Scenes {
 
-    START_VIEW, AUSWAHL_VIEW, SPIEL_VIEW, HIGHCSCORE_VIEW;
+    START_VIEW, LEVEL_VIEW, GAME_VIEW, HIGHCSCORE_VIEW;
     
 }

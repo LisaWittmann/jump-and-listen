@@ -11,7 +11,7 @@ public class StartView extends VBox {
 
     public StartView(){
 
-        startButton = new Button("Start now");
+        startButton = new Button("start now");
         startButton.getStyleClass().add("text-button");
         
         Label titleLabel = new Label("Jump & Listen");

@@ -24,10 +24,7 @@ public class StartViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        startButton.addEventHandler(ActionEvent.ACTION, e -> {
-            application.switchScene(Scenes.AUSWAHL_VIEW);
-        });
-
+        startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.LEVEL_VIEW));
     }
 
     

@@ -3,11 +3,11 @@ package de.hsrm.mi.eibo.presentation.scenes;
 import de.hsrm.mi.eibo.MainApplication;
 import de.hsrm.mi.eibo.presentation.ViewController;
 
-public class SpielViewController extends ViewController<MainApplication> {
+public class GameViewController extends ViewController<MainApplication> {
 
     private SpielView view;
 
-    public SpielViewController(MainApplication application){
+    public GameViewController(MainApplication application){
         super(application);
 
         view = new SpielView();
