@@ -2,12 +2,11 @@ package de.hsrm.mi.eibo.presentation.scenes;
 
 import javafx.scene.layout.AnchorPane;
 
-public class SpielView extends AnchorPane {
+public class GameView extends AnchorPane {
 
-    public SpielView(){
+    public GameView(){
 
         getStyleClass().add("window");
-        
     }
     
 }

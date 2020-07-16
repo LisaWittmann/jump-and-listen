@@ -5,12 +5,12 @@ import de.hsrm.mi.eibo.presentation.ViewController;
 
 public class GameViewController extends ViewController<MainApplication> {
 
-    private SpielView view;
+    private GameView view;
 
     public GameViewController(MainApplication application){
         super(application);
 
-        view = new SpielView();
+        view = new GameView();
         setRootView(view);
     }
 
