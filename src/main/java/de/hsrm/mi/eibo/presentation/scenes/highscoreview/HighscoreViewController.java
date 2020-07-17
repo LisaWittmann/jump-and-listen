@@ -9,6 +9,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller der HighscoreView
+ * Initiiert angezeigte Elemente anhand der Daten des Players
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class HighscoreViewController extends ViewController<MainApplication> {
 
     private HighscoreView view;
@@ -38,7 +44,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
         playerScore.setText(String.valueOf(player.getScore()));
 
-        if(player.getScore() == player.getHighScores().get(0)) playerText.setText("new record!");
+        if(player.getScore() == player.getHighScores().get(0)) playerText.setText("new personal record!");
         else playerText.setText("you should try again!");
         
         for(int currentScore : player.getHighScores()){

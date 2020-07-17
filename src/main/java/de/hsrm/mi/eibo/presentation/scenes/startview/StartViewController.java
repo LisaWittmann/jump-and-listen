@@ -6,6 +6,12 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
+/**
+ * Controller der StartView
+ * Initiiert StartButton
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class StartViewController extends ViewController<MainApplication> {
 
     private StartView view;

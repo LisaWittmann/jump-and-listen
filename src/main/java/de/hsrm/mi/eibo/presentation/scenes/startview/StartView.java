@@ -5,6 +5,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * Startbildschirm
+ * Leitet weiter zur SelectView
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class StartView extends VBox {
 
     Button startButton;
@@ -23,6 +29,5 @@ public class StartView extends VBox {
         setId("start-view");
 
         getChildren().addAll(titleLabel, startButton);
-        
     }
 }

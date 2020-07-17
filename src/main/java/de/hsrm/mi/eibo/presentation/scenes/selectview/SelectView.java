@@ -6,6 +6,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Anzeige Wahlmöglichkeiten bezüglich des Spiels vor Beginn
+ * Auswahl der Schwierigkeitsstufe
+ * 
+ * Wird vor Start des Spiels gezeigt
+ * Leitet nach Auswahl auf GameView weiter
+ * 
+ * @author pwieg001, lwitt001, lger001
+ */
 public class SelectView extends VBox {
 
     HBox options;

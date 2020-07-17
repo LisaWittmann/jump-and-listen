@@ -5,6 +5,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * Anzeige des Spielstands und der persönlichen Highscores
+ * Wird nach Abschluss eines Spiels angezeigt
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class HighscoreView extends VBox {
 
     VBox playerRank;

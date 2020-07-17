@@ -1,5 +1,9 @@
 package de.hsrm.mi.eibo.business.tone;
 
+/**
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public enum Tone {
     C(264),
     D(297),

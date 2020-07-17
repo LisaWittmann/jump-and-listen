@@ -15,6 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * Klasse zum Starten der JavaFX-Oberfläche
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class MainApplication extends Application {
 
     private Stage primaryStage;
@@ -69,6 +74,10 @@ public class MainApplication extends Application {
         return player;
     }
 
+    /**
+     * Ändert die angezeigte Scene
+     * @param sceneName Scene, die angezeigt werden soll
+     */
     public void switchScene(Scenes sceneName){
         Pane nextScene;
 
@@ -78,7 +87,11 @@ public class MainApplication extends Application {
             currentScene = nextScene;
         }
     }
-    
+
+    /** 
+     * Hauptprogramm
+     * @param args Komandozeilenparameter
+     */
     public static void main(String[] args){
         launch(args);
     }

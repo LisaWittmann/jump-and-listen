@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Spieler in Form der Spielfigur im Spiel
+ * enthält außerdem Sessiondaten wie alle persönlichen Spielstände
+ * 
+ * @author pwieg001, lwitt001, lger001
+ */
 public class Player {
 
     protected int score;
@@ -19,31 +25,29 @@ public class Player {
     public int getScore(){
         return score;
     }
+    
+    /**
+     * Ermittelt die höchsten drei Scores des Spielers
+     * @return Sublist mit höchsten drei Scores oder alle bisherigen Scores, wenn weniger als drei Scores existieren
+     */
+    public List<Integer> getHighScores(){ 
+        List<Integer> sublist = new ArrayList<>();
 
-    public List<Integer> getHighScores(){
-
-        //Die besten 3 Ergebisse an den Anfang der Liste holen
         Collections.sort(allScores);
         Collections.reverse(allScores);
 
-        List<Integer> sublist = new ArrayList<>();
-
-        //Dann die ersten 3 Scores in eine Sublist übertragen
         if(allScores.size() > 3){
             for(int i = 0; i < 3; i++){
                 sublist.add(allScores.get(i));
             }
-        } 
-        //Oder alle übertragen, wenn es nicht mehr als 3 Scores gibt
-        else sublist.addAll(allScores);
+        } else sublist.addAll(allScores);
 
         return sublist;
     }
 
+    //TODO: Methode entfernen sobald Klasse vollständig ist
     private void initTestValues(){
-        //Zu Testzwecken
         score = 8420;
-
         allScores.add(score);
         allScores.add(5430);
         allScores.add(7630);

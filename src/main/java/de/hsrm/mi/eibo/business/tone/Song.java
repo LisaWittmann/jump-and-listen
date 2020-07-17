@@ -3,6 +3,10 @@ package de.hsrm.mi.eibo.business.tone;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class Song {
 
     private final String SEPERATOR = " ";

@@ -1,8 +1,15 @@
 package de.hsrm.mi.eibo.presentation.scenes;
 
+import javafx.application.Application;
 import javafx.scene.layout.Pane;
 
-public abstract class ViewController<T> {
+/**
+ * gibt einheitliche Implementierung von Controller-Klassen vor
+ * @param <T> laufende Applikaion
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
+public abstract class ViewController<T extends Application> {
 
     protected Pane rootView;
     protected T application;
@@ -25,6 +32,9 @@ public abstract class ViewController<T> {
         this.application = application;
     }
 
+    /**
+     * Binding der View Kompomenten
+     */
     public abstract void initialize();
     
 }

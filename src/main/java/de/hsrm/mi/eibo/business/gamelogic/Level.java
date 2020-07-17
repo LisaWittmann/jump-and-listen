@@ -1,17 +1,25 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
+import de.hsrm.mi.eibo.business.tone.Song;
+
 public enum Level {
 
-    BEGINNER(1), INTERMEDIATE(2), EXPERT(3);
+    //TODO: Songs einbinden
+    BEGINNER(), INTERMEDIATE(), EXPERT();
     
-    private int value;
+    private Song [] songs;
 
-    private Level(int value){
-        this.value = value;
+    private Level(Song ... songs){
+        this.songs = songs;
     }
 
-    public int getValue(){
-        return value;
+    public Song [] getSongs(){
+        return songs;
+    }
+
+    public Song getRandomSong(){
+        int index = (int) Math.random() * songs.length;
+        return songs[index];
     }
 
     @Override 

@@ -9,11 +9,17 @@ import de.hsrm.mi.eibo.business.gamelogic.Level;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+/**
+ * Controller der SelectView
+ * Initiiert die Wahlmöglichkeiten aus der Businesslogik
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class SelectViewController extends ViewController<MainApplication> {
 
     private Game game;
-    
     private SelectView view;
+
     private HBox options;
 
     public SelectViewController(MainApplication application){
@@ -38,10 +44,9 @@ public class SelectViewController extends ViewController<MainApplication> {
 
             name.setOnMouseClicked(event -> {
                 game.setLevel(currentLevel);
-                application.switchScene(Scenes.HIGHCSCORE_VIEW); //TODO: wieder zu GameView ändern
+                application.switchScene(Scenes.HIGHCSCORE_VIEW); //TODO: wieder zu GameView ändern, wenn View fertig ist
             }); 
         }
     }
-
     
 }
