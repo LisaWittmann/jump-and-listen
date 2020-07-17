@@ -1,7 +1,7 @@
-package de.hsrm.mi.eibo.presentation.scenes;
+package de.hsrm.mi.eibo.presentation.scenes.highscoreview;
 
-import de.hsrm.mi.eibo.MainApplication;
-import de.hsrm.mi.eibo.presentation.ViewController;
+import de.hsrm.mi.eibo.presentation.application.*;
+import de.hsrm.mi.eibo.presentation.scenes.*;
 
 public class HighscoreViewController extends ViewController<MainApplication> {
 

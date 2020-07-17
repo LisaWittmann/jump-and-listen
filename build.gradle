@@ -4,7 +4,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-mainClassName = "de.hsrm.mi.eibo.MainController"
+mainClassName = "de.hsrm.mi.eibo.presentation.application.MainController"
 
 group = 'de.hsrm.mi.eibo'
 version = '0.0.1-SNAPSHOT'

@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.presentation;
+package de.hsrm.mi.eibo.presentation.scenes;
 
 import javafx.scene.layout.Pane;
 

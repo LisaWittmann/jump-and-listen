@@ -1,8 +1,8 @@
-package de.hsrm.mi.eibo.presentation.scenes;
+package de.hsrm.mi.eibo.presentation.scenes.startview;
 
-import de.hsrm.mi.eibo.MainApplication;
-import de.hsrm.mi.eibo.presentation.Scenes;
-import de.hsrm.mi.eibo.presentation.ViewController;
+import de.hsrm.mi.eibo.presentation.application.*;
+import de.hsrm.mi.eibo.presentation.scenes.*;
+
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
@@ -24,7 +24,7 @@ public class StartViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.LEVEL_VIEW));
+        startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.SELECT_VIEW));
     }
 
     

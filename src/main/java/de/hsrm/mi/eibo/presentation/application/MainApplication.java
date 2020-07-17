@@ -1,9 +1,14 @@
-package de.hsrm.mi.eibo;
+package de.hsrm.mi.eibo.presentation.application;
 
 import java.util.HashMap;
 
+import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.presentation.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
+import de.hsrm.mi.eibo.presentation.scenes.startview.*;
+import de.hsrm.mi.eibo.presentation.scenes.selectview.*;
+import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
+import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -18,17 +23,21 @@ public class MainApplication extends Application {
     private Pane currentScene;
     private HashMap<Scenes, Pane> scenes;
 
+    private Game game;
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try{
+            game = new Game();
+
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
 
             controller = new StartViewController(this);
             scenes.put(Scenes.START_VIEW, controller.getRootView());
 
-            controller = new LevelViewController(this);
-            scenes.put(Scenes.LEVEL_VIEW, controller.getRootView());
+            controller = new SelectViewController(this);
+            scenes.put(Scenes.SELECT_VIEW, controller.getRootView());
 
             controller = new GameViewController(this);
             scenes.put(Scenes.GAME_VIEW, controller.getRootView());
@@ -48,6 +57,10 @@ public class MainApplication extends Application {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public Game getGame(){
+        return game;
     }
 
     public void switchScene(Scenes sceneName){

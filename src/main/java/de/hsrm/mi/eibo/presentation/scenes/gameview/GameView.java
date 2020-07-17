@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.presentation.scenes;
+package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
 import javafx.scene.layout.AnchorPane;
 

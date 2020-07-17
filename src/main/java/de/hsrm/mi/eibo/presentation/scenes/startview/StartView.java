@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.presentation.scenes;
+package de.hsrm.mi.eibo.presentation.scenes.startview;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,5 +25,4 @@ public class StartView extends VBox {
         getChildren().addAll(titleLabel, startButton);
         
     }
-    
 }
