@@ -25,7 +25,7 @@ public class Game {
 
     public void setLevel(Level level){
         this.level = level;
-        initBlocks();
+        //initBlocks();
     }
 
     public Level getLevel(){
