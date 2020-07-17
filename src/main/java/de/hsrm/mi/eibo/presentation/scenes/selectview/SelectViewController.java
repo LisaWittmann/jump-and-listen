@@ -22,7 +22,7 @@ public class SelectViewController extends ViewController<MainApplication> {
 
     private HBox options;
 
-    public SelectViewController(MainApplication application){
+    public SelectViewController(MainApplication application) {
         super(application);
         game = application.getGame();
 
@@ -37,7 +37,7 @@ public class SelectViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         
-        for(Level currentLevel : Level.values()){
+        for(Level currentLevel : Level.values()) {
             Label name = new Label(currentLevel.toString());
             name.getStyleClass().add("h3");
             options.getChildren().add(name);

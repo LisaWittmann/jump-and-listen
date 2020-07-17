@@ -25,7 +25,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
     private Player player;
 
-    public HighscoreViewController(MainApplication application){
+    public HighscoreViewController(MainApplication application) {
         super(application);
         player = application.getPlayer();
 
@@ -41,7 +41,6 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-
         playerScore.setText(String.valueOf(player.getScore()));
 
         if(player.getScore() == player.getHighScores().get(0)) playerText.setText("new personal record!");
@@ -67,7 +66,6 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
             module.getChildren().addAll(rank, score);
             highscores.getChildren().add(module);
-
         }
 
     }

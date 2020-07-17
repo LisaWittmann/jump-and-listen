@@ -19,7 +19,7 @@ public class HighscoreView extends VBox {
 
     VBox highscores;
 
-    public HighscoreView(){
+    public HighscoreView() {
 
         playerScore = new Label();
         playerScore.getStyleClass().add("h2");
@@ -43,7 +43,6 @@ public class HighscoreView extends VBox {
         getStyleClass().add("window");
 
         getChildren().addAll(playerRank, highscores);
-        
     }
     
 }

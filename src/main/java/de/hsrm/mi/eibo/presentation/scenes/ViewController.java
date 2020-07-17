@@ -16,19 +16,19 @@ public abstract class ViewController<T extends Application> {
 
     public ViewController() {}
     
-    public ViewController(T application){
+    public ViewController(T application) {
         this.application = application;
     }
 
-    public Pane getRootView(){
+    public Pane getRootView() {
         return rootView;
     }
 
-    public void setRootView(Pane pane){
+    public void setRootView(Pane pane) {
         rootView = pane;
     }
 
-    public void setApplication(T application){
+    public void setApplication(T application) {
         this.application = application;
     }
 

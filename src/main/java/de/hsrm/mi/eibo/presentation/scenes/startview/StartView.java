@@ -15,7 +15,7 @@ public class StartView extends VBox {
 
     Button startButton;
 
-    public StartView(){
+    public StartView() {
 
         startButton = new Button("start now");
         startButton.getStyleClass().add("text-button");
@@ -30,4 +30,5 @@ public class StartView extends VBox {
 
         getChildren().addAll(titleLabel, startButton);
     }
+    
 }

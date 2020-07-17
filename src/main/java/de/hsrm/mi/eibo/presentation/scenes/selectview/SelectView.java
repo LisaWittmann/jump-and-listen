@@ -19,7 +19,7 @@ public class SelectView extends VBox {
 
     HBox options;
 
-    public SelectView(){
+    public SelectView() {
 
         Label header = new Label("select your level of expertise");
         header.getStyleClass().add("h2");

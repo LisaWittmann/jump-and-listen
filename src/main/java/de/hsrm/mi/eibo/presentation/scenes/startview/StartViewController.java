@@ -17,7 +17,7 @@ public class StartViewController extends ViewController<MainApplication> {
     private StartView view;
     private Button startButton;
 
-    public StartViewController(MainApplication application){
+    public StartViewController(MainApplication application) {
         super(application);
         
         view = new StartView();
