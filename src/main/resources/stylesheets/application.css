@@ -5,6 +5,11 @@
     -fx-background-color: #2e2e2e;
 }
 
+.overlay {
+    -fx-background-color: rgba(206, 246, 227, 1);
+    -fx-background-radius: 10px;
+}
+
 .h1 {
     -fx-font-family: Sora;
     -fx-font-size: 80px;

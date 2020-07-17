@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 public class GameViewController extends ViewController<MainApplication> {
 
     private GameView view;
-    private Game game;
     private Player player;
 
     private Button settings;
@@ -19,7 +18,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public GameViewController(MainApplication application) {
         super(application);
-        game = application.getGame();
         player = application.getPlayer();
 
         view = new GameView();
@@ -34,6 +32,9 @@ public class GameViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
        score.setText(String.valueOf(player.getScore()));
+       
+       //TODO: später wieder entfernen
+       score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW));
 
        settings.addEventHandler(ActionEvent.ACTION, event -> {
            SettingViewController controller = new SettingViewController(application);

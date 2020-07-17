@@ -44,7 +44,7 @@ public class SelectViewController extends ViewController<MainApplication> {
 
             name.setOnMouseClicked(event -> {
                 game.setLevel(currentLevel);
-                application.switchScene(Scenes.HIGHCSCORE_VIEW); //TODO: wieder zu GameView ändern, wenn View fertig ist
+                application.switchScene(Scenes.GAME_VIEW); //TODO: wieder zu GameView ändern, wenn View fertig ist
             }); 
         }
     }
