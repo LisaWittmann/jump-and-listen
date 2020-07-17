@@ -3,7 +3,7 @@ package de.hsrm.mi.eibo.presentation.application;
 import java.util.HashMap;
 
 import de.hsrm.mi.eibo.business.gamelogic.Game;
-import de.hsrm.mi.eibo.presentation.*;
+import de.hsrm.mi.eibo.business.gamelogic.Player;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.scenes.startview.*;
 import de.hsrm.mi.eibo.presentation.scenes.selectview.*;
@@ -24,11 +24,13 @@ public class MainApplication extends Application {
     private HashMap<Scenes, Pane> scenes;
 
     private Game game;
+    private Player player;
 
     @Override
     public void start(Stage primaryStage) {
         try{
-            game = new Game();
+            player = new Player();
+            game = new Game(player);
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
@@ -61,6 +63,10 @@ public class MainApplication extends Application {
 
     public Game getGame(){
         return game;
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 
     public void switchScene(Scenes sceneName){

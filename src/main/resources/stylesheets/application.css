@@ -48,3 +48,13 @@
 .text-button:hover {
     -fx-text-fill: #cef6e3;
 }
+
+.module {
+    -fx-background-radius: 5px;
+    -fx-min-height: 70px;
+    -fx-min-width: 500px;
+    -fx-max-height: 70px;
+    -fx-max-width: 500px;
+    -fx-background-color: #fafafa;
+
+}
