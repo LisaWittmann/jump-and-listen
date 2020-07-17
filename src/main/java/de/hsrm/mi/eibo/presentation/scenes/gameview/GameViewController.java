@@ -8,6 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+/**
+ * Controller der GameView
+ * handled Kommunikation während des Spiels mit dem Nutzer
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class GameViewController extends ViewController<MainApplication> {
 
     private GameView view;
@@ -42,5 +48,6 @@ public class GameViewController extends ViewController<MainApplication> {
        });
 
     }
+    
     
 }

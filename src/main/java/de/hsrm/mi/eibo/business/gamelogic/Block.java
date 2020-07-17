@@ -29,6 +29,14 @@ public class Block {
         return 0;
     }
 
+    public double getWidth(){
+        return width;
+    }
+
+    public double getHeight(){
+        return height;
+    }
+
     public void playTone() {
         try {
             tonemaker.createTone(tone.getFrequenz(), tonemaker.getVolume());

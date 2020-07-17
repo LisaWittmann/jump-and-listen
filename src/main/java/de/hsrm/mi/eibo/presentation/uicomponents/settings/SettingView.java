@@ -6,11 +6,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/**
+ * Overlay View für Spieleinstellungen
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class SettingView extends StackPane {
 
     Slider blockwidth, speed, volume;

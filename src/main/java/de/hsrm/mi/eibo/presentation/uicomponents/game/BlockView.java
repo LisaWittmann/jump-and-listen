@@ -1,21 +1,21 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
+import de.hsrm.mi.eibo.business.gamelogic.Block;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Darstellung eines Blocks
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class BlockView extends Rectangle {
 
-    Rectangle innerRectangle;
+    Block block;
 
-    public BlockView(double width, double height, double x, double y) {
-        super(width, height, x, y);
+    public BlockView(Block block) {
+        super(block.getWidth(), block.getHeight());
         setFill(Color.WHITE);
-
-        innerRectangle  = new Rectangle(width/2, height/3, Color.BLACK);
-        innerRectangle.setX(x + width/4);
-        innerRectangle.setY(y);
-
-        //TODO: Width-Listener
     }
     
 }
