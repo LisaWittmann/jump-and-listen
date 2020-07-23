@@ -44,28 +44,22 @@ public class SettingViewController extends ViewController<MainApplication> {
                     block.resize(newValue.doubleValue());                    
                 }
             }
-
         });
 
         speed.valueProperty().addListener(new ChangeListener<Number>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                // TODO Auto-generated method stub
+                game.setSpeed(newValue.doubleValue());
             }
-
         });
-
-        //so wäre es schöner: volume.valueProperty().bind(observable);
 
         volume.valueProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				
+				game.getToneMaker().setVolume((int) newValue.doubleValue());
 			}
-
         });
     }
     

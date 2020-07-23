@@ -37,7 +37,11 @@ public class Game {
         speedFactor = 1;
     }
 
-    public ObservableList<Block> getBlocks(){
+    public ToneMaker getToneMaker() {
+        return tonemaker;
+    }
+
+    public ObservableList<Block> getBlocks() {
         return blocks;
     }
 

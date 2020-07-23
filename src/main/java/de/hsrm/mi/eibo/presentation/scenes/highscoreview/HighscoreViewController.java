@@ -3,8 +3,10 @@ package de.hsrm.mi.eibo.presentation.scenes.highscoreview;
 import de.hsrm.mi.eibo.business.gamelogic.Player;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,6 +24,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     private Label playerScore;
     private Label playerText;
     private VBox highscores;
+    private Button retryButton;
 
     private Player player;
 
@@ -35,6 +38,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerScore = view.playerScore;
         playerText = view.playerText;
         highscores = view.highscores;
+        retryButton = view.retryButton;
         
         initialize();
     }
@@ -67,6 +71,11 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             module.getChildren().addAll(rank, score);
             highscores.getChildren().add(module);
         }
+
+        retryButton.addEventHandler(ActionEvent.ACTION, event -> {
+            //application.getGame().restart();
+            application.switchScene(Scenes.GAME_VIEW);
+        });
 
     }
 }
