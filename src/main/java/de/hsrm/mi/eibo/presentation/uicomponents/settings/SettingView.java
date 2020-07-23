@@ -2,13 +2,12 @@ package de.hsrm.mi.eibo.presentation.uicomponents.settings;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 /**
  * Overlay View für Spieleinstellungen
@@ -28,13 +27,13 @@ public class SettingView extends StackPane {
         Label widthLabel = new Label("block width:");
         widthLabel.getStyleClass().add("h3");
         widthLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");
-        blockwidth = new Slider(0, 2, 1);
+        blockwidth = new Slider(0.1, 2.0, 1.0);
 
         Label speedLabel = new Label("speed:");
         speedLabel.getStyleClass().add("h3");
         speedLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");
         speedLabel.setMinWidth(widthLabel.getWidth());
-        speed = new Slider(0, 2, 1);
+        speed = new Slider(0.1, 2, 1);
 
         Label volumeLabel = new Label("volume:");
         volumeLabel.getStyleClass().add("h3");
@@ -66,7 +65,6 @@ public class SettingView extends StackPane {
         setAlignment(content, Pos.TOP_CENTER);
         
         getStyleClass().add("overlay");
-        setEffect(new DropShadow(10, Color.LIGHTGREY));
     }
     
     

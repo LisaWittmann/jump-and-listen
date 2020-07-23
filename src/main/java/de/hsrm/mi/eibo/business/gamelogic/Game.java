@@ -1,12 +1,10 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.hsrm.mi.eibo.business.gamelogic.exceptions.RestartException;
-import de.hsrm.mi.eibo.business.tone.Song;
-import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * 
@@ -17,7 +15,7 @@ public class Game {
     private Player player;
 
     private Level level;  
-    private List<Block> blocks;
+    private ObservableList<Block> blocks;
 
     private ToneMaker tonemaker;
     private double widthFactor;
@@ -30,13 +28,17 @@ public class Game {
 
         level = null;
         tonemaker = new ToneMaker();
-        blocks = new ArrayList<>();
+        blocks = FXCollections.observableArrayList();
 
         paused = true;
         running = false;
 
         widthFactor = 1;
         speedFactor = 1;
+    }
+
+    public ObservableList<Block> getBlocks(){
+        return blocks;
     }
 
     public Level getLevel() {
@@ -65,16 +67,18 @@ public class Game {
     public void setLevel(Level level) throws RestartException {
         if(running) throw new RestartException("your current game progress will be reset. are you sure?");
         this.level = level;
-        //initBlocks();
+        initBlocks();
     }
     
     private void initBlocks() {
         if(level == null) return;
 
-        Song song = level.getRandomSong();
-        for(Tone tone : song.getTones()){
-            blocks.add(new Block(tone, tonemaker));
-        }
+        blocks.add(new Block()); //StartBlock
+        //Song song = level.getRandomSong();
+        //for(Tone tone : song.getTones()){
+        //    blocks.add(new Block(tone, tonemaker));
+        //}
+        blocks.add(new Block()); //Endblock
     }
 
     public void restart() {

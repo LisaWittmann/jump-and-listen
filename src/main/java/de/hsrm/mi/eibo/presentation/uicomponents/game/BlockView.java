@@ -12,10 +12,15 @@ import javafx.scene.shape.Rectangle;
 public class BlockView extends Rectangle {
 
     Block block;
+    Rectangle innerRect;
 
     public BlockView(Block block) {
         super(block.getWidth(), block.getHeight());
         setFill(Color.WHITE);
+
+        innerRect = new Rectangle();
+
+        block.changes.addPropertyChangeListener("widthFactor", event -> this.setWidth(block.getWidth()));
     }
-    
+
 }
