@@ -103,7 +103,7 @@ public class Game {
 
     public void end() {
         running = false;
-        player.allScores.add(player.score);
+        player.saveScore();
         //TODO
     }
 

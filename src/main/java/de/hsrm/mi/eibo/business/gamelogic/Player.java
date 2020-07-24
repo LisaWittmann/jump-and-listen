@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
+
 /**
  * Spieler in Form der Spielfigur im Spiel
  * enthält außerdem Sessiondaten wie alle persönlichen Spielstände
@@ -12,18 +14,26 @@ import java.util.List;
  */
 public class Player {
 
+    private HighscorePersistinator highscorePers;
+
     protected int score;
     protected List<Integer> allScores;
 
     public Player(){
+        highscorePers = new HighscorePersistinator();
         score = 0;
-        allScores = new ArrayList<>();
+        allScores = highscorePers.loadData();
 
         initTestValues();
     }
 
-    public int getScore(){
+    public int getScore() {
         return score;
+    }
+
+    public void saveScore() {
+        allScores.add(score);
+        highscorePers.saveData(allScores);
     }
     
     /**
