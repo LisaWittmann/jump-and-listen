@@ -7,8 +7,8 @@ import java.util.List;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 
 /**
- * Spieler in Form der Spielfigur im Spiel
- * enthält außerdem Sessiondaten wie alle persönlichen Spielstände
+ * Spieler bzw User
+ * Schnittstelle für Persistence Schicht zum Speichern und Laden persönlicher Highscores
  * 
  * @author pwieg001, lwitt001, lger001
  */
@@ -21,21 +21,23 @@ public class Player {
     public Player(){
         highscorePers = new HighscorePersistinator();
         score = 0;
-
-        initTestValues();
     }
 
     public int getScore() {
         return score;
     }
 
+    /**
+     * Speichert den aktuellen Score ab und setzt ihn danach wieder auf 0
+     */
     public void saveScore() {
-        highscorePers.saveValue(score);
+        highscorePers.saveData(score);
         score = 0;
     }
     
     /**
      * Ermittelt die höchsten drei Scores des Spielers
+     * Liest dafür gespeicherte Spielstände ein
      * @return Sublist mit höchsten drei Scores oder alle bisherigen Scores, wenn weniger als drei Scores existieren
      */
     public List<Integer> getHighScores(){ 
@@ -52,22 +54,6 @@ public class Player {
         } else sublist.addAll(scores);
 
         return sublist;
-    }
-
-    //TODO: Methode entfernen sobald Klasse vollständig ist
-    private void initTestValues(){
-        score = 8420;
-        
-        List<Integer> testList = new ArrayList<>();
-        testList.add(score);
-        testList.add(5430);
-        testList.add(7630);
-        testList.add(1000);
-        testList.add(670); 
-        testList.add(6300);
-
-        highscorePers.saveData(testList);
-
     }
     
 }

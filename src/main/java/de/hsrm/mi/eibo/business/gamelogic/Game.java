@@ -30,7 +30,7 @@ public class Game {
         tonemaker = new ToneMaker();
         blocks = FXCollections.observableArrayList();
 
-        paused = true;
+        paused = false;
         running = false;
 
         widthFactor = 1;
@@ -47,6 +47,14 @@ public class Game {
 
     public Level getLevel() {
         return level;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 
     public double getSpeed() {
@@ -98,7 +106,11 @@ public class Game {
 
     public void pause() {
         paused = true;
-        //TODO
+        //TODO    
+    }
+
+    public void cont() {
+        paused = false;
     }
 
     public void end() {

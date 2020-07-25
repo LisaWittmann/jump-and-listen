@@ -1,15 +1,20 @@
 package de.hsrm.mi.eibo.business.tone;
-import java.util.LinkedList;
-import java.util.List;
+
+import de.hsrm.mi.eibo.persistence.SongPersitinator;
 
 public class IchBinZuTestzwecken {
     static ToneMaker tm = new ToneMaker();
+    static SongPersitinator songPers = new SongPersitinator();
 
     public static void main(String[] args){
         tm.setVolume(100);
-        List<Tone> toene = new LinkedList<>();
         Song freudeSchoenerGoetterfunken = new Song("e e f g g f e d c c d e e d d e e f g g f e d c c d e d c c d d e c d e f e c d e f e d c d e e e f g g f e d c c d e d c c");
-        tm.playList(freudeSchoenerGoetterfunken.getTones());
+        songPers.saveData(freudeSchoenerGoetterfunken);
+        
+        for(Song s : songPers.loadData()) {
+            tm.playList(s.getTones());
+        }
+        //hört hier noch jemand was?
     }
 
 }

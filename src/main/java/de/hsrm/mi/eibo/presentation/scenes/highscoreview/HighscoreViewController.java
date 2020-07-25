@@ -56,7 +56,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerScore.setText(String.valueOf(player.getScore()));
 
         playerText.setTextFill(mainColor);
-        if(player.getScore() == player.getHighScores().get(0)) playerText.setText("new personal record!");
+        if(player.getHighScores().size() > 0 && player.getScore() == player.getHighScores().get(0)) playerText.setText("new personal record!");
         else playerText.setText("you should try again!");
         
         for(int currentScore : player.getHighScores()) {

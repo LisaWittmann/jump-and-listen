@@ -33,22 +33,6 @@ public class HighscorePersistinator implements DataPersistinator<Integer> {
         }
     }
 
-    public void saveValue(Integer data) {
-        DataOutputStream output = null;
-        try {
-            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(dataPath)));
-            output.writeInt(data);
-        } catch(IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(output != null)output.close();
-            } catch(IOException e) {
-                e.printStackTrace(); 
-            }
-        }
-    }
-
     @Override
     public List<Integer> loadData() {
         List<Integer> loaded = new ArrayList<>();
@@ -68,6 +52,23 @@ public class HighscorePersistinator implements DataPersistinator<Integer> {
             }
         }
         return loaded;
+    }
+
+    @Override
+    public void saveData(Integer data) {
+        DataOutputStream output = null;
+        try {
+            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(dataPath)));
+            output.writeInt(data);
+        } catch(IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(output != null)output.close();
+            } catch(IOException e) {
+                e.printStackTrace(); 
+            }
+        }
     }
     
 }
