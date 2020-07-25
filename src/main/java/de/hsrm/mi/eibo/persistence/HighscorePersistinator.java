@@ -69,6 +69,7 @@ public class HighscorePersistinator implements DataPersistinator<Integer> {
                 e.printStackTrace(); 
             }
         }
+
     }
     
 }

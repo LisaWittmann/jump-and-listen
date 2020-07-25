@@ -90,6 +90,7 @@ public class GameViewController extends ViewController<MainApplication> {
                     if(c.wasAdded()) {
                         for(Block block : c.getAddedSubList()) {
                             field.getChildren().add(new BlockView(block));
+                            addKeyListener();
                         } 
                     }
                 }
@@ -105,41 +106,29 @@ public class GameViewController extends ViewController<MainApplication> {
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
                     playerView.setBoostJump(true);
-                }
+                } 
                 else if(event.getCode().equals(KeyCode.UP)) {
                     playerView.setJump(true);
-                }
+                } 
+                else if(event.getCode().equals(KeyCode.DOWN)) {
+                    playerView.setDrop(true);
+                } 
                 else if(event.getCode().equals(KeyCode.SPACE)) {
                     if(game.isRunning() && !game.isPaused()) {
                         game.pause();
                         playerView.stopAnimation();
-                    } else if(game.isRunning() && game.isPaused()) {
+                    } 
+                    else if(game.isRunning() && game.isPaused()) {
                         game.cont();
                         playerView.startAnimation();
-                    } else if(!game.isRunning()) {
+                    } 
+                    else if(!game.isRunning()) {
                         game.start();
                         playerView.startAnimation();
                     }
                 }
             }
             
-        });
-
-        application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
-
-            @Override
-            public void handle(KeyEvent event) {
-                if(boost.match(event)){
-                    playerView.setBoostJump(false);
-                    playerView.setDrop(true);
-                }
-                else if(event.getCode().equals(KeyCode.UP)) {
-                    playerView.setJump(false);
-                    playerView.setDrop(true);
-                }
-
-            }
-
         });
 
     }
