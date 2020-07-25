@@ -1,53 +1,73 @@
 package de.hsrm.mi.eibo.persistence;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HighscorePersistinator implements DataPersistinator<Integer> {
 
-    private final String dataPath;
-
-    public HighscorePersistinator() {
-        this.dataPath = getClass().getResource("/savings/highscores.csv").toExternalForm();
-    }
+    private final String dataPath = System.getProperty("user.home") + "/highscores.dat";
 
     @Override
     public void saveData(List<Integer> data) {
-        StringBuilder sb = new StringBuilder();
-        for(int i : data) {
-            sb.append(String.valueOf(i)).append("\n");
-        }
-        
+        DataOutputStream output = null;
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(dataPath, true)); 
-            writer.write(sb.toString());
-            writer.close();
-        } catch (IOException e) {
+            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(dataPath)));
+            for(int i : data) {
+                output.writeInt(i);
+            }
+        } catch(IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if(output != null) output.close();
+            } catch(IOException e) {
+                e.printStackTrace(); 
+            }
+        }
+    }
+
+    public void saveValue(Integer data) {
+        DataOutputStream output = null;
+        try {
+            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(dataPath)));
+            output.writeInt(data);
+        } catch(IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(output != null)output.close();
+            } catch(IOException e) {
+                e.printStackTrace(); 
+            }
         }
     }
 
     @Override
     public List<Integer> loadData() {
-        List<Integer> highscores = new ArrayList<>();
-
+        List<Integer> loaded = new ArrayList<>();
+        DataInputStream input = null;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(dataPath));
-            String line;
-            while((line = reader.readLine()) != null) {
-                highscores.add(Integer.parseInt(line));
+            input = new DataInputStream(new BufferedInputStream(new FileInputStream(dataPath)));
+            while(input.available() > 0) {
+                loaded.add(input.readInt());
             }
-            reader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if(input != null) input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        
-        return highscores;
+        return loaded;
     }
     
 }

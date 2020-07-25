@@ -18,6 +18,7 @@ public class SettingView extends StackPane {
 
     Slider blockwidth, speed, volume;
     GridPane settings;
+    VBox content;
 
     public SettingView() {
 
@@ -53,7 +54,7 @@ public class SettingView extends StackPane {
         settings.add(volumeLabel, 0, 2);
         settings.add(volume, 1, 2);
 
-        VBox content = new VBox();
+        content = new VBox();
         content.setSpacing(20);
         content.setAlignment(Pos.TOP_CENTER);
         content.getChildren().addAll(header, settings);

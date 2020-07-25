@@ -6,9 +6,13 @@ import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -49,8 +53,7 @@ public class SettingViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        view.setStyle("-fx-background-color: " + mainColor.toString() + ";");
-
+        //view.setBackground(new Background(new BackgroundFill(mainColor, CornerRadii.EMPTY, Insets.EMPTY)));
         Label colorLabel = new Label("color:");
         colorLabel.getStyleClass().add("h3");
         colorLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");

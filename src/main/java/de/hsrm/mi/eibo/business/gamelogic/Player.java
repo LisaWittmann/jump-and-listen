@@ -17,12 +17,10 @@ public class Player {
     private HighscorePersistinator highscorePers;
 
     protected int score;
-    protected List<Integer> allScores;
 
     public Player(){
         highscorePers = new HighscorePersistinator();
         score = 0;
-        allScores = highscorePers.loadData();
 
         initTestValues();
     }
@@ -32,8 +30,8 @@ public class Player {
     }
 
     public void saveScore() {
-        allScores.add(score);
-        highscorePers.saveData(allScores);
+        highscorePers.saveValue(score);
+        score = 0;
     }
     
     /**
@@ -41,16 +39,17 @@ public class Player {
      * @return Sublist mit höchsten drei Scores oder alle bisherigen Scores, wenn weniger als drei Scores existieren
      */
     public List<Integer> getHighScores(){ 
+        List<Integer> scores = highscorePers.loadData();
         List<Integer> sublist = new ArrayList<>();
 
-        Collections.sort(allScores);
-        Collections.reverse(allScores);
+        Collections.sort(scores);
+        Collections.reverse(scores);
 
-        if(allScores.size() > 3){
+        if(scores.size() > 3){
             for(int i = 0; i < 3; i++){
-                sublist.add(allScores.get(i));
+                sublist.add(scores.get(i));
             }
-        } else sublist.addAll(allScores);
+        } else sublist.addAll(scores);
 
         return sublist;
     }
@@ -58,12 +57,17 @@ public class Player {
     //TODO: Methode entfernen sobald Klasse vollständig ist
     private void initTestValues(){
         score = 8420;
-        allScores.add(score);
-        allScores.add(5430);
-        allScores.add(7630);
-        allScores.add(1000);
-        allScores.add(670); 
-        allScores.add(6300);
+        
+        List<Integer> testList = new ArrayList<>();
+        testList.add(score);
+        testList.add(5430);
+        testList.add(7630);
+        testList.add(1000);
+        testList.add(670); 
+        testList.add(6300);
+
+        highscorePers.saveData(testList);
+
     }
     
 }
