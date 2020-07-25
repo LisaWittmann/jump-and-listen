@@ -7,7 +7,6 @@ import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
 
 import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

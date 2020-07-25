@@ -24,9 +24,11 @@ public class PlayerView extends StackPane {
         image.setFitWidth(100);
         image.setFitHeight(100);
         //image.setImage(new Image(getClass().getResource("/images/player.png").toExternalForm()));
+        setStyle("-fx-background-color: #cef6e3;");
+        setPrefSize(100, 100);
 
-        posX = 200;
-        posY = 200;
+        posX = 120;
+        posY = 400;
         //TODO: anpassen
         setLayoutX(posX);
         setLayoutY(posY);

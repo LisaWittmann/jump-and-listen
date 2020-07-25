@@ -11,7 +11,6 @@ import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
