@@ -17,7 +17,8 @@ public class GameView extends AnchorPane {
     public GameView() {
         score = new Label();
         score.getStyleClass().add("h3");
-        score.setLayoutX(1280);
+        score.setStyle("-fx-text-alignment: right;");
+        score.setLayoutX(1320);
         score.setLayoutY(20);
 
         settings = new Button("settings");

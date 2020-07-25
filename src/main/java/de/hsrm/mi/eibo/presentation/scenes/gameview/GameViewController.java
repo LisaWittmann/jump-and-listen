@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
@@ -32,6 +33,8 @@ public class GameViewController extends ViewController<MainApplication> {
     private Game game;
 
     private Button settings;
+    private Pane settingView;
+
     private Label score;
 
     private HBox field;
@@ -52,9 +55,13 @@ public class GameViewController extends ViewController<MainApplication> {
         playerView = new PlayerView(player);
         view.getChildren().add(playerView);
 
+        SettingViewController controller = new SettingViewController(application);
+        settingView = controller.getRootView();
+        view.getChildren().add(settingView);
+        settingView.setVisible(false);
+
         settings = view.settings;
         score = view.score;
-
         field = view.field;
 
         initialize();
@@ -69,18 +76,8 @@ public class GameViewController extends ViewController<MainApplication> {
         score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW));
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
-            SettingViewController controller = new SettingViewController(application);
-            view.getChildren().add(controller.getRootView());
-            view.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent e) {
-                    if(view.getChildren().contains(controller.getRootView())) {
-                        view.getChildren().remove(controller.getRootView());
-                    }
-                }
-                
-            });
+            settingView.setVisible(true);
+            view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
 
        game.getBlocks().addListener(new ListChangeListener<Block>() {
@@ -106,23 +103,18 @@ public class GameViewController extends ViewController<MainApplication> {
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
                     playerView.setBoostJump(true);
-                } 
-                else if(event.getCode().equals(KeyCode.UP)) {
+                } else if(event.getCode().equals(KeyCode.UP)) {
                     playerView.setJump(true);
-                } 
-                else if(event.getCode().equals(KeyCode.DOWN)) {
+                } else if(event.getCode().equals(KeyCode.DOWN)) {
                     playerView.setDrop(true);
-                } 
-                else if(event.getCode().equals(KeyCode.SPACE)) {
+                } else if(event.getCode().equals(KeyCode.SPACE)) {
                     if(game.isRunning() && !game.isPaused()) {
                         game.pause();
                         playerView.stopAnimation();
-                    } 
-                    else if(game.isRunning() && game.isPaused()) {
+                    } else if(game.isRunning() && game.isPaused()) {
                         game.cont();
                         playerView.startAnimation();
-                    } 
-                    else if(!game.isRunning()) {
+                    } else if(!game.isRunning()) {
                         game.start();
                         playerView.startAnimation();
                     }
@@ -130,6 +122,23 @@ public class GameViewController extends ViewController<MainApplication> {
             }
             
         });
+
+        application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
+
+            @Override
+            public void handle(KeyEvent event) {
+                if(boost.match(event)){
+                    playerView.setBoostJump(true);
+                    playerView.setBoostJump(false);
+                } else if(event.getCode().equals(KeyCode.UP)) {
+                    playerView.setJump(true);
+                    playerView.setJump(false);
+                } else if(event.getCode().equals(KeyCode.DOWN)) {
+                    playerView.setDrop(true);
+                    playerView.setDrop(false);
+                }
+            }
+        }); 
 
     }
 
