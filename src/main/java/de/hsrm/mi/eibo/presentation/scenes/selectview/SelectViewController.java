@@ -40,6 +40,7 @@ public class SelectViewController extends ViewController<MainApplication> {
         for(Level currentLevel : Level.values()) {
             Label name = new Label(currentLevel.toString());
             name.getStyleClass().add("h3");
+            name.setTextFill(application.getMainColor());
             options.getChildren().add(name);
 
             name.setOnMouseClicked(event -> {

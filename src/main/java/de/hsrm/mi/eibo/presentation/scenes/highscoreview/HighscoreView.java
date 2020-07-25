@@ -26,6 +26,7 @@ public class HighscoreView extends VBox {
 
         playerScore = new Label();
         playerScore.getStyleClass().add("h2");
+        
         playerText = new Label();
         playerText.getStyleClass().add("h3");
 

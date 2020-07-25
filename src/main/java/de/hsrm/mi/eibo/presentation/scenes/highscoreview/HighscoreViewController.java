@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  * Controller der HighscoreView
@@ -28,9 +29,13 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
     private Player player;
 
+    protected Color mainColor;
+
     public HighscoreViewController(MainApplication application) {
         super(application);
         player = application.getPlayer();
+
+        mainColor = application.getMainColor();
 
         view = new HighscoreView();
         setRootView(view);
@@ -47,10 +52,11 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     public void initialize() {
         playerScore.setText(String.valueOf(player.getScore()));
 
+        playerText.setTextFill(mainColor);
         if(player.getScore() == player.getHighScores().get(0)) playerText.setText("new personal record!");
         else playerText.setText("you should try again!");
         
-        for(int currentScore : player.getHighScores()){
+        for(int currentScore : player.getHighScores()) {
 
             HBox module = new HBox();
             module.getStyleClass().add("module");
@@ -58,11 +64,11 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             module.setPadding(new Insets(0, 0, 0, 40));
             module.setAlignment(Pos.CENTER_LEFT);
 
-            if(player.getScore() == currentScore) module.setStyle("-fx-background-color: #cef6e3;");
+            if(player.getScore() == currentScore) module.setStyle("-fx-background-color: " + mainColor.toString() + ";");
 
             Label rank = new Label(String.valueOf(player.getHighScores().indexOf(currentScore) + 1));
             rank.getStyleClass().add("h3");
-            rank.setStyle("-fx-text-fill: #2e2e2e;");
+            rank.setStyle("-fx-text-fill: #2e2e2e");
 
             Label score = new Label(String.valueOf(currentScore));
             score.getStyleClass().add("normal-text");

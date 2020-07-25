@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 public class SettingView extends StackPane {
 
     Slider blockwidth, speed, volume;
+    GridPane settings;
 
     public SettingView() {
 
@@ -41,7 +42,7 @@ public class SettingView extends StackPane {
         volumeLabel.setMinWidth(widthLabel.getWidth());
         volume = new Slider(0, 100, 80);
 
-        GridPane settings = new GridPane();
+        settings = new GridPane();
         settings.setPadding(new Insets(40));
         settings.setHgap(60);
         settings.setVgap(20);

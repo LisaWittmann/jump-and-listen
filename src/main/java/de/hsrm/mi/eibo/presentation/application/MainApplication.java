@@ -12,7 +12,9 @@ import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -31,11 +33,16 @@ public class MainApplication extends Application {
     private Game game;
     private Player player;
 
+    private ColorPicker colorPicker;
+
     @Override
     public void start(Stage primaryStage) {
         try{
             player = new Player();
             game = new Game(player);
+
+            colorPicker = new ColorPicker();
+            colorPicker.setValue(Color.web("#cef6e3"));
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
@@ -72,6 +79,14 @@ public class MainApplication extends Application {
 
     public Player getPlayer(){
         return player;
+    }
+
+    public ColorPicker getColorPicker() {
+        return colorPicker;
+    }
+
+    public Color getMainColor() {
+        return colorPicker.getValue();
     }
 
     /**

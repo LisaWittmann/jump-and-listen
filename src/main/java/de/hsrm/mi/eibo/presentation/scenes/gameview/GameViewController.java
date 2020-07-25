@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 /**
  * Controller der GameView
@@ -29,10 +30,14 @@ public class GameViewController extends ViewController<MainApplication> {
 
     private HBox field;
 
+    protected Color mainColor;
+
     public GameViewController(MainApplication application) {
         super(application);
         player = application.getPlayer();
         game = application.getGame();
+
+        mainColor = application.getMainColor();
 
         view = new GameView();
         setRootView(view);
@@ -48,6 +53,8 @@ public class GameViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         score.setText(String.valueOf(player.getScore()));
+        score.setTextFill(mainColor);
+
         //TODO: später wieder entfernen
         score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW));
 
