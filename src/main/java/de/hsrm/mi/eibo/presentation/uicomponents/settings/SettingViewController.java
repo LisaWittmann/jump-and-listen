@@ -8,9 +8,7 @@ import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 /**

@@ -131,3 +131,18 @@
    -fx-text-fill: #2e2e2e;
    -fx-background-color: #fafafa;
 }
+
+.slider {
+    -fx-control-inner-background: #cef6e3;
+    -fx-background-color: transparent;
+}
+
+.slider .track {
+    -fx-pref-height: 12px;
+}
+
+.slider .thumb {
+    -fx-background-color: #fafafa;
+    -fx-pref-height: 20px;
+    -fx-pref-width: 20px;
+}
