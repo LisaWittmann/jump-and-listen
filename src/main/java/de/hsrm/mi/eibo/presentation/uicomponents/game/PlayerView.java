@@ -42,19 +42,8 @@ public class PlayerView extends StackPane {
         setLayoutY(posY);
 
         timer = new AnimationTimer() {
-
             @Override
-            public void handle(long now) {
-                if (player.getJumpProperty().get()) {
-                    // TODO
-                }
-                if (player.getBoostProperty().get()) {
-                    // TODO
-                }
-                if (player.getDropProperty().get()) {
-                    // TODO
-                }
-            }
+            public void handle(long now) { }
         };
 
         player.getJumpProperty().addListener(new ChangeListener<Boolean>() {
@@ -76,6 +65,18 @@ public class PlayerView extends StackPane {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(dropImg);
             }    
+        });
+
+        player.getMoveProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) image.setImage(normalImg);
+            } 
+        });
+
+        player.changes.addPropertyChangeListener("koordinaten", event -> {
+            setLayoutX(player.getPosX());
+            setLayoutY(player.getPosY());
         });
     }
     

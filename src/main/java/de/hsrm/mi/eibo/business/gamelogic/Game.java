@@ -86,6 +86,7 @@ public class Game {
 
     public void setLevel(Level level) {
         this.level = level;
+        this.song = loadSongByLevel();
     }
 
     public void setSong(Song song) {
@@ -173,6 +174,21 @@ public class Game {
         } else sublist.addAll(scores);
 
         return sublist;
+    }
+
+    /**
+     * Sucht aus Datei mit gespeicherten Songs einen Song mit ausgewähltem Level
+     * @return zufälligen Song mit passendem Level
+     */
+    public Song loadSongByLevel() {
+        List<Song> songs = songPersitinator.loadData();
+        for(Song song : songs) {
+            if(!song.getLevel().equals(level)) songs.remove(song);
+        }
+        if(songs.size() < 1) return null;
+        
+        int random = (int) Math.random() * songs.size() + 1;
+        return songs.get(random);
     }
 
 }

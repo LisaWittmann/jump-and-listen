@@ -85,13 +85,13 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
-                    game.getPlayer().setBoost(true);
+                    game.getPlayer().setOnBoost(true);
                     game.playerJump();
                 } else if(event.getCode().equals(KeyCode.UP)) {
-                    game.getPlayer().setJump(true);
+                    game.getPlayer().setOnJump(true);
                     game.playerJump();
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    game.getPlayer().setDrop(true);
+                    game.getPlayer().setOnDrop(true);
                     game.playerDrop();
                 } else if(event.getCode().equals(KeyCode.LEFT)) {
                     game.movePlayerLeft();
@@ -117,14 +117,17 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
-                    game.getPlayer().setBoost(true);
-                    game.getPlayer().setBoost(false);
+                    game.getPlayer().setOnBoost(true);
+                    game.getPlayer().setOnBoost(false);
                 } else if(event.getCode().equals(KeyCode.UP)) {
-                    game.getPlayer().setJump(true);
-                    game.getPlayer().setJump(false);
+                    game.getPlayer().setOnJump(true);
+                    game.getPlayer().setOnJump(false);
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    game.getPlayer().setDrop(true);
-                    game.getPlayer().setDrop(false);
+                    game.getPlayer().setOnDrop(true);
+                    game.getPlayer().setOnDrop(false);
+                } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.RIGHT)){
+                    game.getPlayer().setOnMove(true);
+                    game.getPlayer().setOnMove(false);
                 }
             }
         }); 
