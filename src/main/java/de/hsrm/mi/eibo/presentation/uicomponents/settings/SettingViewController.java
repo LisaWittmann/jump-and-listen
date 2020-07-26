@@ -4,9 +4,10 @@ import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.ColorPicker;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
@@ -23,7 +24,6 @@ public class SettingViewController extends ViewController<MainApplication> {
     private GridPane settings;
     
     private Slider blockwidth, speed, volume;
-    private ColorPicker colorPicker;
 
     private Game game;
     
@@ -32,9 +32,6 @@ public class SettingViewController extends ViewController<MainApplication> {
     public SettingViewController(MainApplication application) {
         super(application);
         game = application.getGame();
-
-        mainColor = application.getMainColor();
-        colorPicker = application.getColorPicker();
 
         view = new SettingView();
         setRootView(view);
@@ -49,13 +46,9 @@ public class SettingViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        //view.setBackground(new Background(new BackgroundFill(mainColor, CornerRadii.EMPTY, Insets.EMPTY)));
         Label colorLabel = new Label("color:");
-        colorLabel.getStyleClass().add("h3");
-        colorLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");
-        
-        settings.add(colorLabel, 0, 3);
-        settings.add(colorPicker, 1, 3);
+        colorLabel.getStyleClass().add("h3-dark");
+        colorLabel.setStyle("-fx-text-alignment: left;");
 
         blockwidth.valueProperty().addListener(new ChangeListener<Number>() {
 

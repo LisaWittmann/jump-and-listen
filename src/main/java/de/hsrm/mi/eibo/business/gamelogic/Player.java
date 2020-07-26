@@ -1,5 +1,6 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +18,12 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class Player {
 
     private HighscorePersistinator highscorePers;
+    protected int score;
 
     private SimpleBooleanProperty jump, boost, drop;
-    private SimpleBooleanProperty failed;
+    protected double posX, posY;
 
-    protected int score;
+    public PropertyChangeSupport changes;
 
     public Player(){
         highscorePers = new HighscorePersistinator();
@@ -31,7 +33,7 @@ public class Player {
         boost = new SimpleBooleanProperty(false);
         drop = new SimpleBooleanProperty(false);
 
-        failed = new SimpleBooleanProperty(false);
+        changes = new PropertyChangeSupport(this.getClass());
     }
 
     public SimpleBooleanProperty getJumpProperty() {

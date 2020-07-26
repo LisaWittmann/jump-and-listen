@@ -46,8 +46,6 @@ public class GameViewController extends ViewController<MainApplication> {
         player = application.getPlayer();
         game = application.getGame();
 
-        mainColor = application.getMainColor();
-
         view = new GameView();
         setRootView(view);
 

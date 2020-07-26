@@ -8,9 +8,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -37,8 +34,6 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     public HighscoreViewController(MainApplication application) {
         super(application);
         player = application.getPlayer();
-
-        mainColor = application.getMainColor();
 
         view = new HighscoreView();
         setRootView(view);
@@ -67,15 +62,13 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             module.setPadding(new Insets(0, 0, 0, 40));
             module.setAlignment(Pos.CENTER_LEFT);
 
-            if(player.getScore() == currentScore) module.setBackground(new Background(new BackgroundFill(mainColor, CornerRadii.EMPTY, Insets.EMPTY)));
+            if(player.getScore() == currentScore) module.setId("highscore-module");
 
             Label rank = new Label(String.valueOf(player.getHighScores().indexOf(currentScore) + 1));
-            rank.getStyleClass().add("h3");
-            rank.setStyle("-fx-text-fill: #2e2e2e");
+            rank.getStyleClass().add("h3-dark");
 
             Label score = new Label(String.valueOf(currentScore));
-            score.getStyleClass().add("normal-text");
-            score.setStyle("-fx-text-fill: #2e2e2e");
+            score.getStyleClass().add("dark-text");
 
             module.getChildren().addAll(rank, score);
             highscores.getChildren().add(module);

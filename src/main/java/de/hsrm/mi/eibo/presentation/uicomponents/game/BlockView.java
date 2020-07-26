@@ -1,7 +1,6 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.gamelogic.Block;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**

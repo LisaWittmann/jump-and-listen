@@ -6,13 +6,20 @@
 }
 
 .overlay {
-    -fx-background-color: #f5ecce;
+    -fx-background-color: #f79f81;
     -fx-background-radius: 10px;
 }
 
 .h1 {
     -fx-font-family: Sora;
     -fx-font-size: 80px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #2e2e2e;
+}
+
+.h2-dark {
+    -fx-font-family: Sora;
+    -fx-font-size: 50px;
     -fx-text-alignment: center;
     -fx-text-fill: #2e2e2e;
 }
@@ -24,21 +31,33 @@
     -fx-text-fill: #2e2e2e;
 }
 
+.h3-dark {
+    -fx-font-family: Sora;
+    -fx-font-size: 32px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #2e2e2e;
+}
+
 .h3 {
     -fx-font-family: Sora;
     -fx-font-size: 32px;
     -fx-text-alignment: center;
+    -fx-text-fill: #f79f81;
 }
 
 .h3:hover{ 
     -fx-text-fill: #2e2e2e;
 }
 
-.h4 {
-    
-}
 
 .normal-text {
+    -fx-font-family: Montserrat;
+    -fx-font-size: 24px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #2e2e2e;
+}
+
+.dark-text {
     -fx-font-family: Montserrat;
     -fx-font-size: 24px;
     -fx-text-alignment: center;
@@ -54,7 +73,7 @@
 }
 
 .text-button:hover {
-    -fx-text-fill: #f5ecce;
+    -fx-text-fill: #f79f81;
 }
 
 .module {
@@ -63,5 +82,13 @@
     -fx-min-width: 500px;
     -fx-max-height: 70px;
     -fx-max-width: 500px;
-    -fx-background-color: #2e2e2e;
+    -fx-background-color: #a4a4a4;
+}
+
+#highscore-module {
+    -fx-background-color: #f79f81;
+}
+
+.block {
+    -fx-fill: #a4a4a4;
 }

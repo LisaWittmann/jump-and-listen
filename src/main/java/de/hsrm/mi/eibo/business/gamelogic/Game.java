@@ -1,8 +1,10 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
 import de.hsrm.mi.eibo.business.gamelogic.exceptions.RestartException;
+import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
-
+import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
+import de.hsrm.mi.eibo.persistence.SongPersitinator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,25 +15,36 @@ import javafx.collections.ObservableList;
 public class Game {
  
     private Player player;
-
     private Level level;  
+
+    private Song song;
+    private ToneMaker tonemaker;
+
     private ObservableList<Block> blocks;
 
-    private ToneMaker tonemaker;
     private double widthFactor;
     private double speedFactor;
 
     private boolean paused, running;
 
-    public Game(Player player){
-        this.player = player;
+    private int score;
+    private HighscorePersistinator highscorePersistinator;
+    private SongPersitinator songPersitinator;
 
+    public Game(){
         level = null;
-        tonemaker = new ToneMaker();
-        blocks = FXCollections.observableArrayList();
+        song = null;
 
-        paused = false;
-        running = false;
+        player = new Player();
+        tonemaker = new ToneMaker();
+
+        highscorePersistinator = new HighscorePersistinator();
+        songPersitinator = new SongPersitinator();
+        
+        blocks = FXCollections.observableArrayList(); //raus
+
+        paused = false; //raus 
+        running = false; //raus
 
         widthFactor = 1;
         speedFactor = 1;
@@ -47,6 +60,10 @@ public class Game {
 
     public Level getLevel() {
         return level;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public boolean isPaused() {
@@ -77,7 +94,6 @@ public class Game {
     }
 
     public void setLevel(Level level) throws RestartException {
-        if(running) throw new RestartException("your current game progress will be reset. are you sure?");
         this.level = level;
         initBlocks();
     }
@@ -91,12 +107,6 @@ public class Game {
         //    blocks.add(new Block(tone, tonemaker));
         //}
         blocks.add(new Block()); //Endblock
-    }
-
-    public void restart() {
-        running = false;
-        paused = true;
-        blocks.clear();
     }
 
     public void start() {

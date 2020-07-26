@@ -12,9 +12,7 @@ import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -33,16 +31,15 @@ public class MainApplication extends Application {
     private Game game;
     private Player player;
 
-    private ColorPicker colorPicker;
+    private Theme theme;
 
     @Override
     public void start(Stage primaryStage) {
         try{
-            player = new Player();
-            game = new Game(player);
+            game = new Game();
+            player = game.getPlayer();
 
-            colorPicker = new ColorPicker();
-            colorPicker.setValue(Color.web("#cef6e3"));
+            theme = Theme.DARK;
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
@@ -61,7 +58,7 @@ public class MainApplication extends Application {
 
             currentScene = scenes.get(Scenes.START_VIEW);
             scene = new Scene(currentScene, 1400, 800);
-            scene.getStylesheets().add(getClass().getResource("/stylesheets/darkTheme.css").toExternalForm());
+            scene.getStylesheets().add(theme.getUrl());
             
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("jump & listen");
@@ -81,23 +78,20 @@ public class MainApplication extends Application {
         return player;
     }
 
-    public ColorPicker getColorPicker() {
-        return colorPicker;
-    }
-
-    public Color getMainColor() {
-        return colorPicker.getValue();
-    }
-
     public Scene getScene() {
         return scene;
+    }
+
+    public void switchTheme(Theme theme) {
+        scene.getStylesheets().clear();
+        scene.getStylesheets().add(theme.getUrl());
     }
 
     /**
      * Ändert die angezeigte Scene
      * @param sceneName Scene, die angezeigt werden soll
      */
-    public void switchScene(Scenes sceneName){
+    public void switchScene(Scenes sceneName) {
         Pane nextScene;
 
         if(scenes.containsKey(sceneName)){

@@ -23,23 +23,22 @@ public class SettingView extends StackPane {
     public SettingView() {
 
         Label header = new Label("settings");
-        header.getStyleClass().add("h2");
-        header.setStyle("-fx-text-fill: #2e2e2e;");
+        header.getStyleClass().add("h2-dark");
 
         Label widthLabel = new Label("block width:");
-        widthLabel.getStyleClass().add("h3");
-        widthLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");
+        widthLabel.getStyleClass().add("h3-dark");
+        widthLabel.setStyle("-fx-text-alignment: left;");
         blockwidth = new Slider(0.1, 2.0, 1.0);
 
         Label speedLabel = new Label("speed:");
-        speedLabel.getStyleClass().add("h3");
-        speedLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");
+        speedLabel.getStyleClass().add("h3-dark");
+        speedLabel.setStyle("-fx-text-alignment: left;");
         speedLabel.setMinWidth(widthLabel.getWidth());
         speed = new Slider(0.1, 2, 1);
 
         Label volumeLabel = new Label("volume:");
-        volumeLabel.getStyleClass().add("h3");
-        volumeLabel.setStyle("-fx-text-alignment: left; -fx-text-fill: #2e2e2e;");
+        volumeLabel.getStyleClass().add("h3-dark");
+        volumeLabel.setStyle("-fx-text-alignment: left;");
         volumeLabel.setMinWidth(widthLabel.getWidth());
         volume = new Slider(0, 100, 80);
 
