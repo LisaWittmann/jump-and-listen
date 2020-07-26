@@ -16,10 +16,9 @@ public class BlockView extends Rectangle {
 
     public BlockView(Block block) {
         super(block.getWidth(), block.getHeight());
-        setFill(Color.WHITE);
+        getStyleClass().add("block");
 
         innerRect = new Rectangle();
-
         block.changes.addPropertyChangeListener("widthFactor", event -> this.setWidth(block.getWidth()));
     }
 

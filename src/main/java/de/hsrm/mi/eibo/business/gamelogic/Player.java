@@ -6,6 +6,8 @@ import java.util.List;
 
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 /**
  * Spieler bzw User
  * Schnittstelle für Persistence Schicht zum Speichern und Laden persönlicher Highscores
@@ -16,15 +18,48 @@ public class Player {
 
     private HighscorePersistinator highscorePers;
 
+    private SimpleBooleanProperty jump, boost, drop;
+    private SimpleBooleanProperty failed;
+
     protected int score;
 
     public Player(){
         highscorePers = new HighscorePersistinator();
         score = 0;
+
+        jump = new SimpleBooleanProperty(false);
+        boost = new SimpleBooleanProperty(false);
+        drop = new SimpleBooleanProperty(false);
+
+        failed = new SimpleBooleanProperty(false);
+    }
+
+    public SimpleBooleanProperty getJumpProperty() {
+        return jump;
+    }
+
+    public SimpleBooleanProperty getBoostProperty() {
+        return boost;
+    }
+
+    public SimpleBooleanProperty getDropProperty() {
+        return drop;
     }
 
     public int getScore() {
         return score;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump.set(jump);
+    }
+
+    public void setBoost(boolean boost) {
+        this.boost.set(boost);
+    }
+
+    public void setDrop(boolean drop) {
+        this.drop.set(drop);
     }
 
     /**

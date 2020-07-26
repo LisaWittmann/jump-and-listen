@@ -28,10 +28,18 @@
     -fx-font-family: Sora;
     -fx-font-size: 32px;
     -fx-text-alignment: center;
+    -fx-text-fill: #cef6e3;
 }
 
 .h3:hover{ 
     -fx-text-fill: #fafafa;
+}
+
+.h4 {
+    -fx-font-family: Sora;
+    -fx-font-size: 50px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #cef6e3;
 }
 
 .normal-text {
@@ -60,5 +68,8 @@
     -fx-max-height: 70px;
     -fx-max-width: 500px;
     -fx-background-color: #fafafa;
+}
 
+.block {
+    -fx-background-color: #fafafa;
 }

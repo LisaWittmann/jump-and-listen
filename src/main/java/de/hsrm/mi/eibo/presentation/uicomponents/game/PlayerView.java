@@ -1,8 +1,8 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
+
 import javafx.animation.AnimationTimer;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
@@ -20,7 +20,6 @@ public class PlayerView extends StackPane {
     private AnimationTimer timer;
 
     private double posX, posY;
-    private SimpleBooleanProperty jump, boostJump, drop;
 
     private Image normalImg, jumpImg, dropImg;
 
@@ -42,58 +41,42 @@ public class PlayerView extends StackPane {
         setLayoutX(posX);
         setLayoutY(posY);
 
-        drop = new SimpleBooleanProperty(false);
-        jump = new SimpleBooleanProperty(false);
-        boostJump = new SimpleBooleanProperty(false);
-
         timer = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
-                if (jump.get()) {
+                if (player.getJumpProperty().get()) {
                     // TODO
                 }
-                if (boostJump.get()) {
+                if (player.getBoostProperty().get()) {
                     // TODO
                 }
-                if (drop.get()) {
+                if (player.getDropProperty().get()) {
                     // TODO
                 }
             }
         };
 
-        jump.addListener(new ChangeListener<Boolean>() {
+        player.getJumpProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(jump.get()) image.setImage(jumpImg);
+                if(newValue) image.setImage(jumpImg);
             }    
         });
 
-        boostJump.addListener(new ChangeListener<Boolean>() {
+        player.getBoostProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(boostJump.get()) image.setImage(jumpImg);
+                if(newValue) image.setImage(jumpImg);
             }    
         });
 
-        drop.addListener(new ChangeListener<Boolean>() {
+        player.getDropProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(drop.get()) image.setImage(dropImg);
+                if(newValue) image.setImage(dropImg);
             }    
         });
-    }
-
-    public void setJump(boolean jump) {
-        this.jump.set(jump);
-    }
-
-    public void setBoostJump(boolean boostJump) {
-        this.boostJump.set(boostJump);
-    }
-
-    public void setDrop(boolean drop) {
-        this.drop.set(drop);
     }
     
     public void startAnimation() {
