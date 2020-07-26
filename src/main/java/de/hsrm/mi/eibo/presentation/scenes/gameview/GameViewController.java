@@ -6,7 +6,6 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
 
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -28,7 +27,6 @@ import javafx.scene.paint.Color;
 public class GameViewController extends ViewController<MainApplication> {
 
     private GameView view;
-    private Player player;
     private Game game;
 
     private Button settings;
@@ -37,20 +35,19 @@ public class GameViewController extends ViewController<MainApplication> {
     private Label score;
 
     private HBox field;
-    private PlayerView playerView;
+    private PlayerView player;
 
     protected Color mainColor;
 
     public GameViewController(MainApplication application) {
         super(application);
-        player = application.getPlayer();
         game = application.getGame();
 
         view = new GameView();
         setRootView(view);
 
-        playerView = new PlayerView(player);
-        view.getChildren().add(playerView);
+        player = new PlayerView(game.getPlayer());
+        view.getChildren().add(player);
 
         SettingViewController controller = new SettingViewController(application);
         settingView = controller.getRootView();
@@ -66,7 +63,7 @@ public class GameViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        score.setText(String.valueOf(player.getScore()));
+        score.setText(String.valueOf(game.getScore()));
         score.setTextFill(mainColor);
 
         //TODO: später wieder entfernen
@@ -77,19 +74,9 @@ public class GameViewController extends ViewController<MainApplication> {
             view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
 
-       game.getBlocks().addListener(new ListChangeListener<Block>() {
-            @Override
-            public void onChanged(Change<? extends Block> c) {
-                while(c.next()) {
-                    if(c.wasAdded()) {
-                        for(Block block : c.getAddedSubList()) {
-                            field.getChildren().add(new BlockView(block));
-                            addKeyListener();
-                        } 
-                    }
-                }
-           }
-       });
+        field.getChildren().addAll(new BlockView(), new BlockView());
+
+        addKeyListener();
     }
 
     public void addKeyListener() {
@@ -99,21 +86,21 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
-                    player.setBoost(true);
+                    game.getPlayer().setBoost(true);
                 } else if(event.getCode().equals(KeyCode.UP)) {
-                    player.setJump(true);
+                    game.getPlayer().setJump(true);
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    player.setDrop(true);
+                    game.getPlayer().setDrop(true);
                 } else if(event.getCode().equals(KeyCode.SPACE)) {
                     if(game.isRunning() && !game.isPaused()) {
                         game.pause();
-                        playerView.stopAnimation();
+                        player.stopAnimation();
                     } else if(game.isRunning() && game.isPaused()) {
                         game.cont();
-                        playerView.startAnimation();
+                        player.startAnimation();
                     } else if(!game.isRunning()) {
                         game.start();
-                        playerView.startAnimation();
+                        player.startAnimation();
                     }
                 }
             }
@@ -125,14 +112,14 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
-                    player.setBoost(true);
-                    player.setBoost(false);
+                    game.getPlayer().setBoost(true);
+                    game.getPlayer().setBoost(false);
                 } else if(event.getCode().equals(KeyCode.UP)) {
-                    player.setJump(true);
-                    player.setJump(false);
+                    game.getPlayer().setJump(true);
+                    game.getPlayer().setJump(false);
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    player.setDrop(true);
-                    player.setDrop(false);
+                    game.getPlayer().setDrop(true);
+                    game.getPlayer().setDrop(false);
                 }
             }
         }); 

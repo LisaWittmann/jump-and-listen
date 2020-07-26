@@ -1,6 +1,5 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.settings;
 
-import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
@@ -51,17 +50,14 @@ public class SettingViewController extends ViewController<MainApplication> {
         colorLabel.setStyle("-fx-text-alignment: left;");
 
         blockwidth.valueProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                for(Block block : game.getBlocks()){
-                    block.resize(newValue.doubleValue());                    
-                }
+                game.setWidth(newValue.doubleValue());
             }
         });
 
-        speed.valueProperty().addListener(new ChangeListener<Number>() {
 
+        speed.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 game.setSpeed(newValue.doubleValue());
@@ -69,7 +65,6 @@ public class SettingViewController extends ViewController<MainApplication> {
         });
 
         volume.valueProperty().addListener(new ChangeListener<Number>() {
-
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				game.getToneMaker().setVolume((int) newValue.doubleValue());

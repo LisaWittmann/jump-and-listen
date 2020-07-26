@@ -39,13 +39,17 @@ public class MainApplication extends Application {
             game = new Game();
             player = game.getPlayer();
 
-            theme = Theme.DARK;
+            theme = Theme.DARK;            
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
 
             controller = new StartViewController(this);
             scenes.put(Scenes.START_VIEW, controller.getRootView());
+
+            currentScene = scenes.get(Scenes.START_VIEW);
+            scene = new Scene(currentScene, 1400, 800);
+            scene.getStylesheets().add(theme.getUrl());
 
             controller = new SelectViewController(this);
             scenes.put(Scenes.SELECT_VIEW, controller.getRootView());
@@ -55,10 +59,6 @@ public class MainApplication extends Application {
 
             controller = new HighscoreViewController(this);
             scenes.put(Scenes.HIGHCSCORE_VIEW, controller.getRootView());
-
-            currentScene = scenes.get(Scenes.START_VIEW);
-            scene = new Scene(currentScene, 1400, 800);
-            scene.getStylesheets().add(theme.getUrl());
             
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("jump & listen");

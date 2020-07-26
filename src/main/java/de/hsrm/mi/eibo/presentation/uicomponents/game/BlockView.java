@@ -1,24 +1,44 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
-import de.hsrm.mi.eibo.business.gamelogic.Block;
+import de.hsrm.mi.eibo.business.tone.Tone;
+
 import javafx.scene.shape.Rectangle;
 
 /**
- * Darstellung eines Blocks
+ * Darstellung eines Tons
  * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class BlockView extends Rectangle {
 
-    Block block;
-    Rectangle innerRect;
+    Tone tone;
+    boolean flagged;
+    
+    final static double minWidth = 250;
+    final static double minHeight = 300;
 
-    public BlockView(Block block) {
-        super(block.getWidth(), block.getHeight());
+    public BlockView(Tone tone) {
+        super(minWidth, minHeight + tone.getFrequenz() / 5);
+        this.tone = tone;
+        flagged = false;
+
         getStyleClass().add("block");
-
-        innerRect = new Rectangle();
-        block.changes.addPropertyChangeListener("widthFactor", event -> this.setWidth(block.getWidth()));
+        
     }
 
+    public BlockView() {
+        super(minWidth, minHeight);
+        tone = null;
+        flagged = true;
+
+        getStyleClass().add("block");
+    }
+
+    public Tone getTone() {
+       return tone;
+    }
+
+    public boolean isFlagged() {
+        return flagged;
+    }
 }
