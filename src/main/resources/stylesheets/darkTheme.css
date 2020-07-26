@@ -50,6 +50,13 @@
     -fx-text-fill: #fafafa;
 }
 
+.h4 {
+    -fx-font-family: Sora;
+    -fx-font-size: 28px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #fafafa;
+}
+
 .normal-text {
     -fx-font-family: Montserrat;
     -fx-font-size: 24px;
@@ -89,7 +96,38 @@
     -fx-background-color: #cef6e3;
 }
 
-
 .block {
     -fx-fill: #fafafa;
+    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-border-radius: 10px 10px 0px 0px;
+}
+
+.combo-box {
+    -fx-font-size: 20px;
+    -fx-font-family: Sora;
+    -fx-text-fill: #2e2e2e;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5px;
+    -fx-border-color: #2e2e2e;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+}
+
+.combo-box:hover {
+    -fx-background-color: #fafafa;
+}
+
+.combo-box-popup {
+    -fx-text-fill: #2e2e2e;
+   -fx-background-color: #cef6e3;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: #2e2e2e;
+   -fx-background-color: #cef6e3;
+}
+
+.combo-box-popup .list-view .list-cell:hover{
+   -fx-text-fill: #2e2e2e;
+   -fx-background-color: #fafafa;
 }

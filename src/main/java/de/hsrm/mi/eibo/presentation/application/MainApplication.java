@@ -5,6 +5,7 @@ import java.util.HashMap;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.business.gamelogic.Player;
 import de.hsrm.mi.eibo.presentation.scenes.*;
+import de.hsrm.mi.eibo.presentation.scenes.createview.*;
 import de.hsrm.mi.eibo.presentation.scenes.startview.*;
 import de.hsrm.mi.eibo.presentation.scenes.selectview.*;
 import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
@@ -35,7 +36,7 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        try{
+        try {
             game = new Game();
             player = game.getPlayer();
 
@@ -51,6 +52,9 @@ public class MainApplication extends Application {
             scene = new Scene(currentScene, 1400, 800);
             scene.getStylesheets().add(theme.getUrl());
 
+            controller = new CreateViewController(this);
+            scenes.put(Scenes.CREATE_VIEW, controller.getRootView());
+
             controller = new SelectViewController(this);
             scenes.put(Scenes.SELECT_VIEW, controller.getRootView());
 
@@ -65,16 +69,16 @@ public class MainApplication extends Application {
             this.primaryStage.setScene(scene);
             this.primaryStage.show();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Game getGame(){
+    public Game getGame() {
         return game;
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return player;
     }
 
@@ -82,7 +86,12 @@ public class MainApplication extends Application {
         return scene;
     }
 
+    public Theme getTheme() {
+        return theme;
+    }
+
     public void switchTheme(Theme theme) {
+        this.theme = theme;
         scene.getStylesheets().clear();
         scene.getStylesheets().add(theme.getUrl());
     }

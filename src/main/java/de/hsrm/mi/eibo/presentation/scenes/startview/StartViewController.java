@@ -15,7 +15,9 @@ import javafx.scene.control.Button;
 public class StartViewController extends ViewController<MainApplication> {
 
     private StartView view;
+
     private Button startButton;
+    private Button createButton;
 
     public StartViewController(MainApplication application) {
         super(application);
@@ -24,6 +26,7 @@ public class StartViewController extends ViewController<MainApplication> {
         setRootView(view);
 
         startButton = view.startButton;
+        createButton = view.createButton;
 
         initialize();
     }
@@ -31,6 +34,7 @@ public class StartViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.SELECT_VIEW));
+        createButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.CREATE_VIEW));
     }
 
     

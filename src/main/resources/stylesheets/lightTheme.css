@@ -49,6 +49,12 @@
     -fx-text-fill: #2e2e2e;
 }
 
+.h4 {
+    -fx-font-family: Sora;
+    -fx-font-size: 28px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #2e2e2e;
+}
 
 .normal-text {
     -fx-font-family: Montserrat;
@@ -73,7 +79,7 @@
 }
 
 .text-button:hover {
-    -fx-text-fill: #f79f81;
+    -fx-text-fill: #f6d8ce;
 }
 
 .module {
@@ -90,5 +96,37 @@
 }
 
 .block {
-    -fx-fill: #a4a4a4;
+    -fx-fill: #f6d8ce;
+    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-border-radius: 10px 10px 0px 0px;
+}
+
+
+.combo-box {
+    -fx-font-size: 20px;
+    -fx-font-family: Sora;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5px;
+    -fx-border-color: #fafafa;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+}
+
+.combo-box:hover {
+     -fx-background-color: #f6d8ce;
+}
+
+.combo-box-popup {
+    -fx-text-fill: #2e2e2e;
+    -fx-background-color: #f79f81;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: #2e2e2e;
+    -fx-background-color: #f79f81;
+}
+
+.combo-box-popup .list-view .list-cell:hover{
+    -fx-text-fill: #2e2e2e;
+    -fx-background-color: #f6d8ce;
 }

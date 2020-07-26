@@ -2,11 +2,12 @@ package de.hsrm.mi.eibo.presentation.uicomponents.settings;
 
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
+import de.hsrm.mi.eibo.presentation.application.Theme;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
@@ -20,9 +21,9 @@ import javafx.scene.paint.Color;
 public class SettingViewController extends ViewController<MainApplication> {
 
     private SettingView view;
-    private GridPane settings;
     
     private Slider blockwidth, speed, volume;
+    private ComboBox<Theme> theme;
 
     private Game game;
     
@@ -35,7 +36,7 @@ public class SettingViewController extends ViewController<MainApplication> {
         view = new SettingView();
         setRootView(view);
 
-        settings = view.settings;
+        theme = view.theme;
         blockwidth = view.blockwidth;
         speed = view.speed;
         volume = view.volume;
@@ -45,9 +46,9 @@ public class SettingViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        Label colorLabel = new Label("color:");
-        colorLabel.getStyleClass().add("h3-dark");
-        colorLabel.setStyle("-fx-text-alignment: left;");
+        theme.getItems().addAll(Theme.values());
+        theme.setValue(application.getTheme());
+        theme.setOnAction(event -> application.switchTheme(theme.getValue()));
 
         blockwidth.valueProperty().addListener(new ChangeListener<Number>() {
             @Override

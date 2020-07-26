@@ -66,8 +66,7 @@ public class GameViewController extends ViewController<MainApplication> {
         score.setText(String.valueOf(game.getScore()));
         score.setTextFill(mainColor);
 
-        //TODO: später wieder entfernen
-        score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW));
+        score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); //TODO: später wieder entfernen
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
             settingView.setVisible(true);

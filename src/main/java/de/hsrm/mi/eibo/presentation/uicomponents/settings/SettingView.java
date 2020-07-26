@@ -1,8 +1,9 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.settings;
 
+import de.hsrm.mi.eibo.presentation.application.Theme;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 public class SettingView extends StackPane {
 
     Slider blockwidth, speed, volume;
+    ComboBox<Theme> theme;
     GridPane settings;
     VBox content;
 
@@ -33,14 +35,18 @@ public class SettingView extends StackPane {
         Label speedLabel = new Label("speed:");
         speedLabel.getStyleClass().add("h3-dark");
         speedLabel.setStyle("-fx-text-alignment: left;");
-        speedLabel.setMinWidth(widthLabel.getWidth());
         speed = new Slider(0.1, 2, 1);
 
         Label volumeLabel = new Label("volume:");
         volumeLabel.getStyleClass().add("h3-dark");
         volumeLabel.setStyle("-fx-text-alignment: left;");
-        volumeLabel.setMinWidth(widthLabel.getWidth());
         volume = new Slider(0, 100, 80);
+
+        Label themeLabel = new Label("theme:");
+        themeLabel.getStyleClass().add("h3-dark");
+        themeLabel.setStyle("-fx-text-alignment: left;");
+        theme = new ComboBox<>();
+        theme.getStyleClass().add("combo-box");
 
         settings = new GridPane();
         settings.setPadding(new Insets(40));
@@ -52,6 +58,8 @@ public class SettingView extends StackPane {
         settings.add(speed, 1, 1);
         settings.add(volumeLabel, 0, 2);
         settings.add(volume, 1, 2);
+        settings.add(themeLabel, 0, 3);
+        settings.add(theme, 1, 3);
 
         content = new VBox();
         content.setSpacing(20);
