@@ -86,10 +86,17 @@ public class GameViewController extends ViewController<MainApplication> {
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
                     game.getPlayer().setBoost(true);
+                    game.playerJump();
                 } else if(event.getCode().equals(KeyCode.UP)) {
                     game.getPlayer().setJump(true);
+                    game.playerJump();
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
                     game.getPlayer().setDrop(true);
+                    game.playerDrop();
+                } else if(event.getCode().equals(KeyCode.LEFT)) {
+                    game.movePlayerLeft();
+                } else if(event.getCode().equals(KeyCode.RIGHT)) {
+                    game.movePlayerRight();
                 } else if(event.getCode().equals(KeyCode.SPACE)) {
                     if(game.isRunning() && !game.isPaused()) {
                         game.pause();
@@ -103,7 +110,6 @@ public class GameViewController extends ViewController<MainApplication> {
                     }
                 }
             }
-            
         });
 
         application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){

@@ -30,7 +30,7 @@ public class Game {
     private HighscorePersistinator highscorePersistinator;
     private SongPersitinator songPersitinator;
 
-    public Game(){
+    public Game() {
         level = null;
         song = null;
         score = 0;
@@ -56,8 +56,16 @@ public class Game {
         return level;
     }
 
+    public Song getSong() {
+        return song;
+    }
+
     public Player getPlayer() {
         return player;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public double getSpeed() {
@@ -80,8 +88,8 @@ public class Game {
         this.level = level;
     }
 
-    public int getScore() {
-        return score;
+    public void setSong(Song song) {
+        this.song = song;
     }
 
     public void setSpeed(double speedFactor) {
@@ -92,6 +100,7 @@ public class Game {
         this.widthFactor = widthFactor;
     }
 
+    //Hier müsste man vielleicht nochmal aussortieren
     public void restart() {
         score = 0;
         //TODO
@@ -117,6 +126,26 @@ public class Game {
         //TODO
     }
 
+    //SpeedFactor: Player schneller oder langsamer bewegen (liegt immer zwischen 0.1 und 2, Default 1)
+    //werden bei Tastendruck aufgerufen (kann ich aber auch wieder ändern)
+    public void movePlayerLeft() {
+        //TODO: Philipp
+    }
+
+    public void movePlayerRight() {
+        //TODO: Philipp
+    }
+
+    public void playerJump() {
+        //TODO: Philipp
+        //BoostJump hier mit rein?
+    }
+
+    public void playerDrop() {
+        //TODO: Philipp
+        //Schwerkraft
+    }
+
     /**
      * Speichert den aktuellen Score ab und setzt ihn danach wieder auf 0
      */
@@ -128,9 +157,9 @@ public class Game {
     /**
      * Ermittelt die höchsten drei Scores des Spielers
      * Liest dafür gespeicherte Spielstände ein
-     * @return Sublist mit höchsten drei Scores oder alle bisherigen Scores, wenn weniger als drei Scores existieren
+     * @return Sublist mit höchsten drei Scores oder alle bisherigen Scores, wenn weniger als drei existieren
      */
-    public List<Integer> getHighScores(){ 
+    public List<Integer> getHighScores() { 
         List<Integer> scores = highscorePersistinator.loadData();
         List<Integer> sublist = new ArrayList<>();
 

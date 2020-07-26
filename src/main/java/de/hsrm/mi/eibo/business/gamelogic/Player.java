@@ -24,6 +24,14 @@ public class Player {
         changes = new PropertyChangeSupport(this.getClass());
     }
 
+    public double getPosX() {
+        return posX;
+    }
+
+    public double getPosY() {
+        return posY;
+    }
+
     public SimpleBooleanProperty getJumpProperty() {
         return jump;
     }
@@ -46,6 +54,12 @@ public class Player {
 
     public void setDrop(boolean drop) {
         this.drop.set(drop);
+    }
+
+    public void moveTo(double x, double y) {
+        posX = x;
+        posY = y;
+        changes.firePropertyChange("koordinaten", null, null);
     }
     
 }
