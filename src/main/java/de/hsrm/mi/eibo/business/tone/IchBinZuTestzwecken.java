@@ -14,7 +14,6 @@ public class IchBinZuTestzwecken {
         for(Song s : songPers.loadData()) {
             tm.playList(s.getTones());
         }
-        //hört hier noch jemand was?
     }
 
 }

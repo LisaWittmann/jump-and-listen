@@ -61,7 +61,7 @@ public class MainApplication extends Application {
 
             currentScene = scenes.get(Scenes.START_VIEW);
             scene = new Scene(currentScene, 1400, 800);
-            scene.getStylesheets().add(getClass().getResource("/stylesheets/application.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/stylesheets/darkTheme.css").toExternalForm());
             
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("jump & listen");

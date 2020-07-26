@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat");
+@import url("https://fonts.googleapis.com/css2?family=Sora");
+
+.window {
+    -fx-background-color: #2e2e2e;
+}
+
+.overlay {
+    -fx-background-color: rgba(206, 246, 227, 1);
+    -fx-background-radius: 10px;
+}
+
+.h1 {
+    -fx-font-family: Sora;
+    -fx-font-size: 80px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #fafafa;
+}
+
+.h2 {
+    -fx-font-family: Sora;
+    -fx-font-size: 50px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #fafafa;
+}
+
+.h3 {
+    -fx-font-family: Sora;
+    -fx-font-size: 32px;
+    -fx-text-alignment: center;
+}
+
+.h3:hover{ 
+    -fx-text-fill: #fafafa;
+}
+
+.normal-text {
+    -fx-font-family: Montserrat;
+    -fx-font-size: 24px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #fafafa;
+}
+
+.text-button {
+    -fx-background-color: transparent;
+    -fx-font-family: Sora;
+    -fx-font-size: 28px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #fafafa;
+}
+
+.text-button:hover {
+    -fx-text-fill: #cef6e3;
+}
+
+.module {
+    -fx-background-radius: 5px;
+    -fx-min-height: 70px;
+    -fx-min-width: 500px;
+    -fx-max-height: 70px;
+    -fx-max-width: 500px;
+    -fx-background-color: #fafafa;
+
+}
