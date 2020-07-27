@@ -3,6 +3,7 @@ package de.hsrm.mi.eibo.business.gamelogic;
 import java.beans.PropertyChangeSupport;
 
 import de.hsrm.mi.eibo.business.tone.*;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * Schnittstelle zwischen SongBuilding und Game
@@ -36,6 +37,7 @@ public class Block {
     private double height, width;
 
     private boolean platform;
+    private SimpleBooleanProperty initialized;
 
     public PropertyChangeSupport changes;
 
@@ -51,6 +53,7 @@ public class Block {
         width = minWidth;
         height = getHeightByTone(tone);
         changes = new PropertyChangeSupport(getClass());
+        initialized = new SimpleBooleanProperty(true);
     }
 
     /**
@@ -66,12 +69,26 @@ public class Block {
         if(platform) {
             height = minHeight;
             width = maxWidth;
+            initialized = new SimpleBooleanProperty(true);
         } 
         else {
             height = minHeight;
             width = minWidth;
+            initialized = new SimpleBooleanProperty(false);
         }
         changes = new PropertyChangeSupport(getClass());
+    }
+
+    public void setHeight(double height) {
+        double oldValue = this.height;
+        this.height = height;
+        changes.firePropertyChange("height", oldValue, height);
+    }
+
+    public void setWidth(double width) {
+        double oldValue = this.width;
+        this.width = width;
+        changes.firePropertyChange("width", oldValue, width);
     }
 
     public void setPosX(double x) {
@@ -102,6 +119,10 @@ public class Block {
         return toneMaker;
     }
 
+    public SimpleBooleanProperty isInitialized() {
+        return initialized;
+    }
+
     public double getHeight() {
         return height;
     }
@@ -117,6 +138,7 @@ public class Block {
     public double getPosY() {
         return posY;
     }
+
      /**
       * rundet Höhe, sodass diese in den min/max Grenzen und in der Schrittweite liegt
       * @return gerundende Höhe

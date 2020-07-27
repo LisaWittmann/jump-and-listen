@@ -1,92 +1,54 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
-import de.hsrm.mi.eibo.business.tone.Tone;
-import javafx.beans.property.SimpleBooleanProperty;
+import de.hsrm.mi.eibo.business.gamelogic.Block;
+
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
 /**
- * Darstellung eines Tons
- * 
+ * Darstellung eines Blocks
  * @author pwieg001, lwitt001, lgers001
  */
 public class BlockView extends StackPane {
 
-    Tone tone;
+    Block block;
     Button addButton;
 
-    SimpleBooleanProperty initialized;
-    
-    final static double maxWidth = 250;
-    final static double minWidth = 100;
-    final static double minHeight = 300;
+    public BlockView(Block block) {
+        this.block = block;
 
-    /**
-     * Konstruktur
-     * Erzeugung eines Blocks zu einem bestimmten Ton
-     * 
-     * @param tone dargestellter Ton
-     */
-    public BlockView(Tone tone) {
-        this.tone = tone;
-        initialized = new SimpleBooleanProperty(true);
-
-        setPrefSize(minWidth, minHeight + tone.getFrequenz() / 5);
-        getStyleClass().add("block");
+        setPrefSize(block.getWidth(), block.getHeight());
+        if(block.isInitialized().get()) {
+            getStyleClass().add("block");
+        } 
+        else initEmptyBlock();
     }
 
-    /**
-     * Konstruktor
-     * Erzeugung einer Plattform
-     * Start- und Endposition des Players
-     */
-    public BlockView() {
-        tone = null;
-        initialized = new SimpleBooleanProperty(true);
-
-        setPrefSize(maxWidth, minHeight);
-        getStyleClass().add("block");
-    }
-
-    /**
-     * Konstruktor
-     * Erzeugung eines leeren Blocks
-     * Nutzung bei Songskonsturierung
-     * 
-     * @param empty Kennzeichnung
-     */
-    public BlockView(boolean empty) {
-        tone = null;
-        initialized = new SimpleBooleanProperty(false);
-
+    public void initEmptyBlock() { 
         addButton = new Button("+");
         addButton.getStyleClass().add("text-button");
+        
         addButton.addEventHandler(ActionEvent.ACTION, event -> {
             getStyleClass().clear();
             getStyleClass().add("block");
-            initialized.set(true);
+            block.isInitialized().set(true);
             addButton.setVisible(false);
             addButton = null;
         });
 
-        setPrefSize(minWidth, minHeight);
         getStyleClass().add("empty-block");
         getChildren().add(addButton);
         StackPane.setAlignment(addButton, Pos.CENTER);
     }
 
-    public SimpleBooleanProperty isInitialized() {
-        return initialized;
+    public Block getBlock() {
+       return block;
     }
 
-    public Tone getTone() {
-       return tone;
-    }
-
-    public void setTone(Tone tone) {
-        this.tone = tone;
+    public void setBlock(Block block) {
+        this.block = block;
     }
 
 }

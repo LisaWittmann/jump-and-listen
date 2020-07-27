@@ -10,7 +10,6 @@ public class Resizer {
     private static final int RESIZE_MARGIN = 5;
 
     private double lastX, lastY;
-    private double x, y;
     
     private Region region;
     private Scene scene;
@@ -32,10 +31,7 @@ public class Resizer {
 
     protected void mousePressed(MouseEvent event) {
         lastX = event.getSceneX();
-        lastY = event.getSceneY();
-
-        x = event.getX();
-        y = event.getY();        
+        lastY = event.getSceneY();   
     }
 
     protected void mouseOver(MouseEvent event) {

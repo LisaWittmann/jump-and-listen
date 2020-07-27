@@ -1,5 +1,7 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import de.hsrm.mi.eibo.business.gamelogic.Block;
+import de.hsrm.mi.eibo.business.tone.SongBuilder;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
@@ -15,11 +17,14 @@ import javafx.scene.layout.HBox;
 public class BuildViewController extends ViewController<MainApplication> {
 
     private BuildView view;
+    private SongBuilder songBuilder;
+
     private Button quitButton;
     private HBox field;
 
     public BuildViewController(MainApplication application) {
         super(application);
+        songBuilder = new SongBuilder();
 
         view = new BuildView();
         setRootView(view);
@@ -33,15 +38,16 @@ public class BuildViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         quitButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.START_VIEW));
+        
         addBlock();
 
     }
 
     public void addBlock() {
-        BlockView block = new BlockView(true);
+        BlockView block = new BlockView(new Block(false));
         field.getChildren().add(block);
 
-        block.isInitialized().addListener(new ChangeListener<Boolean>() {
+        block.getBlock().isInitialized().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {

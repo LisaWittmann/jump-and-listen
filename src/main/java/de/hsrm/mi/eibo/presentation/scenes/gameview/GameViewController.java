@@ -73,7 +73,7 @@ public class GameViewController extends ViewController<MainApplication> {
             view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
 
-        field.getChildren().addAll(new BlockView(), new BlockView());
+        field.getChildren().addAll(new BlockView(new Block(true)), new BlockView(new Block(true)));
 
         addKeyListener();
     }
