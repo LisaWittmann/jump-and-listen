@@ -2,10 +2,11 @@ package de.hsrm.mi.eibo.presentation.application;
 
 import java.util.HashMap;
 
+import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.business.gamelogic.Player;
 import de.hsrm.mi.eibo.presentation.scenes.*;
-import de.hsrm.mi.eibo.presentation.scenes.createview.*;
+import de.hsrm.mi.eibo.presentation.scenes.buildview.*;
 import de.hsrm.mi.eibo.presentation.scenes.startview.*;
 import de.hsrm.mi.eibo.presentation.scenes.selectview.*;
 import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
@@ -37,6 +38,8 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
+            setDesktopLayout();
+            
             game = new Game();
             player = game.getPlayer();
 
@@ -52,8 +55,8 @@ public class MainApplication extends Application {
             scene = new Scene(currentScene, 1400, 800);
             scene.getStylesheets().add(theme.getUrl());
 
-            controller = new CreateViewController(this);
-            scenes.put(Scenes.CREATE_VIEW, controller.getRootView());
+            controller = new BuildViewController(this);
+            scenes.put(Scenes.BUILD_VIEW, controller.getRootView());
 
             controller = new SelectViewController(this);
             scenes.put(Scenes.SELECT_VIEW, controller.getRootView());
@@ -98,6 +101,15 @@ public class MainApplication extends Application {
         this.theme = theme;
         scene.getStylesheets().clear();
         scene.getStylesheets().add(theme.getUrl());
+    }
+
+    public void setDesktopLayout(){
+        Block.configureWidth(100, 250);
+        Block.configuteHeight(300, 600);
+    }
+
+    public void setMobileLayout(){
+        //TODO: Lisa W
     }
 
     /**

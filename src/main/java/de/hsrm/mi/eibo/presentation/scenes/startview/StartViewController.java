@@ -34,7 +34,7 @@ public class StartViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.SELECT_VIEW));
-        createButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.CREATE_VIEW));
+        createButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.BUILD_VIEW));
     }
 
     

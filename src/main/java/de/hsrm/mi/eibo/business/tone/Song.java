@@ -53,11 +53,6 @@ public class Song {
         }
     }
 
-    public Song(Level level, List<Tone> tones){
-        this.tones = tones;
-        this.level = level;
-    }
-
     @Override
     public String toString() {
         String erg = level.toString() + ":";
@@ -77,5 +72,13 @@ public class Song {
 
     public List<Tone> getTones() {
         return tones;
+    }
+
+    protected void setTones(List<Tone> tones) {
+        this.tones = tones;
+    }
+
+    protected void setLevel(Level level) {
+        this.level = level;
     }
 }

@@ -1,24 +1,20 @@
 package de.hsrm.mi.eibo.business.tone;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
 
 public class SongBuilder {
 
     private SongPersitinator songPersitinator;
-    private List<Tone> tones;
-    private Level level;
+    private List<Block> inputBlocks;
 
     public SongBuilder() {
-        tones = new LinkedList<>();
-        level = null;
-    }
-
-    public void setLevel(Level level){
-        this.level = level;
+        inputBlocks = new ArrayList<>();
     }
 
     public Level calcLevel() {
@@ -26,21 +22,26 @@ public class SongBuilder {
         return null;
     }
 
-    public List<Tone> getTones() {
-        return tones;
-    }
-
-    public void discard(Tone tone) {
-        if(tones.contains(tone)) tones.remove(tone);
+    public void discard(Block block) {
+        if(inputBlocks.contains(block)) inputBlocks.remove(block);
     }
 
     public void discardAll() {
-        tones.clear();
+        inputBlocks.clear();
     }
     
     public void confirm() {
-        if(level == null) level = calcLevel();
-        Song buildedSong = new Song(level, tones);
+        Song buildedSong = new Song();
+        buildedSong.setTones(transform());
         songPersitinator.saveData(buildedSong);
+    }
+
+    public List<Tone> transform() {
+        List<Tone> tones = new LinkedList<>();
+        for(Block block : inputBlocks) {
+            block.setTone(); 
+            tones.add(block.getTone());
+        }
+        return tones;
     }
 }

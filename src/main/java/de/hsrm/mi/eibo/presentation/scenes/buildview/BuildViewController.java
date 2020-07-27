@@ -1,28 +1,27 @@
-package de.hsrm.mi.eibo.presentation.scenes.createview;
+package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
-import de.hsrm.mi.eibo.presentation.uicomponents.create.Resizer;
+import de.hsrm.mi.eibo.presentation.uicomponents.builder.Resizer;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
-public class CreateViewController extends ViewController<MainApplication> {
+public class BuildViewController extends ViewController<MainApplication> {
 
-    private CreateView view;
+    private BuildView view;
     private Button quitButton;
     private HBox field;
 
-    public CreateViewController(MainApplication application) {
+    public BuildViewController(MainApplication application) {
         super(application);
 
-        view = new CreateView();
+        view = new BuildView();
         setRootView(view);
 
         quitButton = view.quitButton;

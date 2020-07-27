@@ -53,7 +53,17 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerText.setTextFill(mainColor);
         if(game.getHighScores().size() > 0 && game.getScore() == game.getHighScores().get(0)) playerText.setText("new personal record!");
         else playerText.setText("you should try again!");
-        
+
+        retryButton.addEventHandler(ActionEvent.ACTION, event -> {
+            game.restart();
+            application.switchScene(Scenes.GAME_VIEW);
+        });
+
+        loadScores(); //TODO: später nur noch als Aufruf am Spielende
+
+    }
+
+    public void loadScores() {
         for(int currentScore : game.getHighScores()) {
 
             HBox module = new HBox();
@@ -73,11 +83,5 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             module.getChildren().addAll(rank, score);
             highscores.getChildren().add(module);
         }
-
-        retryButton.addEventHandler(ActionEvent.ACTION, event -> {
-            game.restart();
-            application.switchScene(Scenes.GAME_VIEW);
-        });
-
     }
 }

@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.presentation.scenes.createview;
+package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -6,12 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
-public class CreateView extends AnchorPane {
+public class BuildView extends AnchorPane {
 
     Button doneButton, quitButton;
     HBox field;
     
-    public CreateView() {
+    public BuildView() {
         
         quitButton = new Button("quit");
         quitButton.getStyleClass().add("text-button");
