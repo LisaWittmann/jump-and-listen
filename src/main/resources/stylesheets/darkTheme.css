@@ -120,11 +120,13 @@
 }
 
 .block {
-    fill: #fafafa;
-    border-radius: 10px 10px 0px 0px;
-    -fx-fill: #fafafa;
-    -fx-background-radius: 10px 10px 0px 0px;
-    -fx-border-radius: 10px 10px 0px 0px;
+    background-color: #fafafa;
+    -fx-background-color: #fafafa;
+}
+
+.empty-block {
+    background-color: #424242;
+    -fx-background-color: #424242;
 }
 
 .combo-box {

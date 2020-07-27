@@ -86,7 +86,7 @@ public class Game {
 
     public void setLevel(Level level) {
         this.level = level;
-        this.song = loadSongByLevel();
+        //this.song = loadSongByLevel();
     }
 
     public void setSong(Song song) {
