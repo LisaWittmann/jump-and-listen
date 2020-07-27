@@ -69,6 +69,10 @@ public class MainApplication extends Application {
             this.primaryStage.setScene(scene);
             this.primaryStage.show();
 
+            primaryStage.setOnCloseRequest(event -> {
+                game.end();
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }

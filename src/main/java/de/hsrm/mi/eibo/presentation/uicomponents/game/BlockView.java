@@ -1,7 +1,6 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.tone.Tone;
-import de.hsrm.mi.eibo.presentation.uicomponents.create.Resizer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
