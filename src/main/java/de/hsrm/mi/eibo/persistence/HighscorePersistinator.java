@@ -43,7 +43,7 @@ public class HighscorePersistinator implements DataPersistinator<Integer> {
                 loaded.add(input.readInt());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             try {
                 if(input != null) input.close();

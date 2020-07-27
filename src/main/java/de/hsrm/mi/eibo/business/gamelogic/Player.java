@@ -11,8 +11,9 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public class Player {
 
-    private SimpleBooleanProperty jump, boost, drop, move;
+    private SimpleBooleanProperty jump, boost, drop, move, right, left;
     protected double posX, posY;
+    private double vFalling;
 
     public PropertyChangeSupport changes;
 
@@ -21,8 +22,14 @@ public class Player {
         boost = new SimpleBooleanProperty(false);
         drop = new SimpleBooleanProperty(false);
         move = new SimpleBooleanProperty(false);
+        right = new SimpleBooleanProperty(false);
+        left = new SimpleBooleanProperty(false);
 
         changes = new PropertyChangeSupport(this.getClass());
+
+        vFalling = 0;
+        posX = 120;
+        posY = 400;
     }
 
     public double getPosX() {
@@ -49,6 +56,14 @@ public class Player {
         return move;
     }
 
+    public SimpleBooleanProperty getMRightProperty() {
+        return right;
+    }
+
+    public SimpleBooleanProperty getLeftProperty() {
+        return left;
+    }
+
     public void setOnJump(boolean jump) {
         this.jump.set(jump);
     }
@@ -65,10 +80,25 @@ public class Player {
         this.move.set(move);
     }
 
+    public void setOnRight(boolean right) {
+        this.right.set(right);
+    }
+
+    public void setOnLeft(boolean left) {
+        this.left.set(left);
+    }
+
     public void moveTo(double x, double y) {
         posX = x;
         posY = y;
         changes.firePropertyChange("koordinaten", null, null);
     }
-    
+
+    public synchronized double getVFalling() {
+        return vFalling;
+    }
+
+    public synchronized void setVFalling(double vFalling) {
+        this.vFalling = vFalling;
+    }
 }

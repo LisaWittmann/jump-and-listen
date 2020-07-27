@@ -8,6 +8,7 @@ import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -87,16 +88,16 @@ public class GameViewController extends ViewController<MainApplication> {
                 if(boost.match(event)){
                     game.getPlayer().setOnBoost(true);
                     game.playerJump();
-                } else if(event.getCode().equals(KeyCode.UP)) {
+                } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnJump(true);
                     game.playerJump();
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
                     game.getPlayer().setOnDrop(true);
                     game.playerDrop();
-                } else if(event.getCode().equals(KeyCode.LEFT)) {
-                    game.movePlayerLeft();
-                } else if(event.getCode().equals(KeyCode.RIGHT)) {
-                    game.movePlayerRight();
+                } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)) {
+                    game.movePlayerLeft(true);
+                } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
+                    game.movePlayerRight(true);
                 } else if(event.getCode().equals(KeyCode.SPACE)) {
                     if(game.isRunning() && !game.isPaused()) {
                         game.pause();
@@ -108,6 +109,8 @@ public class GameViewController extends ViewController<MainApplication> {
                         game.start();
                         player.startAnimation();
                     }
+                }  else if(event.getCode().equals(KeyCode.S)) {
+                    game.start();
                 }
             }
         });
@@ -119,15 +122,16 @@ public class GameViewController extends ViewController<MainApplication> {
                 if(boost.match(event)){
                     game.getPlayer().setOnBoost(true);
                     game.getPlayer().setOnBoost(false);
-                } else if(event.getCode().equals(KeyCode.UP)) {
+                } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnJump(true);
                     game.getPlayer().setOnJump(false);
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
                     game.getPlayer().setOnDrop(true);
                     game.getPlayer().setOnDrop(false);
-                } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.RIGHT)){
-                    game.getPlayer().setOnMove(true);
-                    game.getPlayer().setOnMove(false);
+                } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)){
+                    game.movePlayerLeft(false);
+                } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
+                    game.movePlayerRight(false);
                 }
             }
         }); 
