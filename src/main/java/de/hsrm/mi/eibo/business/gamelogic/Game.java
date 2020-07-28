@@ -259,8 +259,8 @@ public class Game {
     private boolean checkBlockUnderPlayer() {
         for (Block block : blocks) {
             if (player.posY + 100 == block.getPosY()
-            && player.posX + 100 > block.getPosX()
-            && player.posX < block.getPosX() + block.getWidth()) {
+            && player.posX + 58 > block.getPosX()
+            && player.posX + 24 < block.getPosX() + block.getWidth()) {
                 return true;
             }
         }
@@ -269,8 +269,8 @@ public class Game {
 
     private boolean checkPlayerLanding() {
         for (Block block: blocks) {
-            if (player.posX + 100 > block.getPosX()
-                    && player.posX < block.getPosX() + block.getWidth()) {
+            if (player.posX + 58 > block.getPosX()
+                    && player.posX + 24 < block.getPosX() + block.getWidth()) {
                 if (player.posY + 100 < block.getPosY() && player.posY + 100 - player.vFalling(0, false)/FPS > block.getPosY()) {
                     player.posY = block.getPosY() - 100;
                     player.vFalling(0, true);
