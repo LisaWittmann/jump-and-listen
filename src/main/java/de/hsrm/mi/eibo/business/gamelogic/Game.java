@@ -41,7 +41,7 @@ public class Game {
     final int FPS = 20;
     final double FORCE_MULTI = 50;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
-    final double JUMP_FORCE = G_FORCE * (-0.75);
+    final double JUMP_FORCE = G_FORCE * (-0.65);
     private boolean movementActive = false;
 
     public Game() {
@@ -198,6 +198,7 @@ public class Game {
     public void playerYCalculation() {
         if(checkBlockUnderPlayer()) {
             //player.vFalling(0, true);
+            player.setOnJump(false);
             player.setOnDrop(false);
             if (player.vFalling(0, false) > 0) {
                 player.posY -= player.vFalling(0, false)/FPS;
