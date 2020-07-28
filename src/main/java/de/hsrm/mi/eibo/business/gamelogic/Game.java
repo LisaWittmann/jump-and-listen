@@ -45,6 +45,7 @@ public class Game {
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.65);
     private boolean movementActive = false;
+    private final int FALLDEEPHT_GAME_OVER = 2000;
 
     public PropertyChangeSupport changes;
 
@@ -214,6 +215,11 @@ public class Game {
             player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
             if (!checkPlayerLanding())
                 player.posY -= player.vFalling(0, false)/FPS;
+            if(player.posY > FALLDEEPHT_GAME_OVER) {
+                tonemaker.fallingTone();
+                running = false;
+                ended.set(true);
+            }
         }
     }
 
