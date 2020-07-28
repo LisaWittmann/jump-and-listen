@@ -3,6 +3,8 @@ package de.hsrm.mi.eibo.presentation.scenes.highscoreview;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,8 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
- * Controller der HighscoreView
- * Initiiert angezeigte Elemente anhand der Daten des Players
+ * Controller der HighscoreView Initiiert angezeigte Elemente anhand der Daten
+ * des Players
  * 
  * @author pwieg001, lwitt001, lgers001
  */
@@ -42,8 +44,15 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerText = view.playerText;
         highscores = view.highscores;
         retryButton = view.retryButton;
-        
-        initialize();
+
+        application.getGame().gameEnded().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue){
+                    initialize();
+                }
+            }
+        });
     }
 
     @Override
@@ -51,21 +60,17 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerScore.setText(String.valueOf(game.getScore()));
 
         playerText.setTextFill(mainColor);
-        if(game.getHighScores().size() > 0 && game.getScore() == game.getHighScores().get(0)) playerText.setText("new personal record!");
-        else playerText.setText("you should try again!");
+        if (game.getHighScores().size() > 0 && game.getScore() == game.getHighScores().get(0))
+            playerText.setText("new personal record!");
+        else
+            playerText.setText("you should try again!");
 
         retryButton.addEventHandler(ActionEvent.ACTION, event -> {
             game.restart();
             application.switchScene(Scenes.GAME_VIEW);
         });
 
-        loadScores(); //TODO: später nur noch als Aufruf am Spielende
-
-    }
-
-    public void loadScores() {
         for(int currentScore : game.getHighScores()) {
-
             HBox module = new HBox();
             module.getStyleClass().add("module");
             module.setSpacing(160);

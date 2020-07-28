@@ -7,6 +7,7 @@ import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -80,7 +81,11 @@ public class GameViewController extends ViewController<MainApplication> {
         });
 
         game.changes.addPropertyChangeListener("score", event -> {
-            score.setText(game.getScore()+"");
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    score.setText(String.valueOf(game.getScore()));
+                }
+            });
         });
         game.gameEnded().addListener(new ChangeListener<Boolean>(){
             @Override
@@ -114,16 +119,18 @@ public class GameViewController extends ViewController<MainApplication> {
                 } else if(event.getCode().equals(KeyCode.SPACE)) {
                     if(game.isRunning() && !game.isPaused()) {
                         game.pause();
-                        player.stopAnimation();
                     } else if(game.isRunning() && game.isPaused()) {
                         game.cont();
-                        player.startAnimation();
                     } else if(!game.isRunning()) {
                         game.start();
-                        player.startAnimation();
                     }
                 }  else if(event.getCode().equals(KeyCode.S)) {
-                    game.start();
+                    Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							game.start();
+						}
+                    });
                 }
             }
         });
@@ -133,18 +140,43 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event)){
-                    game.getPlayer().setOnBoost(true);
-                    game.getPlayer().setOnBoost(false);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.getPlayer().setOnBoost(true);
+                            game.getPlayer().setOnBoost(false);
+                        }
+                    });
                 } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
-                    game.getPlayer().setOnJump(true);
-                    game.getPlayer().setOnJump(false);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.getPlayer().setOnJump(true);
+                            game.getPlayer().setOnJump(false);
+                        }
+                    });
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    game.getPlayer().setOnDrop(true);
-                    game.getPlayer().setOnDrop(false);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.getPlayer().setOnDrop(true);
+                            game.getPlayer().setOnDrop(false);
+                        }
+                    });
                 } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)){
-                    game.movePlayerLeft(false);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.movePlayerLeft(false);
+                        }
+                    });
                 } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
-                    game.movePlayerRight(false);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.movePlayerRight(false);
+                        }
+                    });
                 }
             }
         }); 

@@ -148,6 +148,18 @@ public class Game {
     //Hier müsste man vielleicht nochmal aussortieren
     public void restart() {
         score = 0;
+
+        blocks = new LinkedList<>();
+        player = new Player();
+        tonemaker = new ToneMaker();
+
+        initialized.set(false);
+        ended.set(false);
+
+        paused = false;
+        running = false;
+
+        initBlocks(song);
         //TODO
     }
 
@@ -167,9 +179,9 @@ public class Game {
     }
 
     public void end() {
+        saveScore();
         running = false;
         ended.set(true);
-        saveScore();
         //TODO
     }
 
@@ -228,7 +240,6 @@ public class Game {
      */
     public void saveScore() {
         highscorePersistinator.saveData(score);
-        score = 0;
     }
     
     public void setScore(int score) {
@@ -285,7 +296,7 @@ public class Game {
                 block.isIntersected().set(true);
 
                 if(!block.equals(blocks.getFirst())) {
-                    setScore(score+50); //TODO: hier was sinnvolles implenetieren
+                    setScore(getScore()+50); //TODO: hier was sinnvolles implenetieren
                 }
                 if(block.equals(blocks.getLast())) {
                     end();

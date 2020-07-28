@@ -32,6 +32,9 @@ public class Player {
         posY = 400;
     }
 
+    public void setOnStartPos(){
+        moveTo(120, 400);
+    }
     public double getPosX() {
         return posX;
     }
