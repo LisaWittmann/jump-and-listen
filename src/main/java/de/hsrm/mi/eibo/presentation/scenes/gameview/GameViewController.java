@@ -6,6 +6,7 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -16,7 +17,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 /**
  * Controller der GameView
@@ -36,8 +36,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
     private HBox field;
     private PlayerView player;
-
-    protected Color mainColor;
 
     public GameViewController(MainApplication application) {
         super(application);
@@ -64,7 +62,6 @@ public class GameViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         score.setText(String.valueOf(game.getScore()));
-        score.setTextFill(mainColor);
 
         score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); //TODO: später wieder entfernen
 
@@ -73,8 +70,15 @@ public class GameViewController extends ViewController<MainApplication> {
             view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
 
-        field.getChildren().addAll(new BlockView(new Block(true)), new BlockView(new Block(true)));
-
+        game.getBlocks().addListener((ListChangeListener<Block>) c -> {
+            while(c.next()) {
+                if(c.wasAdded()) {
+                    for(Block block : c.getAddedSubList()) {
+                        field.getChildren().add(new BlockView(block));
+                    }
+                }
+            }
+        });
         addKeyListener();
     }
 

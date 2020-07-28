@@ -11,10 +11,6 @@ public class IchBinZuTestzwecken {
         tm.setVolume(100);
         Song freudeSchoenerGoetterfunken = new Song(Level.BEGINNER, "e e f g g f e d c c d e e d d e e f g g f e d c c d e d c c d d e c d e f e c d e f e d c d e e e f g g f e d c c d e d c c");
         songPers.saveData(freudeSchoenerGoetterfunken);
-        
-        for(Song s : songPers.loadData()) {
-            tm.playList(s.getTones());
-        }
     }
 
 }
