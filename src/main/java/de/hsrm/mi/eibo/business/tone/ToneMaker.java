@@ -57,6 +57,42 @@ public class ToneMaker {
 
     }
 
+    public void fallingTone() {
+        Runnable runnable = () -> {
+            try {
+                float rate = 44100;
+                byte[] buf;
+                AudioFormat audioF;
+
+                buf = new byte[1];
+                audioF = new AudioFormat(rate,8,1,true,false);
+                //sampleRate, sampleSizeInBits,channels,signed,bigEndian
+
+                SourceDataLine sourceDL = AudioSystem.getSourceDataLine(audioF);
+                sourceDL = AudioSystem.getSourceDataLine(audioF);
+                sourceDL.open(audioF);
+                sourceDL.start();
+                int hertz = 400;
+                for(int i=0; i<4400*5; i++){
+                    if (i % 22*5 == 0) {
+                        --hertz;
+                    }
+                    double angle = (i/rate)*hertz*2.0*Math.PI;
+                    buf[0]=(byte)(Math.sin(angle)*volume);
+                    sourceDL.write(buf,0,1);
+                }
+
+                sourceDL.drain();
+                sourceDL.stop();
+                sourceDL.close();
+            } catch (LineUnavailableException e) {
+                System.out.println(e.getMessage());
+            }
+        };
+        Thread tut = new Thread(runnable);
+        tut.start();
+    }
+
     public void playList(List<Tone> tones) {
         for (Tone tone : tones) {
             try {
