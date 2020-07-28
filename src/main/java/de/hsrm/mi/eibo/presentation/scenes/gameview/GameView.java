@@ -9,6 +9,7 @@ public class GameView extends AnchorPane {
 
     Button settings;
     Label score;
+    AnchorPane field;
 
     public GameView() {
         score = new Label();
@@ -22,9 +23,12 @@ public class GameView extends AnchorPane {
         settings.setStyle("-fx-font-size: 32px;");
         settings.setLayoutY(10);
 
+        field = new AnchorPane();
+        AnchorPane.setBottomAnchor(field, 0.0);
+
         setPadding(new Insets(20, 20, 0, 20));
         getStyleClass().add("window");
-        getChildren().addAll(score, settings);
+        getChildren().addAll(score, settings, field);
     }
     
 }

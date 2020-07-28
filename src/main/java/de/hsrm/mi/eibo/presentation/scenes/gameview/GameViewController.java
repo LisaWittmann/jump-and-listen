@@ -17,7 +17,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
@@ -34,7 +36,9 @@ public class GameViewController extends ViewController<MainApplication> {
     private Pane settingView;
 
     private Label score;
+    private AnchorPane field;
 
+    private double mid;
     private PlayerView player;
 
     public GameViewController(MainApplication application) {
@@ -44,14 +48,17 @@ public class GameViewController extends ViewController<MainApplication> {
         view = new GameView();
         setRootView(view);
 
-        player = new PlayerView(game.getPlayer());
+        player = new PlayerView(game.getPlayer(), this);
 
         SettingViewController controller = new SettingViewController(application);
         settingView = controller.getRootView();
 
         settings = view.settings;
         score = view.score;
+        field = view.field;
+        field.setPrefSize(view.getWidth(), view.getHeight());
 
+        mid = view.getWidth()/2;
         initialize();
     }
 
@@ -144,11 +151,19 @@ public class GameViewController extends ViewController<MainApplication> {
             block.setPosY(sceneHeight - block.getHeight());
             block.setPosX(x);
             x += block.getWidth() + spacing;
-            view.getChildren().add(blockview);
+            field.getChildren().add(blockview);
         }
         view.getChildren().add(player);
         view.getChildren().add(settingView);
         settingView.setVisible(false);
+    }
+
+    public void scrollBlocks(double x) {
+        field.setLayoutX(-x);
+    }
+
+    public double getMid() {
+        return mid;
     }
 
 }

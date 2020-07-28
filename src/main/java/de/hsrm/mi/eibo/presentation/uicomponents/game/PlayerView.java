@@ -1,8 +1,9 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
-
+import de.hsrm.mi.eibo.presentation.scenes.gameview.GameViewController;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
@@ -20,10 +21,17 @@ public class PlayerView extends StackPane {
     private AnimationTimer timer;
 
     private double posX, posY;
+    private SimpleBooleanProperty reachedMid;
+    
+    private Player player;
+    private GameViewController game;
 
     private Image normalImg, jumpImg, dropImg;
 
-    public PlayerView(Player player) {
+    public PlayerView(Player player, GameViewController game) {
+        this.player = player;
+        this.game = game;
+
         normalImg = new Image(getClass().getResource("/images/player.png").toString());
         jumpImg = new Image(getClass().getResource("/images/player_jump.png").toString());
         dropImg = new Image(getClass().getResource("/images/player_drop.png").toString());
@@ -41,10 +49,7 @@ public class PlayerView extends StackPane {
         setLayoutX(posX);
         setLayoutY(posY);
 
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) { }
-        };
+        reachedMid = new SimpleBooleanProperty(false);
 
         player.getJumpProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -75,6 +80,9 @@ public class PlayerView extends StackPane {
         });
 
         player.changes.addPropertyChangeListener("koordinaten", event -> {
+            if(reachedMid.get()) {
+                game.scrollBlocks((player.getPosX()-game.getMid()));
+            }
             setLayoutX(player.getPosX());
             setLayoutY(player.getPosY());
         });
