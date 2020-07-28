@@ -101,4 +101,13 @@ public class Player {
     public synchronized void setVFalling(double vFalling) {
         this.vFalling = vFalling;
     }
+
+    public synchronized double vFalling(double value, boolean set) {
+        if (set) {
+            setVFalling(value);
+            return value;
+        } else {
+            return getVFalling();
+        }
+    }
 }

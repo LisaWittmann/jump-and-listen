@@ -97,7 +97,7 @@ public class GameViewController extends ViewController<MainApplication> {
                     game.playerJump();
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
                     game.getPlayer().setOnDrop(true);
-                    game.playerDrop();
+                    game.playerYCalculation();
                 } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)) {
                     game.movePlayerLeft(true);
                 } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
