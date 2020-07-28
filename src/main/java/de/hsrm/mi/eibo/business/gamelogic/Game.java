@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.tone.Song;
+import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * 
@@ -20,6 +23,7 @@ public class Game {
 
     private Song song;
     private ToneMaker tonemaker;
+    private ObservableList<Block> blocks;
 
     private double widthFactor;
     private double speedFactor;
@@ -97,6 +101,7 @@ public class Game {
 
     public void setSong(Song song) {
         this.song = song;
+        if(song != null) initBlocks(song);
     }
 
     public void setSpeed(double speedFactor) {
@@ -105,6 +110,19 @@ public class Game {
 
     public void setWidth(double widthFactor) {
         this.widthFactor = widthFactor;
+    }
+
+    public ObservableList<Block> getBlocks() {
+        return blocks;
+    }
+
+    public void initBlocks(Song song) {
+        blocks = FXCollections.observableArrayList();
+        blocks.add(new Block(true)); //Start
+        for(Tone tone : song.getTones()) {
+            blocks.add(new Block(tone, tonemaker));
+        }
+        blocks.add(new Block(true)); //Ende
     }
 
     //Hier müsste man vielleicht nochmal aussortieren

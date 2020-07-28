@@ -36,7 +36,6 @@ public class Block {
     private double posX, posY; //Achtung: Die sind bisher noch nicht gesetzt! 
     private double height, width;
 
-    private boolean platform;
     private SimpleBooleanProperty initialized;
 
     public PropertyChangeSupport changes;
@@ -62,7 +61,6 @@ public class Block {
      * @param platform Block ist Spielerplattform (also Start und Ende)
      */
     public Block(boolean platform) {
-        this.platform = platform;
         tone = null;
         toneMaker = null;
 
