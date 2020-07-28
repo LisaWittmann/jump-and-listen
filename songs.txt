@@ -1,1 +1,2 @@
-beginner:E E F G G F E D C C D E E D D E E F G G F E D C C D E D C C D D E C D E F E C D E F E D C D E E E F G G F E D C C D E D C C 
+intermediate:E E F G G F E D C C D E E D D E E F G G F E D C C D E D C C D D E C D E F E C D E F E D C D E E E F G G F E D C C D E D C C 
+beginner:C D E F G G A A A A G A A A A G F F F F E E D D D D C 
