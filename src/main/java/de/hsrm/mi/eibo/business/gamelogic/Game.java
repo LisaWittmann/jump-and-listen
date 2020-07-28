@@ -182,7 +182,7 @@ public class Game {
 
     public void playerJump() {
         System.out.print("Und ich ...");
-        if (player.vFalling(0, false) == 0) {
+        if (player.vFalling(0.0, false) == 0) {
             player.posY -= 10;
             if(player.getBoostProperty().get()) {
                 player.vFalling(JUMP_FORCE * (2), true);
@@ -192,7 +192,7 @@ public class Game {
                 System.out.print(" springe!\n");
             }
         }
-        System.out.println("VF=" + player.vFalling(0, false));
+        System.out.println("VF=" + player.vFalling(0.0, false));
     }
 
     public void playerYCalculation() {
