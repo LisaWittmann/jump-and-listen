@@ -47,6 +47,8 @@ public class Game {
         song = null;
         score = 0;
 
+        blocks = FXCollections.observableArrayList();
+
         player = new Player();
         tonemaker = new ToneMaker();
 
@@ -98,7 +100,7 @@ public class Game {
 
     public void setLevel(Level level) {
         this.level = level;
-        //this.song = loadSongByLevel(); TODO fix me
+        setSong(loadSongByLevel());
     }
 
     public void setSong(Song song) {
@@ -119,7 +121,7 @@ public class Game {
     }
 
     public void initBlocks(Song song) {
-        blocks = FXCollections.observableArrayList();
+        blocks.clear();
         blocks.add(new Block(true)); //Start
         for(Tone tone : song.getTones()) {
             blocks.add(new Block(tone, tonemaker));
@@ -230,7 +232,7 @@ public class Game {
         }
         if(songs.size() < 1) return null;
         
-        int random = (int) Math.random() * songs.size() + 1;
+        int random = (int) Math.random() * songs.size();
         return songs.get(random);
     }
 

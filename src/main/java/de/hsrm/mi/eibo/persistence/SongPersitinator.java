@@ -12,7 +12,7 @@ import de.hsrm.mi.eibo.business.tone.Song;
 
 public class SongPersitinator implements DataPersistinator<Song> {
 
-    private final String dataPath = System.getProperty("user.home") + "/songs.dat";
+    private final String dataPath = "songs.txt";
 
     @Override
     public void saveData(List<Song> data) {
