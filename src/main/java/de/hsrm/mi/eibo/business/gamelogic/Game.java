@@ -228,7 +228,7 @@ public class Game {
     public void setScore(int score) {
         int oldValue = this.score;
         this.score = score;
-        changes.firePropertyChange("score", oldValue, score);
+        changes.firePropertyChange("score", oldValue, this.score);
     }
 
     /**

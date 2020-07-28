@@ -80,7 +80,7 @@ public class GameViewController extends ViewController<MainApplication> {
         });
 
         game.changes.addPropertyChangeListener("score", event -> {
-            score.setText(String.valueOf(game.getScore()));
+            score.setText(game.getScore()+"");
         });
         game.gameEnded().addListener(new ChangeListener<Boolean>(){
             @Override
