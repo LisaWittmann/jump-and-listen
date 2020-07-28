@@ -39,8 +39,9 @@ public class Game {
 
     //Einstellungen:
     final int FPS = 20;
-    final double G_FORCE = -9.8066 * 20;
-    final double JUMP_FORCE = 1000;
+    final double FORCE_MULTI = 50;
+    final double G_FORCE = -9.8066 * FORCE_MULTI;
+    final double JUMP_FORCE = G_FORCE * (-0.75);
     private boolean movementActive = false;
 
     public Game() {
@@ -181,30 +182,31 @@ public class Game {
 
     public void playerJump() {
         System.out.print("Und ich ...");
-        if (player.getVFalling() == 0) {
+        if (player.vFalling(0, false) == 0) {
             player.posY -= 10;
             if(player.getBoostProperty().get()) {
-                player.setVFalling(JUMP_FORCE * (2));
-            } else {
-                player.setVFalling(JUMP_FORCE);
+                player.vFalling(JUMP_FORCE * (2), true);
                 System.out.print(" SPRINGE!!!\n");
-                System.out.println("VF=" + player.getVFalling());
+            } else {
+                player.vFalling(JUMP_FORCE, true);
+                System.out.print(" springe!\n");
             }
         }
+        System.out.println("VF=" + player.vFalling(0, false));
     }
 
     public void playerYCalculation() {
         if(checkBlockUnderPlayer()) {
-            //player.setVFalling(0);
+            //player.vFalling(0, true);
             player.setOnDrop(false);
-            if (player.getVFalling() > 0) {
-                player.posY -= player.getVFalling()/FPS;
+            if (player.vFalling(0, false) > 0) {
+                player.posY -= player.vFalling(0, false)/FPS;
             }
         } else {
             player.setOnDrop(true);
-            player.setVFalling(player.getVFalling() + G_FORCE/FPS);
+            player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
             if (!checkPlayerLanding())
-                player.posY -= player.getVFalling()/FPS;
+                player.posY -= player.vFalling(0, false)/FPS;
         }
     }
 
@@ -270,15 +272,13 @@ public class Game {
         for (Block block: blocks) {
             if (player.posX + 100 > block.getPosX()
                     && player.posX < block.getPosX() + block.getWidth()) {
-                if (player.posY + 100 < block.getPosY() && player.posY + 100 + player.getVFalling() * FPS > block.getPosY()) {
+                if (player.posY + 100 < block.getPosY() && player.posY + 100 - player.vFalling(0, false)/FPS > block.getPosY()) {
                     player.posY = block.getPosY() - 100;
-                    player.setVFalling(0);
+                    player.vFalling(0, true);
                     player.setOnDrop(false);
                     player.setOnJump(false);
                     try {
                         tonemaker.createTone(block.getTone());
-                    } catch (LineUnavailableException e) {
-                        System.out.println(e.getMessage());
                     } catch (NullPointerException np) {
                         //In dem fall ist man auf Start oder Ende
                     }
@@ -310,7 +310,7 @@ public class Game {
 
                     player.moveTo(player.getPosX(), player.getPosY());
                     if (check % 20 == 0) {//TODO: Später entfernen
-                        System.out.println("\n\nPlayer at:\nx: " + player.posX + "\ny: " + player.posY + "\nvFalling: " + player.getVFalling());//TODO: Später entfernen
+                        System.out.println("\n\nPlayer at:\nx: " + player.posX + "\ny: " + player.posY + "\nvFalling: " + player.vFalling(0, false));//TODO: Später entfernen
                     }//TODO: Später entfernen
                 }
             };
