@@ -49,8 +49,7 @@ public class Game {
         song = null;
         score = 0;
 
-        blocks = new ArrayList<>();
-
+        blocks = new LinkedList<>();
         player = new Player();
         tonemaker = new ToneMaker();
 
@@ -129,7 +128,6 @@ public class Game {
     }
 
     public void initBlocks(Song song) {
-        blocks.clear();
         blocks.add(new Block(true)); //Start
         for(Tone tone : song.getTones()) {
             blocks.add(new Block(tone, tonemaker));

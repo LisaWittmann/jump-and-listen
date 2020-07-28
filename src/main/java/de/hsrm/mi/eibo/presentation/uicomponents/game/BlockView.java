@@ -5,14 +5,13 @@ import de.hsrm.mi.eibo.business.gamelogic.Block;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 /**
  * Darstellung eines Blocks
  * @author pwieg001, lwitt001, lgers001
  */
-public class BlockView extends AnchorPane {
+public class BlockView extends StackPane {
 
     Block block;
     Button addButton;
@@ -43,7 +42,7 @@ public class BlockView extends AnchorPane {
 
         getStyleClass().add("empty-block");
         getChildren().add(addButton);
-        //StackPane.setAlignment(addButton, Pos.CENTER);
+        StackPane.setAlignment(addButton, Pos.CENTER);
     }
 
     public void addChangeListener() {

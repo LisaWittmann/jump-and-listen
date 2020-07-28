@@ -48,8 +48,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
         SettingViewController controller = new SettingViewController(application);
         settingView = controller.getRootView();
-        view.getChildren().add(settingView);
-        settingView.setVisible(false);
 
         settings = view.settings;
         score = view.score;
@@ -71,7 +69,7 @@ public class GameViewController extends ViewController<MainApplication> {
         game.isInitialized().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) setBlockLayout(50, game.getBlocks());
+                if(newValue) initGameSetup(50, game.getBlocks());
             }
         });
 
@@ -137,19 +135,20 @@ public class GameViewController extends ViewController<MainApplication> {
 
     }
 
-    public void setBlockLayout(double spacing, List<Block> blocks) {
+    public void initGameSetup(double spacing, List<Block> blocks) {
         double x = 0;
-        BlockView view = null;
+        BlockView blockview = null;
         double sceneHeight = application.getScene().getHeight();
         for(Block block : blocks) {
-            view = new BlockView(block);
+            blockview = new BlockView(block);
             block.setPosY(sceneHeight - block.getHeight());
             block.setPosX(x);
             x += block.getWidth() + spacing;
-            this.view.getChildren().add(view);
-            System.out.println(block.getPosX() + block.getPosY());
+            view.getChildren().add(blockview);
         }
-        this.view.getChildren().add(player);
+        view.getChildren().add(player);
+        view.getChildren().add(settingView);
+        settingView.setVisible(false);
     }
 
 }
