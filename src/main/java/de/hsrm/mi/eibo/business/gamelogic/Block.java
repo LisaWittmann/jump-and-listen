@@ -37,6 +37,7 @@ public class Block {
     private double height, width;
 
     private SimpleBooleanProperty initialized;
+    private SimpleBooleanProperty intersected;
 
     public PropertyChangeSupport changes;
 
@@ -53,6 +54,7 @@ public class Block {
         height = getHeightByTone(tone);
         changes = new PropertyChangeSupport(getClass());
         initialized = new SimpleBooleanProperty(true);
+        intersected = new SimpleBooleanProperty(false);
     }
 
     /**
@@ -74,6 +76,7 @@ public class Block {
             width = minWidth;
             initialized = new SimpleBooleanProperty(false);
         }
+        intersected = new SimpleBooleanProperty(false);
         changes = new PropertyChangeSupport(getClass());
     }
 
@@ -115,6 +118,10 @@ public class Block {
 
     public ToneMaker getToneMaker() {
         return toneMaker;
+    }
+
+    public SimpleBooleanProperty isIntersected() {
+        return intersected;
     }
 
     public SimpleBooleanProperty isInitialized() {

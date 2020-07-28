@@ -124,6 +124,11 @@
     -fx-background-color: #fafafa;
 }
 
+.block-hit {
+    background-color: #cef6e3;
+    -fx-background-color: #cef6e3;
+}
+
 .empty-block {
     background-color: #424242;
     -fx-background-color: #424242;

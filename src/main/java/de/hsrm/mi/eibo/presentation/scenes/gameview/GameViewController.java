@@ -11,7 +11,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -20,7 +19,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
@@ -78,6 +76,16 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) initGameSetup(50, game.getBlocks());
+            }
+        });
+
+        game.changes.addPropertyChangeListener("score", event -> {
+            score.setText(String.valueOf(game.getScore()));
+        });
+        game.gameEnded().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                application.switchScene(Scenes.HIGHCSCORE_VIEW);
             }
         });
 

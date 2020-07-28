@@ -123,6 +123,11 @@
     -fx-background-color: #f6d8ce;
 }
 
+.block-hit {
+    background-color:#f79f81;
+    -fx-background-color: #f79f81;
+}
+
 .empty-block {
     background-color: #f2f2f2;
     -fx-background-color: #f2f2f2;

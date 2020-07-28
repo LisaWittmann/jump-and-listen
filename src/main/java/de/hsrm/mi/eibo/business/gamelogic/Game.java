@@ -1,5 +1,6 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -24,7 +25,7 @@ public class Game {
 
     private Song song;
     private ToneMaker tonemaker;
-    private List<Block> blocks;
+    private LinkedList<Block> blocks;
 
     private double widthFactor;
     private double speedFactor;
@@ -36,6 +37,7 @@ public class Game {
     private SongPersitinator songPersitinator;
 
     private SimpleBooleanProperty initialized;
+    private SimpleBooleanProperty ended;
 
     //Einstellungen:
     final int FPS = 20;
@@ -43,6 +45,8 @@ public class Game {
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.65);
     private boolean movementActive = false;
+
+    public PropertyChangeSupport changes;
 
     public Game() {
         System.out.println("Game wird Konstruktoriert");
@@ -58,16 +62,23 @@ public class Game {
         songPersitinator = new SongPersitinator();
 
         initialized = new SimpleBooleanProperty(false);
+        ended = new SimpleBooleanProperty(false);
 
         paused = false;
         running = false;
 
         widthFactor = 1;
         speedFactor = 1;
+
+        changes = new PropertyChangeSupport(getClass());
     }
 
     public SimpleBooleanProperty isInitialized() {
         return initialized;
+    }
+
+    public SimpleBooleanProperty gameEnded() {
+        return ended;
     }
 
     public ToneMaker getToneMaker() {
@@ -88,10 +99,6 @@ public class Game {
 
     public int getScore() {
         return score;
-    }
-
-    public double getSpeed() {
-        return speedFactor;
     }
 
     public double getWidth() {
@@ -129,9 +136,9 @@ public class Game {
     }
 
     public void initBlocks(Song song) {
-        blocks.add(new Block(true)); //Start
+        blocks.addFirst(new Block(true)); //Start
         for(Tone tone : song.getTones()) {
-            blocks.add(new Block(tone, tonemaker));
+            blocks.addLast(new Block(tone, tonemaker));
         }
         blocks.add(new Block(true)); //Ende
         initialized.set(true);
@@ -160,6 +167,7 @@ public class Game {
 
     public void end() {
         running = false;
+        ended.set(true);
         saveScore();
         //TODO
     }
@@ -217,6 +225,12 @@ public class Game {
         score = 0;
     }
     
+    public void setScore(int score) {
+        int oldValue = this.score;
+        this.score = score;
+        changes.firePropertyChange("score", oldValue, score);
+    }
+
     /**
      * Ermittelt die höchsten drei Scores des Spielers
      * Liest dafür gespeicherte Spielstände ein
@@ -262,6 +276,14 @@ public class Game {
             if (player.posY + 100 == block.getPosY()
             && player.posX + 58 > block.getPosX()
             && player.posX + 24 < block.getPosX() + block.getWidth()) {
+                block.isIntersected().set(true);
+
+                if(!block.equals(blocks.getFirst())) {
+                    setScore(score+50); //TODO: hier was sinnvolles implenetieren
+                }
+                if(block.equals(blocks.getLast())) {
+                    end();
+                }
                 return true;
             }
         }
