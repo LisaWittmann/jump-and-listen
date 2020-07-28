@@ -80,11 +80,13 @@ public class PlayerView extends StackPane {
         });
 
         player.changes.addPropertyChangeListener("koordinaten", event -> {
-            if(reachedMid.get()) {
+            if(player.getPosX() > game.getMid()) {
                 game.scrollBlocks((player.getPosX()-game.getMid()));
             }
-            setLayoutX(player.getPosX());
-            setLayoutY(player.getPosY());
+            else {
+                setLayoutX(player.getPosX());
+                setLayoutY(player.getPosY());
+            }
         });
     }
     

@@ -59,4 +59,9 @@ public class BlockView extends StackPane {
         this.block = block;
     }
 
+    public void setLayout(){
+        block.setPosX(getLayoutX());
+        block.setPosY(getLayoutY());
+    }
+
 }

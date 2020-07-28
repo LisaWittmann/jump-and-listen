@@ -2,6 +2,7 @@ package de.hsrm.mi.eibo.business.gamelogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.tone.Song;
@@ -11,7 +12,6 @@ import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javax.sound.sampled.LineUnavailableException;
 
 /**
  * 

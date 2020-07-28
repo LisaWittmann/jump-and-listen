@@ -175,14 +175,5 @@ public class Block {
         }
         return null;
     }
-
-    public void playTone() {
-        try {
-            toneMaker.createTone(tone.getFrequenz(), 100);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
     
 }
