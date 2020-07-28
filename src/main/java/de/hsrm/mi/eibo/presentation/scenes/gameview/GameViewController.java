@@ -74,7 +74,8 @@ public class GameViewController extends ViewController<MainApplication> {
             while(c.next()) {
                 if(c.wasAdded()) {
                     for(Block block : c.getAddedSubList()) {
-                        field.getChildren().add(new BlockView(block));
+                        BlockView view = new BlockView(block);
+                        field.getChildren().add(view);
                     }
                 }
             }
