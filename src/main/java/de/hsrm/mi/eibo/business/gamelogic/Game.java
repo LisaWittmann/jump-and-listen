@@ -12,6 +12,8 @@ import de.hsrm.mi.eibo.persistence.SongPersitinator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.sound.sampled.LineUnavailableException;
+
 /**
  * 
  * @author pwieg001, lwitt001, lgers001
@@ -183,7 +185,8 @@ public class Game {
         } else {
             player.setOnDrop(true);
             player.setVFalling(player.getVFalling() + G_FORCE/FPS);
-            player.posY -= player.getVFalling()/FPS;
+            if (!checkPlayerLanding())
+                player.posY -= player.getVFalling()/FPS;
         }
     }
 
@@ -235,7 +238,31 @@ public class Game {
      * Kontrolliert, ob der Spieler sich auf einem Block befindet.
      */
     private boolean checkBlockUnderPlayer() {
-        //TODO: @Lisa W. Wie kommt man an die Blöcke?
+        for (Block block : blocks) {
+            if (player.posY + 100 == block.getPosY()
+            && player.posX + 100 > block.getPosX()
+            && player.posX < block.getPosX() + block.getWidth()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkPlayerLanding() {
+        for (Block block: blocks) {
+            if (player.posX + 100 > block.getPosX()
+                    && player.posX < block.getPosX() + block.getWidth()) {
+                if (player.posY < block.getPosY() && player.posY + player.getVFalling() * FPS > block.getPosY()) {
+                    player.posY = block.getPosY();
+                    try {
+                        tonemaker.createTone(block.getTone());
+                    } catch (LineUnavailableException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

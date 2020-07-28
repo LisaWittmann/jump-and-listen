@@ -43,6 +43,10 @@ public class ToneMaker {
         sourceDL.close();
     }
 
+    public void createTone(Tone tone) throws LineUnavailableException {
+        this.createTone(tone.getFrequenz(), this.volume);
+    }
+
     public void playList(List<Tone> tones) {
         for (Tone tone : tones) {
             try {
