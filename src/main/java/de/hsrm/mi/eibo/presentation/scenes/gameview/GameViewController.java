@@ -1,12 +1,14 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
+import java.util.List;
+
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
-
-import javafx.collections.ListChangeListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -15,12 +17,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 /**
- * Controller der GameView
- * handled Kommunikation während des Spiels mit dem Nutzer
+ * Controller der GameView handled Kommunikation während des Spiels mit dem
+ * Nutzer
  * 
  * @author pwieg001, lwitt001, lgers001
  */
@@ -34,7 +35,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
     private Label score;
 
-    private HBox field;
     private PlayerView player;
 
     public GameViewController(MainApplication application) {
@@ -45,7 +45,6 @@ public class GameViewController extends ViewController<MainApplication> {
         setRootView(view);
 
         player = new PlayerView(game.getPlayer());
-        view.getChildren().add(player);
 
         SettingViewController controller = new SettingViewController(application);
         settingView = controller.getRootView();
@@ -54,7 +53,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
         settings = view.settings;
         score = view.score;
-        field = view.field;
 
         initialize();
     }
@@ -63,23 +61,20 @@ public class GameViewController extends ViewController<MainApplication> {
     public void initialize() {
         score.setText(String.valueOf(game.getScore()));
 
-        score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); //TODO: später wieder entfernen
+        score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); // TODO: später wieder entfernen
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
             settingView.setVisible(true);
             view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
 
-        game.getBlocks().addListener((ListChangeListener<Block>) c -> {
-            while(c.next()) {
-                if(c.wasAdded()) {
-                    for(Block block : c.getAddedSubList()) {
-                        BlockView view = new BlockView(block);
-                        field.getChildren().add(view);
-                    }
-                }
+        game.isInitialized().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) setBlockLayout(50, game.getBlocks());
             }
         });
+
         addKeyListener();
     }
 
@@ -140,6 +135,21 @@ public class GameViewController extends ViewController<MainApplication> {
             }
         }); 
 
+    }
+
+    public void setBlockLayout(double spacing, List<Block> blocks) {
+        double x = 0;
+        BlockView view = null;
+        double sceneHeight = application.getScene().getHeight();
+        for(Block block : blocks) {
+            view = new BlockView(block);
+            block.setPosY(sceneHeight - block.getHeight());
+            block.setPosX(x);
+            x += block.getWidth() + spacing;
+            this.view.getChildren().add(view);
+            System.out.println(block.getPosX() + block.getPosY());
+        }
+        this.view.getChildren().add(player);
     }
 
 }

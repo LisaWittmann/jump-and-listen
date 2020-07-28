@@ -29,7 +29,7 @@ public class GameView extends AnchorPane {
         field = new HBox();
         field.setAlignment(Pos.BASELINE_LEFT);
         field.setSpacing(50);
-        AnchorPane.setBottomAnchor(field, 0.0);
+        //AnchorPane.setBottomAnchor(field, 0.0);
 
         setPadding(new Insets(20, 20, 0, 20));
         getStyleClass().add("window");

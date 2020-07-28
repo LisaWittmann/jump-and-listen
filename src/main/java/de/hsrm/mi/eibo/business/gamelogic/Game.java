@@ -2,6 +2,7 @@ package de.hsrm.mi.eibo.business.gamelogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.tone.Song;
@@ -9,9 +10,8 @@ import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javax.sound.sampled.LineUnavailableException;
 
 /**
@@ -25,7 +25,7 @@ public class Game {
 
     private Song song;
     private ToneMaker tonemaker;
-    private ObservableList<Block> blocks;
+    private List<Block> blocks;
 
     private double widthFactor;
     private double speedFactor;
@@ -35,6 +35,8 @@ public class Game {
     private int score;
     private HighscorePersistinator highscorePersistinator;
     private SongPersitinator songPersitinator;
+
+    private SimpleBooleanProperty initialized;
 
     //Einstellungen:
     final int FPS = 20;
@@ -47,7 +49,7 @@ public class Game {
         song = null;
         score = 0;
 
-        blocks = FXCollections.observableArrayList();
+        blocks = new ArrayList<>();
 
         player = new Player();
         tonemaker = new ToneMaker();
@@ -55,11 +57,17 @@ public class Game {
         highscorePersistinator = new HighscorePersistinator();
         songPersitinator = new SongPersitinator();
 
+        initialized = new SimpleBooleanProperty(false);
+
         paused = false;
         running = false;
 
         widthFactor = 1;
         speedFactor = 1;
+    }
+
+    public SimpleBooleanProperty isInitialized() {
+        return initialized;
     }
 
     public ToneMaker getToneMaker() {
@@ -116,7 +124,7 @@ public class Game {
         this.widthFactor = widthFactor;
     }
 
-    public ObservableList<Block> getBlocks() {
+    public List<Block> getBlocks() {
         return blocks;
     }
 
@@ -127,6 +135,7 @@ public class Game {
             blocks.add(new Block(tone, tonemaker));
         }
         blocks.add(new Block(true)); //Ende
+        initialized.set(true);
     }
 
     //Hier müsste man vielleicht nochmal aussortieren
