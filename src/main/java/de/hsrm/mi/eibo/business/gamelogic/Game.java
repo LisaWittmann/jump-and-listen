@@ -2,7 +2,6 @@ package de.hsrm.mi.eibo.business.gamelogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.tone.Song;
@@ -40,8 +39,9 @@ public class Game {
 
     //Einstellungen:
     final int FPS = 20;
-    final double G_FORCE = -9.8066 * 15;
-    final double JUMP_FORCE = 20;
+    final double G_FORCE = -9.8066 * 20;
+    final double JUMP_FORCE = 1000;
+    private boolean movementActive = false;
 
     public Game() {
         System.out.println("Game wird Konstruktoriert");
@@ -180,19 +180,26 @@ public class Game {
     }
 
     public void playerJump() {
-        if (checkBlockUnderPlayer()) {
+        System.out.print("Und ich ...");
+        if (player.getVFalling() == 0) {
+            player.posY -= 10;
             if(player.getBoostProperty().get()) {
-                player.setVFalling(JUMP_FORCE * (-2));
+                player.setVFalling(JUMP_FORCE * (2));
             } else {
-                player.setVFalling(JUMP_FORCE * (-1));
+                player.setVFalling(JUMP_FORCE);
+                System.out.print(" SPRINGE!!!\n");
+                System.out.println("VF=" + player.getVFalling());
             }
         }
     }
 
-    public void playerDrop() {
+    public void playerYCalculation() {
         if(checkBlockUnderPlayer()) {
-            player.setVFalling(0);
+            //player.setVFalling(0);
             player.setOnDrop(false);
+            if (player.getVFalling() > 0) {
+                player.posY -= player.getVFalling()/FPS;
+            }
         } else {
             player.setOnDrop(true);
             player.setVFalling(player.getVFalling() + G_FORCE/FPS);
@@ -263,12 +270,17 @@ public class Game {
         for (Block block: blocks) {
             if (player.posX + 100 > block.getPosX()
                     && player.posX < block.getPosX() + block.getWidth()) {
-                if (player.posY < block.getPosY() && player.posY + player.getVFalling() * FPS > block.getPosY()) {
-                    player.posY = block.getPosY();
+                if (player.posY + 100 < block.getPosY() && player.posY + 100 + player.getVFalling() * FPS > block.getPosY()) {
+                    player.posY = block.getPosY() - 100;
+                    player.setVFalling(0);
+                    player.setOnDrop(false);
+                    player.setOnJump(false);
                     try {
                         tonemaker.createTone(block.getTone());
                     } catch (LineUnavailableException e) {
                         System.out.println(e.getMessage());
+                    } catch (NullPointerException np) {
+                        //In dem fall ist man auf Start oder Ende
                     }
                     return true;
                 }
@@ -278,32 +290,35 @@ public class Game {
     }
 
     private void activateMovement() {
-        Runnable runnable = () -> {
-            int check = 0;
-            while (running) {
-                check++;
-                try {
-                    Thread.sleep((int) 1000/FPS);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                playerDrop();
-                if (player.getLeftProperty().get()) {
-                    player.posX -= speedFactor * 5;
-                }
-                if (player.getMRightProperty().get()) {
-                    player.posX += speedFactor * 5;
-                }
+        if (!movementActive) {
+            Runnable runnable = () -> {
+                int check = 0; //TODO: Später entfernen
+                while (running) {
+                    check++;//TODO: Später entfernen
+                    try {
+                        Thread.sleep((int) 1000 / FPS);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    playerYCalculation();
+                    if (player.getLeftProperty().get()) {
+                        player.posX -= speedFactor * 5;
+                    }
+                    if (player.getMRightProperty().get()) {
+                        player.posX += speedFactor * 5;
+                    }
 
-                player.moveTo(player.getPosX(), player.getPosY());
-                if (check % 20 == 0) {
-                    System.out.println("\n\nPlayer at:\nx: " + player.posX + "\ny: " + player.posY);
+                    player.moveTo(player.getPosX(), player.getPosY());
+                    if (check % 20 == 0) {//TODO: Später entfernen
+                        System.out.println("\n\nPlayer at:\nx: " + player.posX + "\ny: " + player.posY + "\nvFalling: " + player.getVFalling());//TODO: Später entfernen
+                    }//TODO: Später entfernen
                 }
-            }
-        };
-        Thread movement = new Thread(runnable, "movement");
-        System.out.println("Starting Movement...");
-        movement.start();
+            };
+            Thread movement = new Thread(runnable, "movement");
+            System.out.println("Starting Movement...");
+            movement.start();
+            movementActive = true;
+        }
     }
 
     @Override
