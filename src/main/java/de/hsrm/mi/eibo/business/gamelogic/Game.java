@@ -244,13 +244,14 @@ public class Game {
      */
     public Song loadSongByLevel() {
         List<Song> songs = songPersitinator.loadData();
+        List<Song> possabilities = new ArrayList<>();
         for(Song song : songs) {
-            if(!song.getLevel().equals(level)) songs.remove(song);
+            if(song.getLevel().equals(level)) possabilities.add(song);
         }
-        if(songs.size() < 1) return null;
+        if(possabilities.size() < 1) return null;
         
-        int random = (int) Math.random() * songs.size();
-        return songs.get(random);
+        int random = (int) Math.random() * possabilities.size();
+        return possabilities.get(random);
     }
 
     /**
