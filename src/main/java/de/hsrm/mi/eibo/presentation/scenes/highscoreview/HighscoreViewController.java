@@ -71,6 +71,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         });
 
         for(int currentScore : game.getHighScores()) {
+            System.out.println("currentScore");
             HBox module = new HBox();
             module.getStyleClass().add("module");
             module.setSpacing(160);
