@@ -54,6 +54,7 @@ public class MainApplication extends Application {
             currentScene = scenes.get(Scenes.START_VIEW);
             scene = new Scene(currentScene, 1400, 800);
             scene.getStylesheets().add(theme.getUrl());
+            game.setSceneHeight(scene.getHeight());
 
             controller = new BuildViewController(this);
             scenes.put(Scenes.BUILD_VIEW, controller.getRootView());

@@ -28,11 +28,19 @@ public class Player {
         changes = new PropertyChangeSupport(this.getClass());
 
         vFalling = 0;
-        setOnStartPosition();
+        moveTo(120, 400);
     }
 
     public void setOnStartPosition(){
         moveTo(120, 400);
+        vFalling = 0;
+        
+        jump.set(false);
+        boost.set(false);
+        drop.set(false);
+        move.set(false);
+        right.set(false);
+        left.set(false);
     }
     public double getPosX() {
         return posX;

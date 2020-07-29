@@ -85,6 +85,7 @@ public class GameViewController extends ViewController<MainApplication> {
                 if(newValue) initGameSetup();
                 else {
                     field.setLayoutX(0);
+                    field.getChildren().clear();
                 }
             }
         });
@@ -99,11 +100,9 @@ public class GameViewController extends ViewController<MainApplication> {
         game.gameEnded().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                application.switchScene(Scenes.HIGHCSCORE_VIEW);
+                if(newValue) application.switchScene(Scenes.HIGHCSCORE_VIEW);
             }
         });
-
-        addKeyListener();
     }
 
     public void addKeyListener() {
@@ -150,44 +149,19 @@ public class GameViewController extends ViewController<MainApplication> {
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event) || boostAlt.match(event) || event.getCode().equals(KeyCode.CONTROL)){
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.getPlayer().setOnBoost(true);
-                            game.getPlayer().setOnBoost(false);
-                        }
-                    });
+                    game.getPlayer().setOnBoost(true);
+                    game.getPlayer().setOnBoost(false);
                 } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.getPlayer().setOnBoost(false);
-                            game.getPlayer().setOnJump(true);
-                            game.getPlayer().setOnJump(false);
-                        }
-                    });
+                    game.getPlayer().setOnBoost(false);
+                    game.getPlayer().setOnJump(true);
+                    game.getPlayer().setOnJump(false);
                 } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.getPlayer().setOnDrop(true);
-                            game.getPlayer().setOnDrop(false);
-                        }
-                    });
+                    game.getPlayer().setOnDrop(true);
+                    game.getPlayer().setOnDrop(false);
                 } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)){
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.movePlayerLeft(false);
-                        }
-                    });
+                    game.movePlayerLeft(false);
                 } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            game.movePlayerRight(false);
-                        }
-                    });
+                    game.movePlayerRight(false);
                 }
             }
         }); 
@@ -196,16 +170,19 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public void initGameSetup() {
         BlockView blockview = null;
-        double sceneHeight = application.getScene().getHeight();
-        game.initBlockPosition(sceneHeight);
         for(Block block : game.getBlocks()) {
             blockview = new BlockView(block);
             System.out.println(String.format("New BlockView:\nx: %f\ny: %f\n\n", block.getPosX(), block.getPosY()));
             field.getChildren().add(blockview);
         }
-        view.getChildren().add(player);
-        view.getChildren().add(settingView);
-        settingView.setVisible(false);
+        if(!view.getChildren().contains(player)){
+            view.getChildren().add(player);
+        }
+        if(!view.getChildren().contains(settingView)){
+            view.getChildren().add(settingView);
+            settingView.setVisible(false);
+        }
+        addKeyListener();
     }
 
     public void scrollBlocks(double x) {

@@ -45,7 +45,7 @@ public class Game {
     final double BOOST_MULTI = 1.5;
     private boolean movementActive = false;
     private int falldepthGameOver = 1500;
-    private int sceneHight = 0;
+    private double sceneHeight = 0;
 
     public PropertyChangeSupport changes;
 
@@ -123,10 +123,14 @@ public class Game {
         this.speedFactor = speedFactor;
     }
 
+    public void setSceneHeight(double sceneHeight){
+        this.sceneHeight = sceneHeight;
+    }
+
     public void setBlockDistanz(double blockDistanz) {
         this.blockDistanz = blockDistanz;
         if (this.initialized.get()) {
-            initBlockPosition(this.sceneHight);
+            initBlockPosition();
         }
     }
 
@@ -153,12 +157,23 @@ public class Game {
             blocks.addLast(new Block(tone, tonemaker));
         }
         blocks.add(new Block(true));
+        initBlockPosition();
         initialized.set(true);
+    }
+
+    public void initBlockPosition() {
+        double x = 0;
+        for(Block block : blocks) {
+            block.setPosY(sceneHeight - block.getHeight());
+            block.setPosX(x);
+            x += block.getWidth() + blockDistanz;
+        }
     }
 
     public void restart() {
         setScore(0);
         player.setOnStartPosition();
+        movementActive = false;
 
         initialized.set(false);
         ended.set(false);
@@ -166,9 +181,8 @@ public class Game {
         paused = false;
         running = false;
 
-        for(Block block : blocks){
-            block.isIntersected().set(false);
-        }
+        blocks.clear();
+        initBlocks(song);
     }
 
     public void start() {
@@ -179,7 +193,6 @@ public class Game {
 
     public void pause() {
         paused = true;
-        //TODO    
     }
 
     public void cont() {
@@ -190,57 +203,6 @@ public class Game {
         saveScore();
         running = false;
         ended.set(true);
-        //TODO
-    }
-
-    //SpeedFactor: Player schneller oder langsamer bewegen (liegt immer zwischen 0.1 und 2, Default 1)
-    //werden bei Tastendruck aufgerufen (kann ich aber auch wieder ändern)
-    public void movePlayerLeft(Boolean move) {
-        player.setOnMove(move);
-        player.setOnRight(false);
-        player.setOnLeft(move);
-    }
-
-    public void movePlayerRight(Boolean move) {
-        player.setOnMove(move);
-        player.setOnLeft(false);
-        player.setOnRight(move);
-    }
-
-    public void playerJump() {
-        System.out.print("Und ich ...");
-        if (player.vFalling(0.0, false) == 0) {
-            player.posY -= 10;
-            if(player.getBoostProperty().get()) {
-                player.vFalling(JUMP_FORCE * (BOOST_MULTI), true);
-                System.out.print(" SPRINGE!!!\n");
-            } else {
-                player.vFalling(JUMP_FORCE, true);
-                System.out.print(" springe!\n");
-            }
-        }
-        System.out.println("VF=" + player.vFalling(0.0, false));
-    }
-
-    public void playerYCalculation() {
-        if(checkBlockUnderPlayer()) {
-            //player.vFalling(0, true);
-            player.setOnJump(false);
-            player.setOnDrop(false);
-            if (player.vFalling(0, false) > 0) {
-                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
-            }
-        } else {
-            player.setOnDrop(true);
-            player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
-            if (!checkPlayerLanding())
-                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
-            if(player.posY > falldepthGameOver) {
-                tonemaker.fallingTone();
-                running = false;
-                ended.set(true);
-            }
-        }
     }
 
     /**
@@ -291,6 +253,55 @@ public class Game {
         
         int random = (int) Math.random() * possabilities.size();
         return possabilities.get(random);
+    }
+
+
+    public void movePlayerLeft(Boolean move) {
+        player.setOnMove(move);
+        player.setOnRight(false);
+        player.setOnLeft(move);
+    }
+
+    public void movePlayerRight(Boolean move) {
+        player.setOnMove(move);
+        player.setOnLeft(false);
+        player.setOnRight(move);
+    }
+
+    public void playerJump() {
+        System.out.print("Und ich ...");
+        if (player.vFalling(0.0, false) == 0) {
+            player.posY -= 10;
+            if(player.getBoostProperty().get()) {
+                player.vFalling(JUMP_FORCE * (BOOST_MULTI), true);
+                System.out.print(" SPRINGE!!!\n");
+            } else {
+                player.vFalling(JUMP_FORCE, true);
+                System.out.print(" springe!\n");
+            }
+        }
+        System.out.println("VF=" + player.vFalling(0.0, false));
+    }
+
+    public void playerYCalculation() {
+        if(checkBlockUnderPlayer()) {
+            //player.vFalling(0, true);
+            player.setOnJump(false);
+            player.setOnDrop(false);
+            if (player.vFalling(0, false) > 0) {
+                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
+            }
+        } else {
+            player.setOnDrop(true);
+            player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
+            if (!checkPlayerLanding())
+                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
+            if(player.posY > falldepthGameOver) {
+                tonemaker.fallingTone();
+                running = false;
+                ended.set(true);
+            }
+        }
     }
 
     /**
@@ -369,15 +380,6 @@ public class Game {
             System.out.println("Starting Movement...");
             movement.start();
             movementActive = true;
-        }
-    }
-
-    public void initBlockPosition(double sceneHeight) {
-        double x = 0;
-        for(Block block : blocks) {
-            block.setPosY(sceneHeight - block.getHeight());
-            block.setPosX(x);
-            x += block.getWidth() + blockDistanz;
         }
     }
 
