@@ -1,6 +1,7 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
+import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
@@ -11,15 +12,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
  * Nutzer
@@ -34,6 +35,8 @@ public class GameViewController extends ViewController<MainApplication> {
     private Button settings;
     private Pane settingView;
 
+    private HBox songBox;
+    private ComboBox<String> song;
     private Label score;
     private AnchorPane field;
 
@@ -54,7 +57,11 @@ public class GameViewController extends ViewController<MainApplication> {
 
         settings = view.settings;
         score = view.score;
+        song = view.song;
+        songBox = view.songBox;
         field = view.field;
+
+        songBox.setPrefWidth(application.getScene().getWidth());
         field.setPrefSize(view.getWidth(), view.getHeight());
 
         mid = application.getScene().getWidth()/2;
@@ -169,6 +176,13 @@ public class GameViewController extends ViewController<MainApplication> {
             view.getChildren().add(settingView);
             settingView.setVisible(false);
         }
+        if(!song.getItems().contains(game.getSong().getName())) {
+            for(Song s : game.songsForLevel()) {
+                song.getItems().add(s.getName());
+            }
+        }
+        song.setValue(game.getSong().getName());
+        song.setOnAction(event -> game.setSong(song.getValue()));
         addKeyListener();
     }
 

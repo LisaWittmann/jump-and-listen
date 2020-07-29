@@ -30,6 +30,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     private Label playerText;
     private VBox highscores;
     private Button retryButton;
+    private Button levelButton;
 
     private Game game;
     private List<Integer> values;
@@ -45,6 +46,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerText = view.playerText;
         highscores = view.highscores;
         retryButton = view.retryButton;
+        levelButton = view.levelButton;
 
         application.getGame().gameEnded().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -91,6 +93,18 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             highscores.getChildren().add(module);
         }
 
+        levelButton.addEventHandler(ActionEvent.ACTION, event -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    game.setLevel(game.getLevel().getNextLevel());
+                    game.restart();
+                    application.switchScene(Scenes.GAME_VIEW);
+                }
+
+            });
+        });
+
         retryButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
                 @Override
@@ -100,5 +114,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
                 }
             });
         });
+
+        
     }
 }

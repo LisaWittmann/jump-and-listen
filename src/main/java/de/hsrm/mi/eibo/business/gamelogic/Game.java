@@ -9,6 +9,7 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
+import de.hsrm.mi.eibo.persistence.Highscore;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -44,13 +45,12 @@ public class Game {
     final double JUMP_FORCE = G_FORCE * (-0.60);
     final double BOOST_MULTI = 1.5;
     private boolean movementActive = false;
-    private int falldepthGameOver = 1500;
+    private int falldepthGameOver = 1000;
     private double sceneHeight = 0;
 
     public PropertyChangeSupport changes;
 
     public Game() {
-        System.out.println("Game wird Konstruktoriert");
         level = null;
         song = null;
         score = 0;
@@ -125,6 +125,7 @@ public class Game {
 
     public void setSceneHeight(double sceneHeight){
         this.sceneHeight = sceneHeight;
+        this.falldepthGameOver = (int) this.sceneHeight + 50;
     }
 
     public void setBlockDistanz(double blockDistanz) {
@@ -136,19 +137,24 @@ public class Game {
 
     public void setLevel(Level level) {
         this.level = level;
-        setSong(loadSongByLevel());
-        switch (level) {
-            case BEGINNER: speedFactor = 0.7;
-            break;
-            case EXPERT: speedFactor = 1.5;
-            break;
-            default: speedFactor = 1.0;
-        }
+        setBlockDistanz(level.distance);
+        setSpeedFactor(level.speedFactor);
+        List<Song> matchingSongs = songPersitinator.loadByLevel(level);
+        int random = (int) Math.random() * matchingSongs.size();
+        setSong(matchingSongs.get(random));
     }
 
     public void setSong(Song song) {
         this.song = song;
-        if(song != null) initBlocks(song);
+        initBlocks(song);
+    }
+
+    public void setSong(String name) {
+        Song song = songPersitinator.loadByName(name);
+        if(!song.equals(this.song)) {
+            this.song = song;
+            restart();
+        }
     }
 
     public void initBlocks(Song song) {
@@ -191,17 +197,20 @@ public class Game {
     }
 
     public void end() {
-        saveScore();
+        if(score != 0) saveScore();
         ended.set(true);
+        running = false;  
+    }
+
+    public void close() {
         running = false;
-        
     }
 
     /**
      * Speichert den aktuellen Score ab und setzt ihn danach wieder auf 0
      */
     public void saveScore() {
-        highscorePersistinator.saveData(score);
+        highscorePersistinator.saveData(new Highscore(song,score));
     }
     
     public synchronized void setScore(int score) {
@@ -216,7 +225,7 @@ public class Game {
      * @return Sublist mit höchsten drei Scores oder alle bisherigen Scores, wenn weniger als drei existieren
      */
     public List<Integer> getHighScores() { 
-        List<Integer> scores = highscorePersistinator.loadData();
+        List<Highscore> scores = highscorePersistinator.loadBySong(song);
         List<Integer> sublist = new ArrayList<>();
 
         Collections.sort(scores);
@@ -224,29 +233,19 @@ public class Game {
 
         if(scores.size() > 3){
             for(int i = 0; i < 3; i++){
-                sublist.add(scores.get(i));
+                sublist.add(scores.get(i).getScore());
             }
-        } else sublist.addAll(scores);
-
+        } else {
+            for(Highscore h : scores) {
+                sublist.add(h.getScore());
+            }
+        }
         return sublist;
     }
 
-    /**
-     * Sucht aus Datei mit gespeicherten Songs einen Song mit ausgewähltem Level
-     * @return zufälligen Song mit passendem Level
-     */
-    public Song loadSongByLevel() {
-        List<Song> songs = songPersitinator.loadData();
-        List<Song> possabilities = new ArrayList<>();
-        for(Song song : songs) {
-            if(song.getLevel().equals(level)) possabilities.add(song);
-        }
-        if(possabilities.size() < 1) return null;
-        
-        int random = (int) Math.random() * possabilities.size();
-        return possabilities.get(random);
+    public List<Song> songsForLevel() {
+        return songPersitinator.loadByLevel(level);
     }
-
 
     public void movePlayerLeft(Boolean move) {
         player.setOnMove(move);
@@ -261,18 +260,14 @@ public class Game {
     }
 
     public void playerJump() {
-        System.out.print("Und ich ...");
         if (player.vFalling(0.0, false) == 0) {
             player.posY -= 10;
             if(player.getBoostProperty().get()) {
                 player.vFalling(JUMP_FORCE * (BOOST_MULTI), true);
-                System.out.print(" SPRINGE!!!\n");
             } else {
                 player.vFalling(JUMP_FORCE, true);
-                System.out.print(" springe!\n");
             }
         }
-        System.out.println("VF=" + player.vFalling(0.0, false));
     }
 
     public void playerYCalculation() {
@@ -323,7 +318,7 @@ public class Game {
                         if (block.isIntersected().get()) {
                             setScore(getScore() - 10);
                         } else {
-                            setScore(getScore() + 50);
+                            setScore(getScore() + level.point);
                         }
                     }
                     block.isIntersected().set(true);

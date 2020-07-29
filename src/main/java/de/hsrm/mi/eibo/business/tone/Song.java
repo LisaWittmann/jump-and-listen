@@ -15,19 +15,23 @@ public class Song {
 
     private List<Tone> tones;
     private Level level;
+    private String name;
 
     public Song() {
         super();
         level = Level.BEGINNER;
         tones = new LinkedList<>();
+        name = "unknown";
     }
     
     public Song(String string) {
         this();
         string = string.toUpperCase();
-        String [] parts = string.split(":");
+        String [] parts = string.split("-");
         level = Level.valueOf(parts[0]);
-        String[] notes = parts[1].split(SEPERATOR);
+        String [] sndparts = parts[1].split(":");
+        setName(sndparts[0]);
+        String [] notes = sndparts[1].split(SEPERATOR);
         for (String note: notes) {
             for (Tone tone : Tone.values()) {
                 if (note.equals(tone.name())) {
@@ -55,11 +59,16 @@ public class Song {
 
     @Override
     public String toString() {
-        String erg = level.toString() + ":";
+        String erg = level.toString() + "-";
+        erg += name + ":";
         for (Tone tone : tones) {
             erg = erg + tone.name() + SEPERATOR;
         }
         return erg;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Level getLevel() {
@@ -81,4 +90,8 @@ public class Song {
     protected void setLevel(Level level) {
         this.level = level;
     }
+
+    public void setName(String name){
+        this.name = name.toLowerCase();
+    } 
 }

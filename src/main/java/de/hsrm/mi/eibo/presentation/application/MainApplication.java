@@ -74,7 +74,7 @@ public class MainApplication extends Application {
             this.primaryStage.show();
 
             primaryStage.setOnCloseRequest(event -> {
-                game.end();
+                game.close();
             });
 
         } catch (Exception e) {

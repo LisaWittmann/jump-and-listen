@@ -21,11 +21,13 @@ public class HighscoreView extends VBox {
     VBox highscores;
 
     Button retryButton;
+    Button levelButton;
 
     public HighscoreView() {
 
         playerScore = new Label();
         playerScore.getStyleClass().add("h2");
+        playerScore.setStyle("-fx-font-size: 65px;");
         
         playerText = new Label();
         playerText.getStyleClass().add("h3");
@@ -44,12 +46,20 @@ public class HighscoreView extends VBox {
         retryButton = new Button("try again");
         retryButton.getStyleClass().add("text-button");
 
+        levelButton = new Button("next level");
+        levelButton.getStyleClass().add("big-text-button");
+
+        VBox buttonBox = new VBox();
+        buttonBox.setSpacing(-5);
+        buttonBox.setAlignment(Pos.TOP_CENTER);
+        buttonBox.getChildren().addAll(levelButton, retryButton);
+
         setSpacing(40);
         setPadding(new Insets(100));
         setAlignment(Pos.TOP_CENTER);
         getStyleClass().add("window");
 
-        getChildren().addAll(playerRank, highscores, retryButton);
+        getChildren().addAll(playerRank, highscores, buttonBox);
     }
     
 }
