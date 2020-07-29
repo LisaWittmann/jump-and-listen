@@ -15,20 +15,25 @@ public class GameView extends AnchorPane {
         score = new Label();
         score.getStyleClass().add("h3");
         score.setStyle("-fx-text-alignment: right;");
-        score.setLayoutX(1320);
-        score.setLayoutY(20);
 
         settings = new Button("settings");
         settings.getStyleClass().add("text-button");
         settings.setStyle("-fx-font-size: 32px;");
-        settings.setLayoutY(10);
 
         field = new AnchorPane();
+
+        getChildren().addAll(field, score, settings);
+
         AnchorPane.setBottomAnchor(field, 0.0);
 
-        setPadding(new Insets(20, 20, 0, 20));
+        AnchorPane.setTopAnchor(settings, 0.0);
+        AnchorPane.setLeftAnchor(settings, 10.0);
+
+        AnchorPane.setTopAnchor(score, 10.0);
+        AnchorPane.setRightAnchor(score, 15.0);
+
+        setPadding(new Insets(0,20,0,0));
         getStyleClass().add("window");
-        getChildren().addAll(field, score, settings);
     }
     
 }
