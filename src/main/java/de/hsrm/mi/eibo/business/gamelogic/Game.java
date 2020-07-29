@@ -188,21 +188,13 @@ public class Game {
     public void start() {
         running = true;
         activateMovement();
-        //TODO
-    }
-
-    public void pause() {
-        paused = true;
-    }
-
-    public void cont() {
-        paused = false;
     }
 
     public void end() {
         saveScore();
-        running = false;
         ended.set(true);
+        running = false;
+        
     }
 
     /**
@@ -212,7 +204,7 @@ public class Game {
         highscorePersistinator.saveData(score);
     }
     
-    public void setScore(int score) {
+    public synchronized void setScore(int score) {
         int oldValue = this.score;
         this.score = score;
         changes.firePropertyChange("score", oldValue, this.score);
@@ -298,8 +290,7 @@ public class Game {
                 player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
             if(player.posY > falldepthGameOver) {
                 tonemaker.fallingTone();
-                running = false;
-                ended.set(true);
+                end();
             }
         }
     }
@@ -354,9 +345,7 @@ public class Game {
     private void activateMovement() {
         if (!movementActive) {
             Runnable runnable = () -> {
-                int check = 0; //TODO: Später entfernen
                 while (running) {
-                    check++;//TODO: Später entfernen
                     try {
                         Thread.sleep((int) 1000 / FPS);
                     } catch (InterruptedException e) {
@@ -371,13 +360,9 @@ public class Game {
                     }
 
                     player.moveTo(player.getPosX(), player.getPosY());
-                    if (check % 20 == 0) {//TODO: Später entfernen
-                        System.out.println("\n\nPlayer at:\nx: " + player.posX + "\ny: " + player.posY + "\nvFalling: " + player.vFalling(0, false));//TODO: Später entfernen
-                    }//TODO: Später entfernen
                 }
             };
             Thread movement = new Thread(runnable, "movement");
-            System.out.println("Starting Movement...");
             movement.start();
             movementActive = true;
         }

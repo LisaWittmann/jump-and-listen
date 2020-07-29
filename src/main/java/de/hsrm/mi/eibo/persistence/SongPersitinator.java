@@ -2,9 +2,10 @@ package de.hsrm.mi.eibo.persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class SongPersitinator implements DataPersistinator<Song> {
             sb.append(s.toString()).append("\n");
         }
         try {   
-            writer = new BufferedWriter(new FileWriter(dataPath));
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,7 +40,7 @@ public class SongPersitinator implements DataPersistinator<Song> {
     public void saveData(Song data) {
         BufferedWriter writer = null;
         try {   
-            writer = new BufferedWriter(new FileWriter(dataPath));
+            writer =  new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(data.toString() + "\n");
         } catch (Exception e) {
             e.printStackTrace();

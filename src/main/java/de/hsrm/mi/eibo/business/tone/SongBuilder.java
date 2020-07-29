@@ -24,7 +24,6 @@ public class SongBuilder {
     }
 
     public Level calcLevel() {
-        //TODO: was schönes ausdenken
         return null;
     }
 

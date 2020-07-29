@@ -1,7 +1,5 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
-import java.util.List;
-
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
@@ -12,7 +10,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -66,8 +63,6 @@ public class GameViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         score.setText(String.valueOf(game.getScore()));
-
-        score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); // TODO: später wieder entfernen
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
             if(!view.getChildren().contains(settingView)){
@@ -125,23 +120,15 @@ public class GameViewController extends ViewController<MainApplication> {
                     game.movePlayerLeft(true);
                 } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(true);
-                } else if(event.getCode().equals(KeyCode.SPACE)) {
-                    if(game.isRunning() && !game.isPaused()) {
-                        game.pause();
-                    } else if(game.isRunning() && game.isPaused()) {
-                        game.cont();
-                    } else if(!game.isRunning()) {
-                        game.start();
-                    }
                 }  else if(event.getCode().equals(KeyCode.S)) {
-                    Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							game.start();
-						}
-                    });
+						Platform.runLater(new Runnable(){
+							@Override
+							public void run() {
+								game.start();
+							}
+                        }); 
+                    }
                 }
-            }
         });
 
         application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
@@ -172,7 +159,6 @@ public class GameViewController extends ViewController<MainApplication> {
         BlockView blockview = null;
         for(Block block : game.getBlocks()) {
             blockview = new BlockView(block);
-            System.out.println(String.format("New BlockView:\nx: %f\ny: %f\n\n", block.getPosX(), block.getPosY()));
             field.getChildren().add(blockview);
         }
         if(!view.getChildren().contains(player)){

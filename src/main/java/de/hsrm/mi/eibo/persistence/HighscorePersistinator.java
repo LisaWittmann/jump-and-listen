@@ -1,34 +1,50 @@
 package de.hsrm.mi.eibo.persistence;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HighscorePersistinator implements DataPersistinator<Integer> {
 
-    private final String dataPath = System.getProperty("user.home") + "/highscores.dat";
+    private final String dataPath = System.getProperty("user.home") + "/highscores.txt";
 
     @Override
     public void saveData(List<Integer> data) {
-        DataOutputStream output = null;
-        try {
-            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(dataPath)));
+        BufferedWriter writer = null;
+        try {   
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             for(int i : data) {
-                output.writeInt(i);
+                writer.write(i + "\n");
             }
-        } catch(IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(output != null) output.close();
-            } catch(IOException e) {
-                e.printStackTrace(); 
+                if(writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void saveData(Integer data) {
+        BufferedWriter writer = null;
+        try {   
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
+            writer.write(data + "\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -36,40 +52,23 @@ public class HighscorePersistinator implements DataPersistinator<Integer> {
     @Override
     public List<Integer> loadData() {
         List<Integer> loaded = new ArrayList<>();
-        DataInputStream input = null;
+        BufferedReader reader = null;
         try {
-            input = new DataInputStream(new BufferedInputStream(new FileInputStream(dataPath)));
-            while(input.available() > 0) {
-                loaded.add(input.readInt());
+            reader = new BufferedReader(new FileReader(dataPath));
+            String line;
+            while((line = reader.readLine()) != null) {
+                loaded.add(Integer.parseInt(line));
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
-                if(input != null) input.close();
-            } catch (IOException e) {
+                if(reader != null) reader.close();
+            } catch(IOException e) {
                 e.printStackTrace();
             }
         }
         return loaded;
-    }
-
-    @Override
-    public void saveData(Integer data) {
-        DataOutputStream output = null;
-        try {
-            output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(dataPath)));
-            output.writeInt(data);
-        } catch(IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(output != null)output.close();
-            } catch(IOException e) {
-                e.printStackTrace(); 
-            }
-        }
-
     }
     
 }
