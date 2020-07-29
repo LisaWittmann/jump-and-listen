@@ -150,8 +150,9 @@ public class Game {
         score = 0;
 
         blocks = new LinkedList<>();
-        player = new Player();
-        tonemaker = new ToneMaker();
+        player = new Player(); //Funktioniert nicht
+        tonemaker = new ToneMaker(); //braucht man glaube ich nicht
+        running = false;
 
         initialized.set(false);
         ended.set(false);
@@ -160,7 +161,7 @@ public class Game {
         running = false;
 
         initBlocks(song);
-        //TODO
+        //TODO: Player an ausgangsposition, Ansicht zurücksetzen, Score zurücksetzen
     }
 
     public void start() {
