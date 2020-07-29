@@ -69,7 +69,12 @@ public class GameViewController extends ViewController<MainApplication> {
         score.setOnMouseClicked(event -> application.switchScene(Scenes.HIGHCSCORE_VIEW)); // TODO: später wieder entfernen
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
-            settingView.setVisible(true);
+            if(!view.getChildren().contains(settingView)){
+                view.getChildren().add(settingView);
+            }
+            else {
+                settingView.setVisible(true);
+            }
             view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
 
