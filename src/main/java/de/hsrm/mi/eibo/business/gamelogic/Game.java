@@ -45,8 +45,10 @@ public class Game {
     final double FORCE_MULTI = 70;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.60);
+    final double BOOST_MULTI = 1.5;
     private boolean movementActive = false;
-    private final int FALLDEEPHT_GAME_OVER = 1500;
+    private int falldepthGameOver = 1500;
+    private int sceneHight = 0;
 
     public PropertyChangeSupport changes;
 
@@ -121,11 +123,21 @@ public class Game {
 
     public void setBlockDistanz(int blockDistanz) {
         this.blockDistanz = blockDistanz;
+        if (this.initialized.get()) {
+            initBlockPosition(this.sceneHight);
+        }
     }
 
     public void setLevel(Level level) {
         this.level = level;
         setSong(loadSongByLevel());
+        switch (level) {
+            case BEGINNER: speedFactor = 0.7;
+            break;
+            case EXPERT: speedFactor = 1.5;
+            break;
+            default: speedFactor = 1.0;
+        }
     }
 
     public void setSong(Song song) {
@@ -143,6 +155,14 @@ public class Game {
 
     public List<Block> getBlocks() {
         return blocks;
+    }
+
+    public double getSpeedFactor() {
+        return speedFactor;
+    }
+
+    public void setSpeedFactor(double speedFactor) {
+        this.speedFactor = speedFactor;
     }
 
     public void initBlocks(Song song) {
@@ -214,7 +234,7 @@ public class Game {
         if (player.vFalling(0.0, false) == 0) {
             player.posY -= 10;
             if(player.getBoostProperty().get()) {
-                player.vFalling(JUMP_FORCE * (2), true);
+                player.vFalling(JUMP_FORCE * (BOOST_MULTI), true);
                 System.out.print(" SPRINGE!!!\n");
             } else {
                 player.vFalling(JUMP_FORCE, true);
@@ -230,14 +250,14 @@ public class Game {
             player.setOnJump(false);
             player.setOnDrop(false);
             if (player.vFalling(0, false) > 0) {
-                player.posY -= player.vFalling(0, false)/FPS;
+                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
             }
         } else {
             player.setOnDrop(true);
             player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
             if (!checkPlayerLanding())
-                player.posY -= player.vFalling(0, false)/FPS;
-            if(player.posY > FALLDEEPHT_GAME_OVER) {
+                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
+            if(player.posY > falldepthGameOver) {
                 tonemaker.fallingTone();
                 running = false;
                 ended.set(true);
@@ -303,14 +323,6 @@ public class Game {
             if (player.posY + 100 == block.getPosY()
             && player.posX + 58 > block.getPosX()
             && player.posX + 24 < block.getPosX() + block.getWidth()) {
-                block.isIntersected().set(true);
-
-                if(!block.equals(blocks.getFirst())) {
-                    setScore(getScore()+50); //TODO: hier was sinnvolles implenetieren
-                }
-                if(block.equals(blocks.getLast())) {
-                    end();
-                }
                 return true;
             }
         }
@@ -321,13 +333,23 @@ public class Game {
         for (Block block: blocks) {
             if (player.posX + 58 > block.getPosX()
                     && player.posX + 24 < block.getPosX() + block.getWidth()) {
-                if (player.posY + 100 < block.getPosY() && player.posY + 100 - player.vFalling(0, false)/FPS > block.getPosY()) {
+                if (player.posY + 100 < block.getPosY() && player.posY + 100 - (player.vFalling(0, false)/FPS) * speedFactor > block.getPosY()) {
                     player.posY = block.getPosY() - 100;
                     player.vFalling(0, true);
                     player.setOnDrop(false);
                     player.setOnJump(false);
-                    //TODO: Hier sollte der Block als "abgeschlossen" markiert und der Score erhöht werden
-                    //ggf könnte man hier den Score auch verringern, wenn der Block schon abgeschlossen war
+
+                    if(!block.equals(blocks.getFirst())) {
+                        if (block.isIntersected().get()) {
+                            setScore(getScore() - 10);
+                        } else {
+                            setScore(getScore() + 50);
+                        }
+                    }
+                    block.isIntersected().set(true);
+                    if(block.equals(blocks.getLast())) {
+                        end();
+                    }
                     try {
                         tonemaker.createTone(block.getTone());
                     } catch (NullPointerException np) {
@@ -369,6 +391,16 @@ public class Game {
             System.out.println("Starting Movement...");
             movement.start();
             movementActive = true;
+        }
+    }
+
+    public void initBlockPosition(double sceneHeight) {
+        this.sceneHight = sceneHight;
+        double x = 0;
+        for(Block block : blocks) {
+            block.setPosY(sceneHeight - block.getHeight());
+            block.setPosX(x);
+            x += block.getWidth() + blockDistanz;
         }
     }
 

@@ -24,9 +24,10 @@ public class BlockView extends StackPane {
         setPrefSize(block.getWidth(), block.getHeight());
         if (block.isInitialized().get()) {
             getStyleClass().add("block");
-            addChangeListener();
         } else
             initEmptyBlock();
+        setLayoutX(block.getPosX());
+        setLayoutY(block.getPosY());
         addChangeListener();
     }
 
