@@ -11,7 +11,7 @@ public class ToneMaker {
     private int volume;
 
     public ToneMaker() {
-        volume = 120;
+        volume = 80;
     }
 
 
@@ -72,14 +72,13 @@ public class ToneMaker {
                 sourceDL = AudioSystem.getSourceDataLine(audioF);
                 sourceDL.open(audioF);
                 sourceDL.start();
-                int hertz = 400;
-                for(int i=0; i<4400*5; i++){
-                    if (i % 22*5 == 0) {
-                        --hertz;
-                    }
-                    double angle = (i/rate)*hertz*2.0*Math.PI;
-                    buf[0]=(byte)(Math.sin(angle)*volume);
-                    sourceDL.write(buf,0,1);
+                int startHertz = 450;
+                double hertz = startHertz;
+                for (int i = 0; i <rate * 1; i++) {
+                    hertz -= (startHertz - 300) / (rate * 1);
+                    double angle = (i / rate) * hertz * 2.0 * Math.PI;
+                    buf[0] = (byte) (Math.sin(angle) * volume);
+                    sourceDL.write(buf, 0, 1);
                 }
 
                 sourceDL.drain();
@@ -96,7 +95,7 @@ public class ToneMaker {
     public void playList(List<Tone> tones) {
         for (Tone tone : tones) {
             try {
-                createTone(tone.getFrequenz(), 100);
+                createTone(tone.getFrequenz(), volume);
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }
