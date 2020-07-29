@@ -76,7 +76,7 @@ public class GameViewController extends ViewController<MainApplication> {
         game.isInitialized().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) initGameSetup(50, game.getBlocks());
+                if(newValue) initGameSetup(game.getBlockDistanz(), game.getBlocks());
             }
         });
 
@@ -99,11 +99,12 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public void addKeyListener() {
         KeyCombination boost = new KeyCodeCombination(KeyCode.UP, KeyCodeCombination.CONTROL_DOWN);
+        KeyCombination boostAlt = new KeyCodeCombination(KeyCode.W, KeyCodeCombination.CONTROL_DOWN);
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
 
             @Override
             public void handle(KeyEvent event) {
-                if(boost.match(event)){
+                if(boost.match(event) || boostAlt.match(event) || event.getCode().equals(KeyCode.CONTROL)){
                     game.getPlayer().setOnBoost(true);
                     game.playerJump();
                 } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
@@ -139,7 +140,7 @@ public class GameViewController extends ViewController<MainApplication> {
 
             @Override
             public void handle(KeyEvent event) {
-                if(boost.match(event)){
+                if(boost.match(event) || boostAlt.match(event) || event.getCode().equals(KeyCode.CONTROL)){
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
@@ -151,6 +152,7 @@ public class GameViewController extends ViewController<MainApplication> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
+                            game.getPlayer().setOnBoost(false);
                             game.getPlayer().setOnJump(true);
                             game.getPlayer().setOnJump(false);
                         }

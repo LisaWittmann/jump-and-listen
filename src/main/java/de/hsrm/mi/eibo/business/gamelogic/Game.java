@@ -38,14 +38,15 @@ public class Game {
 
     private SimpleBooleanProperty initialized;
     private SimpleBooleanProperty ended;
+    private int blockDistanz = 100;
 
     //Einstellungen:
     final int FPS = 20;
-    final double FORCE_MULTI = 50;
+    final double FORCE_MULTI = 70;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
-    final double JUMP_FORCE = G_FORCE * (-0.65);
+    final double JUMP_FORCE = G_FORCE * (-0.60);
     private boolean movementActive = false;
-    private final int FALLDEEPHT_GAME_OVER = 2000;
+    private final int FALLDEEPHT_GAME_OVER = 1500;
 
     public PropertyChangeSupport changes;
 
@@ -112,6 +113,14 @@ public class Game {
 
     public boolean isRunning() {
         return running;
+    }
+
+    public int getBlockDistanz() {
+        return blockDistanz;
+    }
+
+    public void setBlockDistanz(int blockDistanz) {
+        this.blockDistanz = blockDistanz;
     }
 
     public void setLevel(Level level) {
@@ -317,6 +326,8 @@ public class Game {
                     player.vFalling(0, true);
                     player.setOnDrop(false);
                     player.setOnJump(false);
+                    //TODO: Hier sollte der Block als "abgeschlossen" markiert und der Score erhöht werden
+                    //ggf könnte man hier den Score auch verringern, wenn der Block schon abgeschlossen war
                     try {
                         tonemaker.createTone(block.getTone());
                     } catch (NullPointerException np) {
@@ -342,10 +353,10 @@ public class Game {
                     }
                     playerYCalculation();
                     if (player.getLeftProperty().get()) {
-                        player.posX -= speedFactor * 5;
+                        player.posX -= speedFactor * 10;
                     }
                     if (player.getMRightProperty().get()) {
-                        player.posX += speedFactor * 5;
+                        player.posX += speedFactor * 10;
                     }
 
                     player.moveTo(player.getPosX(), player.getPosY());

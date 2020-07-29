@@ -11,7 +11,7 @@ public class ToneMaker {
     private int volume;
 
     public ToneMaker() {
-        volume = 80;
+        volume = 120;
     }
 
 
