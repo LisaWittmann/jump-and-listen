@@ -76,7 +76,7 @@ public class GameViewController extends ViewController<MainApplication> {
         game.isInitialized().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) initGameSetup(game.getBlockDistanz());
+                if(newValue) initGameSetup();
             }
         });
 
@@ -185,7 +185,7 @@ public class GameViewController extends ViewController<MainApplication> {
 
     }
 
-    public void initGameSetup(double spacing) {
+    public void initGameSetup() {
         BlockView blockview = null;
         double sceneHeight = application.getScene().getHeight();
         game.initBlockPosition(sceneHeight);

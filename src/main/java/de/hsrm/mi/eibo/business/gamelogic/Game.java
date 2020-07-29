@@ -12,7 +12,6 @@ import de.hsrm.mi.eibo.business.tone.ToneMaker;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
 
-import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
@@ -47,7 +46,8 @@ public class Game {
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.60);
     private boolean movementActive = false;
-    private final int FALLDEEPHT_GAME_OVER = 1500;
+    private int falldepthGameOver = 1500;
+    private int sceneHight = 0;
 
     public PropertyChangeSupport changes;
 
@@ -122,6 +122,9 @@ public class Game {
 
     public void setBlockDistanz(int blockDistanz) {
         this.blockDistanz = blockDistanz;
+        if (this.initialized.get()) {
+            initBlockPosition(this.sceneHight);
+        }
     }
 
     public void setLevel(Level level) {
@@ -144,6 +147,14 @@ public class Game {
 
     public List<Block> getBlocks() {
         return blocks;
+    }
+
+    public double getSpeedFactor() {
+        return speedFactor;
+    }
+
+    public void setSpeedFactor(double speedFactor) {
+        this.speedFactor = speedFactor;
     }
 
     public void initBlocks(Song song) {
@@ -238,7 +249,7 @@ public class Game {
             player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
             if (!checkPlayerLanding())
                 player.posY -= player.vFalling(0, false)/FPS;
-            if(player.posY > FALLDEEPHT_GAME_OVER) {
+            if(player.posY > falldepthGameOver) {
                 tonemaker.fallingTone();
                 running = false;
                 ended.set(true);
@@ -376,6 +387,7 @@ public class Game {
     }
 
     public void initBlockPosition(double sceneHeight) {
+        this.sceneHight = sceneHight;
         double x = 0;
         for(Block block : blocks) {
             block.setPosY(sceneHeight - block.getHeight());
