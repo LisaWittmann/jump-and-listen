@@ -28,11 +28,10 @@ public class Player {
         changes = new PropertyChangeSupport(this.getClass());
 
         vFalling = 0;
-        posX = 120;
-        posY = 400;
+        setOnStartPosition();
     }
 
-    public void setOnStartPos(){
+    public void setOnStartPosition(){
         moveTo(120, 400);
     }
     public double getPosX() {

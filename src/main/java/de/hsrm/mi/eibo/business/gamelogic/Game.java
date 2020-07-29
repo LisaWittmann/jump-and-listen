@@ -157,19 +157,18 @@ public class Game {
     }
 
     public void restart() {
-        score = 0;
+        setScore(0);
+        player.setOnStartPosition();
 
-        blocks = new LinkedList<>();
-        running = false;
-
-        //player.setOnStartPosition();
-
-        initialized.set(false); //Hier View anbinden
+        initialized.set(false);
         ended.set(false);
 
         paused = false;
         running = false;
-        //TODO: Player an ausgangsposition, Ansicht zurücksetzen, Score zurücksetzen
+
+        for(Block block : blocks){
+            block.isIntersected().set(false);
+        }
     }
 
     public void start() {
