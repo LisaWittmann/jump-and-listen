@@ -12,6 +12,7 @@ import de.hsrm.mi.eibo.business.tone.ToneMaker;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
 
+import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
@@ -303,14 +304,6 @@ public class Game {
             if (player.posY + 100 == block.getPosY()
             && player.posX + 58 > block.getPosX()
             && player.posX + 24 < block.getPosX() + block.getWidth()) {
-                block.isIntersected().set(true);
-
-                if(!block.equals(blocks.getFirst())) {
-                    setScore(getScore()+50); //TODO: hier was sinnvolles implenetieren
-                }
-                if(block.equals(blocks.getLast())) {
-                    end();
-                }
                 return true;
             }
         }
@@ -326,8 +319,18 @@ public class Game {
                     player.vFalling(0, true);
                     player.setOnDrop(false);
                     player.setOnJump(false);
-                    //TODO: Hier sollte der Block als "abgeschlossen" markiert und der Score erhöht werden
-                    //ggf könnte man hier den Score auch verringern, wenn der Block schon abgeschlossen war
+
+                    if(!block.equals(blocks.getFirst())) {
+                        if (block.isIntersected().get()) {
+                            setScore(getScore() - 10);
+                        } else {
+                            setScore(getScore() + 50);
+                        }
+                    }
+                    block.isIntersected().set(true);
+                    if(block.equals(blocks.getLast())) {
+                        end();
+                    }
                     try {
                         tonemaker.createTone(block.getTone());
                     } catch (NullPointerException np) {
@@ -369,6 +372,15 @@ public class Game {
             System.out.println("Starting Movement...");
             movement.start();
             movementActive = true;
+        }
+    }
+
+    public void initBlockPosition(double sceneHeight) {
+        double x = 0;
+        for(Block block : blocks) {
+            block.setPosY(sceneHeight - block.getHeight());
+            block.setPosX(x);
+            x += block.getWidth() + blockDistanz;
         }
     }
 

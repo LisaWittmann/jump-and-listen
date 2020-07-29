@@ -76,7 +76,7 @@ public class GameViewController extends ViewController<MainApplication> {
         game.isInitialized().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) initGameSetup(game.getBlockDistanz(), game.getBlocks());
+                if(newValue) initGameSetup(game.getBlockDistanz());
             }
         });
 
@@ -185,15 +185,13 @@ public class GameViewController extends ViewController<MainApplication> {
 
     }
 
-    public void initGameSetup(double spacing, List<Block> blocks) {
-        double x = 0;
+    public void initGameSetup(double spacing) {
         BlockView blockview = null;
         double sceneHeight = application.getScene().getHeight();
-        for(Block block : blocks) {
+        game.initBlockPosition(sceneHeight);
+        for(Block block : game.getBlocks()) {
             blockview = new BlockView(block);
-            block.setPosY(sceneHeight - block.getHeight());
-            block.setPosX(x);
-            x += block.getWidth() + spacing;
+            System.out.println(String.format("New BlockView:\nx: %f\ny: %f\n\n", block.getPosX(), block.getPosY()));
             field.getChildren().add(blockview);
         }
         view.getChildren().add(player);
