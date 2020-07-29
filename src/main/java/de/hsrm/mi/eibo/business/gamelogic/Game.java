@@ -45,6 +45,7 @@ public class Game {
     final double FORCE_MULTI = 70;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.60);
+    final double BOOST_MULTI = 1.5;
     private boolean movementActive = false;
     private int falldepthGameOver = 1500;
     private int sceneHight = 0;
@@ -130,6 +131,13 @@ public class Game {
     public void setLevel(Level level) {
         this.level = level;
         setSong(loadSongByLevel());
+        switch (level) {
+            case BEGINNER: speedFactor = 0.7;
+            break;
+            case EXPERT: speedFactor = 1.5;
+            break;
+            default: speedFactor = 1.0;
+        }
     }
 
     public void setSong(Song song) {
@@ -226,7 +234,7 @@ public class Game {
         if (player.vFalling(0.0, false) == 0) {
             player.posY -= 10;
             if(player.getBoostProperty().get()) {
-                player.vFalling(JUMP_FORCE * (2), true);
+                player.vFalling(JUMP_FORCE * (BOOST_MULTI), true);
                 System.out.print(" SPRINGE!!!\n");
             } else {
                 player.vFalling(JUMP_FORCE, true);
@@ -242,13 +250,13 @@ public class Game {
             player.setOnJump(false);
             player.setOnDrop(false);
             if (player.vFalling(0, false) > 0) {
-                player.posY -= player.vFalling(0, false)/FPS;
+                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
             }
         } else {
             player.setOnDrop(true);
             player.vFalling(player.vFalling(0, false) + G_FORCE/FPS, true);
             if (!checkPlayerLanding())
-                player.posY -= player.vFalling(0, false)/FPS;
+                player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
             if(player.posY > falldepthGameOver) {
                 tonemaker.fallingTone();
                 running = false;
@@ -325,7 +333,7 @@ public class Game {
         for (Block block: blocks) {
             if (player.posX + 58 > block.getPosX()
                     && player.posX + 24 < block.getPosX() + block.getWidth()) {
-                if (player.posY + 100 < block.getPosY() && player.posY + 100 - player.vFalling(0, false)/FPS > block.getPosY()) {
+                if (player.posY + 100 < block.getPosY() && player.posY + 100 - (player.vFalling(0, false)/FPS) * speedFactor > block.getPosY()) {
                     player.posY = block.getPosY() - 100;
                     player.vFalling(0, true);
                     player.setOnDrop(false);

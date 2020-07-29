@@ -28,7 +28,7 @@ public class GameView extends AnchorPane {
 
         setPadding(new Insets(20, 20, 0, 20));
         getStyleClass().add("window");
-        getChildren().addAll(score, settings, field);
+        getChildren().addAll(field, score, settings);
     }
     
 }
