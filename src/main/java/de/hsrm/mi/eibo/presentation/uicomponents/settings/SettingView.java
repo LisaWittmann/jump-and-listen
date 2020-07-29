@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
  */
 public class SettingView extends StackPane {
 
-    Slider blockwidth, speed, volume;
+    Slider blockdistance, speed, volume;
     ComboBox<Theme> theme;
     GridPane settings;
     VBox content;
@@ -27,10 +27,10 @@ public class SettingView extends StackPane {
         Label header = new Label("settings");
         header.getStyleClass().add("h2-dark");
 
-        Label widthLabel = new Label("block width:");
-        widthLabel.getStyleClass().add("h3-dark");
-        widthLabel.setStyle("-fx-text-alignment: left;");
-        blockwidth = new Slider(0.1, 2.0, 1.0);
+        Label distanceLabel = new Label("distance:");
+        distanceLabel.getStyleClass().add("h3-dark");
+        distanceLabel.setStyle("-fx-text-alignment: left;");
+        blockdistance = new Slider(50, 150, 100);
 
         Label speedLabel = new Label("speed:");
         speedLabel.getStyleClass().add("h3-dark");
@@ -52,8 +52,8 @@ public class SettingView extends StackPane {
         settings.setPadding(new Insets(40));
         settings.setHgap(60);
         settings.setVgap(20);
-        settings.add(widthLabel, 0, 0);
-        settings.add(blockwidth, 1, 0);
+        settings.add(distanceLabel, 0, 0);
+        settings.add(blockdistance, 1, 0);
         settings.add(speedLabel, 0, 1);
         settings.add(speed, 1, 1);
         settings.add(volumeLabel, 0, 2);

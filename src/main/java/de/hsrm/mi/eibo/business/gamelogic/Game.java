@@ -11,7 +11,6 @@ import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
 import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
-
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
@@ -27,9 +26,6 @@ public class Game {
     private ToneMaker tonemaker;
     private LinkedList<Block> blocks;
 
-    private double widthFactor;
-    private double speedFactor;
-
     private boolean paused, running;
 
     private int score;
@@ -38,9 +34,10 @@ public class Game {
 
     private SimpleBooleanProperty initialized;
     private SimpleBooleanProperty ended;
-    private int blockDistanz = 100;
 
     //Einstellungen:
+    private double speedFactor = 1;
+    private double blockDistanz = 100;
     final int FPS = 20;
     final double FORCE_MULTI = 70;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
@@ -71,9 +68,6 @@ public class Game {
         paused = false;
         running = false;
 
-        widthFactor = 1;
-        speedFactor = 1;
-
         changes = new PropertyChangeSupport(getClass());
     }
 
@@ -101,12 +95,12 @@ public class Game {
         return player;
     }
 
-    public int getScore() {
-        return score;
+    public List<Block> getBlocks() {
+        return blocks;
     }
 
-    public double getWidth() {
-        return widthFactor;
+    public int getScore() {
+        return score;
     }
 
     public boolean isPaused() {
@@ -117,11 +111,19 @@ public class Game {
         return running;
     }
 
-    public int getBlockDistanz() {
+    public double getBlockDistanz() {
         return blockDistanz;
     }
 
-    public void setBlockDistanz(int blockDistanz) {
+    public double getSpeedFactor() {
+        return speedFactor;
+    }
+
+    public void setSpeedFactor(double speedFactor) {
+        this.speedFactor = speedFactor;
+    }
+
+    public void setBlockDistanz(double blockDistanz) {
         this.blockDistanz = blockDistanz;
         if (this.initialized.get()) {
             initBlockPosition(this.sceneHight);
@@ -145,51 +147,28 @@ public class Game {
         if(song != null) initBlocks(song);
     }
 
-    public void setSpeed(double speedFactor) {
-        this.speedFactor = speedFactor;
-    }
-
-    public void setWidth(double widthFactor) {
-        this.widthFactor = widthFactor;
-    }
-
-    public List<Block> getBlocks() {
-        return blocks;
-    }
-
-    public double getSpeedFactor() {
-        return speedFactor;
-    }
-
-    public void setSpeedFactor(double speedFactor) {
-        this.speedFactor = speedFactor;
-    }
-
     public void initBlocks(Song song) {
-        blocks.addFirst(new Block(true)); //Start
+        blocks.addFirst(new Block(true)); 
         for(Tone tone : song.getTones()) {
             blocks.addLast(new Block(tone, tonemaker));
         }
-        blocks.add(new Block(true)); //Ende
+        blocks.add(new Block(true));
         initialized.set(true);
     }
 
-    //Hier müsste man vielleicht nochmal aussortieren
     public void restart() {
         score = 0;
 
         blocks = new LinkedList<>();
-        player = new Player(); //Funktioniert nicht
-        tonemaker = new ToneMaker(); //braucht man glaube ich nicht
         running = false;
 
-        initialized.set(false);
+        //player.setOnStartPosition();
+
+        initialized.set(false); //Hier View anbinden
         ended.set(false);
 
         paused = false;
         running = false;
-
-        initBlocks(song);
         //TODO: Player an ausgangsposition, Ansicht zurücksetzen, Score zurücksetzen
     }
 
@@ -395,7 +374,6 @@ public class Game {
     }
 
     public void initBlockPosition(double sceneHeight) {
-        this.sceneHight = sceneHight;
         double x = 0;
         for(Block block : blocks) {
             block.setPosY(sceneHeight - block.getHeight());

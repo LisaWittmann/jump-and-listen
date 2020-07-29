@@ -20,7 +20,7 @@ public class SettingViewController extends ViewController<MainApplication> {
 
     private SettingView view;
     
-    private Slider blockwidth, speed, volume;
+    private Slider blockdistance, speed, volume;
     private ComboBox<Theme> theme;
 
     private Game game;
@@ -35,7 +35,7 @@ public class SettingViewController extends ViewController<MainApplication> {
         setRootView(view);
 
         theme = view.theme;
-        blockwidth = view.blockwidth;
+        blockdistance = view.blockdistance;
         speed = view.speed;
         volume = view.volume;
 
@@ -48,19 +48,18 @@ public class SettingViewController extends ViewController<MainApplication> {
         theme.setValue(application.getTheme());
         theme.setOnAction(event -> application.switchTheme(theme.getValue()));
 
-        blockwidth.valueProperty().addListener(new ChangeListener<Number>() {
+        blockdistance.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                game.setWidth(newValue.doubleValue());
-            }
+				game.setBlockDistanz(newValue.doubleValue());
+			}
         });
-
 
         speed.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                game.setSpeed(newValue.doubleValue());
-            }
+				game.setSpeedFactor(newValue.doubleValue());
+			}
         });
 
         volume.valueProperty().addListener(new ChangeListener<Number>() {
