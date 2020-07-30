@@ -1,7 +1,7 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import de.hsrm.mi.eibo.business.gamelogic.Block;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -17,9 +17,11 @@ public class BuildView extends AnchorPane {
         quitButton.getStyleClass().add("text-button");
 
         field = new HBox();
-        field.setAlignment(Pos.BOTTOM_LEFT);
+        field.setPadding(new Insets(0, 0, 0, 100));
         field.setSpacing(50);
-        field.setPadding(new Insets(0, 50, 0, 50));
+        field.setMinHeight(Block.getMinHeight());
+        field.setMaxHeight(Block.getMaxHeight());
+        field.setStyle("-fx-background-color: transparent;");
         AnchorPane.setBottomAnchor(field, 0.0);
 
         getChildren().addAll(quitButton, field);

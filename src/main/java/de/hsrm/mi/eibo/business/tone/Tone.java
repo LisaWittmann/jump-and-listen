@@ -19,6 +19,7 @@ public enum Tone {
     D(294),
     DS(311),
     E(330),
+    ES(339),
     F(349),
     FS(370),
     G(392),
@@ -42,6 +43,11 @@ public enum Tone {
 
     public int getLow() {
         return (int) freq/2;
+    }
+
+    public boolean isHalbton() {
+        if(this.name().length() > 1) return true;
+        else return false;
     }
 
 

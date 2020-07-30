@@ -2,17 +2,21 @@ package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.tone.SongBuilder;
+import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
-import de.hsrm.mi.eibo.presentation.uicomponents.builder.Resizer;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 public class BuildViewController extends ViewController<MainApplication> {
 
@@ -38,7 +42,7 @@ public class BuildViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         quitButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.START_VIEW));
-        
+        initLines();
         addBlock();
 
     }
@@ -56,6 +60,22 @@ public class BuildViewController extends ViewController<MainApplication> {
                 }
             }
         });
+    }
+
+    private void initLines() {
+        for(Tone tone : Tone.values()) {
+            if(tone.isHalbton()) continue;
+            Label name = new Label(tone.name());
+            name.getStyleClass().add("fading-text");
+            name.setStyle("-fx-text-alignment: left;");
+
+            double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
+            name.setLayoutY(y-15);
+            name.setLayoutX(20);
+            Line line = new Line(50, y, application.getScene().getWidth(), y);
+            line.getStyleClass().add("line");
+            view.getChildren().addAll(name, line);
+        }
     }
     
 }

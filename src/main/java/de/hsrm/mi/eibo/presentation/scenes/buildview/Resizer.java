@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.presentation.uicomponents.builder;
+package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -9,7 +9,7 @@ public class Resizer {
 
     private static final int RESIZE_MARGIN = 5;
 
-    private double lastX, lastY;
+    private double x, y;
     
     private Region region;
     private Scene scene;
@@ -26,12 +26,16 @@ public class Resizer {
         region.setOnMousePressed(event -> resizer.mousePressed(event));
         region.setOnMouseDragged(event -> resizer.mouseDragged(event));
         region.setOnMouseMoved(event -> resizer.mouseOver(event));
-        region.setOnMouseReleased(event -> region.setCursor(Cursor.DEFAULT));
+        region.setOnMouseReleased(event -> resizer.mouseReleased(event));
+    }
+
+    protected void mouseReleased(MouseEvent event) {
+        region.setCursor(Cursor.DEFAULT);
     }
 
     protected void mousePressed(MouseEvent event) {
-        lastX = event.getSceneX();
-        lastY = event.getSceneY();   
+        x = event.getSceneX();
+        y = event.getSceneY();   
     }
 
     protected void mouseOver(MouseEvent event) {
@@ -42,13 +46,13 @@ public class Resizer {
 
     protected void mouseDragged(MouseEvent event) {
         if(cursor.equals(Cursor.N_RESIZE)) {
-            region.setPrefHeight(region.getPrefHeight() + (lastY - event.getSceneY()));
+            region.setPrefHeight(region.getPrefHeight() + (y - event.getSceneY()));
         }
         else if(cursor.equals(Cursor.E_RESIZE)) {
             region.setPrefWidth(event.getSceneX() - region.getLayoutX());
         }
-        lastX = event.getSceneX();
-        lastY = event.getSceneY();
+        x = event.getSceneX();
+        y = event.getSceneY();
     }
 
     private Cursor getCursor(MouseEvent event) {
@@ -58,6 +62,12 @@ public class Resizer {
         else if(event.getX() >= (region.getWidth() - RESIZE_MARGIN)) {
             return Cursor.E_RESIZE;
         } 
+        else if(event.getY() > RESIZE_MARGIN) {
+            return Cursor.S_RESIZE;
+        }
+        else if(event.getX() <= (region.getWidth())) {
+            return Cursor.W_RESIZE;
+        }
         return null;
     }
 

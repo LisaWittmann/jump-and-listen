@@ -253,3 +253,7 @@
     background-color: transparent;
    -fx-background-color: transparent;
 }
+
+.line {
+    -fx-stroke: #a4a4a4;
+}
