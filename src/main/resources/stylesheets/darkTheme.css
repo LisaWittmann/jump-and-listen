@@ -80,6 +80,15 @@
     -fx-text-fill: #fafafa;
 }
 
+.fading-text {
+    font-family: Montserrat;
+    font-size: 24px;
+    -fx-font-family: Montserrat;
+    -fx-font-size: 24px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #a4a4a4;
+}
+
 .dark-text {
     font-family: Montserrat;
     font-size: 24px;

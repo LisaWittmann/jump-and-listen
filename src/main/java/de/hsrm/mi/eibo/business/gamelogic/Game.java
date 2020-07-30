@@ -47,6 +47,7 @@ public class Game {
     private boolean movementActive = false;
     private int falldepthGameOver = 1000;
     private double sceneHeight = 0;
+    private boolean tutorial;
 
     public PropertyChangeSupport changes;
 
@@ -61,6 +62,9 @@ public class Game {
 
         highscorePersistinator = new HighscorePersistinator();
         songPersitinator = new SongPersitinator();
+
+        tutorial = false;
+        if(highscorePersistinator.loadListData().isEmpty()) tutorial = true;
 
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
@@ -111,6 +115,10 @@ public class Game {
         return running;
     }
 
+    public boolean needsTutorial() {
+        return tutorial;
+    }
+    
     public double getBlockDistanz() {
         return blockDistanz;
     }
@@ -139,7 +147,7 @@ public class Game {
         this.level = level;
         setBlockDistanz(level.distance);
         setSpeedFactor(level.speedFactor);
-        List<Song> matchingSongs = songPersitinator.loadByLevel(level);
+        List<Song> matchingSongs = songsForLevel();
         int random = (int) Math.random() * matchingSongs.size();
         setSong(matchingSongs.get(random));
     }
@@ -197,6 +205,7 @@ public class Game {
     }
 
     public void end() {
+        tutorial = false;
         if(score != 0) saveScore();
         ended.set(true);
         running = false;  

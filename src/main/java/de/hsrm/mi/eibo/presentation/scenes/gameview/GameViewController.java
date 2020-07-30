@@ -1,5 +1,8 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.presentation.application.*;
@@ -40,6 +43,8 @@ public class GameViewController extends ViewController<MainApplication> {
     private Label score;
     private AnchorPane field;
 
+    private Label instruction;
+
     private double mid;
     private PlayerView player;
 
@@ -65,6 +70,8 @@ public class GameViewController extends ViewController<MainApplication> {
         field.setPrefSize(view.getWidth(), view.getHeight());
 
         mid = application.getScene().getWidth()/2;
+
+        instruction = new Label();
         initialize();
     }
 
@@ -112,7 +119,6 @@ public class GameViewController extends ViewController<MainApplication> {
         KeyCombination boost = new KeyCodeCombination(KeyCode.UP, KeyCodeCombination.CONTROL_DOWN);
         KeyCombination boostAlt = new KeyCodeCombination(KeyCode.W, KeyCodeCombination.CONTROL_DOWN);
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
-
             @Override
             public void handle(KeyEvent event) {
                 if(boost.match(event) || boostAlt.match(event) || event.getCode().equals(KeyCode.CONTROL)){
@@ -169,6 +175,10 @@ public class GameViewController extends ViewController<MainApplication> {
             blockview = new BlockView(block);
             field.getChildren().add(blockview);
         }
+        if(game.needsTutorial()) {
+            startTutorial();
+        } else addKeyListener();
+
         if(!view.getChildren().contains(player)){
             view.getChildren().add(player);
         }
@@ -183,7 +193,35 @@ public class GameViewController extends ViewController<MainApplication> {
         }
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSong(song.getValue()));
-        addKeyListener();
+    }
+
+    public void startTutorial() {
+        view.getChildren().add(instruction);
+        instruction.setLayoutX(getMid()-110);
+        instruction.setLayoutY(200);
+        instruction.getStyleClass().add("fading-text");
+
+        instruction.setText("press S to start");
+        Map<KeyCode, String> steps = new HashMap<>();
+        steps.put(KeyCode.S, "press A to move left");
+        steps.put(KeyCode.A, "press D to move right");
+        steps.put(KeyCode.D, "press W to jump");
+        steps.put(KeyCode.W, "press W and Control to boost jump");
+        steps.put(KeyCode.CONTROL, "press Q to quit tutorial");
+        application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if(steps.keySet().contains(event.getCode())) {
+                    instruction.setText(steps.get(event.getCode()));
+                } else if(event.getCode().equals(KeyCode.Q)) {
+                    view.getChildren().remove(instruction);
+                    addKeyListener();
+                }
+            }
+        });
+
+        //TODO: wäre cool für springen und so weiter kurze Vorschau zu haben @Philipp geht sowas?
+
     }
 
     public void scrollBlocks(double x) {
