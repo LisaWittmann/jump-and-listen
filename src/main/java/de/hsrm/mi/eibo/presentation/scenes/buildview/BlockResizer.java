@@ -1,5 +1,6 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -30,7 +31,7 @@ public class BlockResizer {
     }
 
     protected void mouseReleased(MouseEvent event) {
-        scene.setCursor(Cursor.DEFAULT);
+        region.setCursor(Cursor.DEFAULT);
     }
 
     protected void mousePressed(MouseEvent event) {
@@ -46,10 +47,8 @@ public class BlockResizer {
 
     protected void mouseDragged(MouseEvent event) {
         if(cursor.equals(Cursor.N_RESIZE)) {
-            region.getBlock().setHeight(region.getPrefHeight() + (y - event.getSceneY()));
-        }
-        else if(cursor.equals(Cursor.E_RESIZE)) {
-            region.getBlock().setWidth(event.getSceneX() - region.getLayoutX());
+            region.setPrefHeight(region.getPrefHeight() + (y - event.getSceneY()));
+            region.getBlock().setHeight(Block.roundHeight(region.getPrefHeight()));
         }
         x = event.getSceneX();
         y = event.getSceneY();

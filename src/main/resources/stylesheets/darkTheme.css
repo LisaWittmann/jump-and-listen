@@ -223,6 +223,7 @@
     border-radius: 5px;
     -fx-font-size: 28px;
     -fx-font-family: Sora;
+    -fx-text-alignment: center;
     -fx-text-fill: #fafafa;
     -fx-background-color: transparent;
     -fx-background-radius: 5px;

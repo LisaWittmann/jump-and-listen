@@ -186,7 +186,7 @@ public class GameViewController extends ViewController<MainApplication> {
             view.getChildren().add(settingView);
             settingView.setVisible(false);
         }
-        if(!song.getItems().contains(game.getSong().getName())) {
+        if(!song.getItems().contains(game.getSong().getName())){
             for(Song s : game.songsForLevel()) {
                 song.getItems().add(s.getName());
             }

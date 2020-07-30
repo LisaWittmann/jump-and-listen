@@ -335,9 +335,9 @@ public class Game {
                     if(block.equals(blocks.getLast())) {
                         end();
                     }
-                    try {
+                    if(!block.equals(blocks.getFirst()) && !block.equals(blocks.getLast())){
                         tonemaker.createTone(block.getTone());
-                    } catch (NullPointerException np) {
+                    //} catch (NullPointerException np) {
                         //In dem fall ist man auf Start oder Ende
                     }
                     return true;

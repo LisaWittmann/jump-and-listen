@@ -45,6 +45,13 @@ public class SongBuilder {
         inputBlocks.add(block);
     }
 
+    public Block addEmpty(double x, double height) {
+        Block block = new Block(false);
+        block.setPosX(x);
+        block.setPosY(height-block.getHeight());
+        return block;
+    }
+
     public void discard(Block block) {
         if(inputBlocks.contains(block)) inputBlocks.remove(block);
     }

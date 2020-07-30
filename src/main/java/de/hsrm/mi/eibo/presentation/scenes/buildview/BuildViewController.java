@@ -13,9 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 
 public class BuildViewController extends ViewController<MainApplication> {
@@ -25,18 +23,26 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     private Button quitButton;
     private Button doneButton;
-    private HBox field;
+    private AnchorPane song;
+
+    private double counter = 100;
+    private double distance = 50;
+
+    private boolean scroll;
 
     public BuildViewController(MainApplication application) {
         super(application);
         songBuilder = new SongBuilder();
+        scroll = false;
 
         view = new BuildView();
         setRootView(view);
 
         quitButton = view.quitButton;
         doneButton = view.doneButton;
-        field = view.field;
+        song = view.song;
+
+        song.setPrefHeight(application.getScene().getHeight());
 
         initialize();
     }
@@ -48,30 +54,39 @@ public class BuildViewController extends ViewController<MainApplication> {
             application.getGame().setSong(songBuilder.confirm());
             application.switchScene(Scenes.GAME_VIEW);
         });
-        initLines();
+        initToneLines();
         addBlock();
 
     }
 
     public void addBlock() {
-        BlockView block = new BlockView(new Block(false));
-        field.getChildren().add(block);
+        if(scroll) scrollSong(150);
 
-        block.getBlock().isInitialized().addListener(new ChangeListener<Boolean>() {
+        Block block = songBuilder.addEmpty(counter, application.getScene().getHeight());
+        BlockView blockView = new BlockView(block);
+        
+        song.getChildren().add(blockView);
+        AnchorPane.setBottomAnchor(blockView, 0.0);
+        counter += block.getWidth() + distance;
+        scroll = (counter > application.getScene().getWidth() * 0.6667) ? true : false;
+
+        block.isInitialized().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
-                    BlockResizer.makeResizable(block, application.getScene());
-                    songBuilder.add(block.getBlock());
+                    BlockResizer.makeResizable(blockView, application.getScene());
+                    songBuilder.add(block);
                     addBlock();
                 }
             }
         });
     }
 
-    private void initLines() {
+    private void initToneLines() {
         for(Tone tone : Tone.values()) {
-            if(tone.isHalbton()) continue;
+            if(tone.isHalbton()) {
+                continue;
+            }
             Label name = new Label(tone.name());
             name.getStyleClass().add("fading-text");
             name.setStyle("-fx-text-alignment: left;");
@@ -79,10 +94,16 @@ public class BuildViewController extends ViewController<MainApplication> {
             double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
             name.setLayoutY(y-15);
             name.setLayoutX(20);
-            Line line = new Line(50, y, application.getScene().getWidth(), y);
+            
+            Line line = new Line(50, y, 5000, y);
             line.getStyleClass().add("line");
+            
             view.getChildren().addAll(name, line);
         }
+    }
+
+    public void scrollSong(double x) {
+        song.setLayoutX(song.getLayoutX()-x);
     }
     
 }

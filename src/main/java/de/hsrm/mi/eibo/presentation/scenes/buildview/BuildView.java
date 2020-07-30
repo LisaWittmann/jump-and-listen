@@ -1,15 +1,12 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
-import de.hsrm.mi.eibo.business.gamelogic.Block;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 
 public class BuildView extends AnchorPane {
 
     Button doneButton, quitButton;
-    HBox field;
+    AnchorPane song;
     
     public BuildView() {
         
@@ -19,14 +16,7 @@ public class BuildView extends AnchorPane {
         doneButton = new Button("save");
         doneButton.getStyleClass().add("text-button");
 
-        field = new HBox();
-        field.setPadding(new Insets(0, 0, 0, 100));
-        field.setSpacing(50);
-        field.setMinHeight(Block.getMinHeight());
-        field.setMaxHeight(Block.getMaxHeight());
-        field.setStyle("-fx-background-color: transparent;");
-        
-        AnchorPane.setBottomAnchor(field, 0.0);
+        song = new AnchorPane();
 
         AnchorPane.setTopAnchor(quitButton, 0.0);
         AnchorPane.setLeftAnchor(quitButton, 0.0);
@@ -34,7 +24,9 @@ public class BuildView extends AnchorPane {
         AnchorPane.setTopAnchor(doneButton, 0.0);
         AnchorPane.setRightAnchor(doneButton, 0.0);
 
-        getChildren().addAll(quitButton, doneButton, field);
+        AnchorPane.setBottomAnchor(song, 0.0);
+
+        getChildren().addAll(song, quitButton, doneButton);
         getStyleClass().add("window");
     }
     
