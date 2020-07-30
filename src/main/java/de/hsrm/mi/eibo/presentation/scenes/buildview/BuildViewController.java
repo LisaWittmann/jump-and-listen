@@ -24,6 +24,7 @@ public class BuildViewController extends ViewController<MainApplication> {
     private SongBuilder songBuilder;
 
     private Button quitButton;
+    private Button doneButton;
     private HBox field;
 
     public BuildViewController(MainApplication application) {
@@ -34,6 +35,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         setRootView(view);
 
         quitButton = view.quitButton;
+        doneButton = view.doneButton;
         field = view.field;
 
         initialize();
@@ -42,6 +44,10 @@ public class BuildViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         quitButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.START_VIEW));
+        doneButton.addEventHandler(ActionEvent.ACTION, e -> {
+            application.getGame().setSong(songBuilder.confirm());
+            application.switchScene(Scenes.GAME_VIEW);
+        });
         initLines();
         addBlock();
 
@@ -55,7 +61,8 @@ public class BuildViewController extends ViewController<MainApplication> {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
-                    Resizer.makeResizable(block, application.getScene());
+                    BlockResizer.makeResizable(block, application.getScene());
+                    songBuilder.add(block.getBlock());
                     addBlock();
                 }
             }

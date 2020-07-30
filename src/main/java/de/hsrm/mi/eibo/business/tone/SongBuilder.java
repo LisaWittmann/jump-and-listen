@@ -19,17 +19,21 @@ public class SongBuilder {
     private List<Block> inputBlocks;
 
     public SongBuilder() {
+        songPersitinator = new SongPersitinator();
         inputBlocks = new ArrayList<>();
         buildedSong = null;
     }
 
     public Level calcLevel() {
-        return null;
+        if(inputBlocks.size() < 25) return Level.BEGINNER;
+        if(inputBlocks.size() < 70) return Level.INTERMEDIATE;
+        else return Level.EXPERT; 
     }
 
     public List<Tone> transform() {
         List<Tone> tones = new LinkedList<>();
         for(Block block : inputBlocks) {
+            block.isInitialized().set(false);
             block.setTone(); 
             tones.add(block.getTone());
         }
@@ -37,7 +41,7 @@ public class SongBuilder {
     }
 
     public void add(Block block) {
-        block.setHeight(block.roundHeight(block.getHeight()));
+        block.setHeight(Block.roundHeight(block.getHeight()));
         inputBlocks.add(block);
     }
 
@@ -49,10 +53,12 @@ public class SongBuilder {
         inputBlocks.clear();
     }
     
-    public void confirm() {
+    public Song confirm() {
         buildedSong = new Song();
         buildedSong.setTones(transform());
+        buildedSong.setLevel(calcLevel());
         songPersitinator.saveData(buildedSong);
+        return buildedSong;
     }
 
     public Song getBuildedSong() {

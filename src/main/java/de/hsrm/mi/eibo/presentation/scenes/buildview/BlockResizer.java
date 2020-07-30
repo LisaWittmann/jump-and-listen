@@ -1,28 +1,28 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 
-public class Resizer {
+public class BlockResizer {
 
     private static final int RESIZE_MARGIN = 5;
 
     private double x, y;
     
-    private Region region;
+    private BlockView region;
     private Scene scene;
     private Cursor cursor;
 
-    private Resizer(Region region, Scene scene) {
+    private BlockResizer(BlockView region, Scene scene) {
         this.region = region;
         this.scene = scene;
         this.cursor = scene.getCursor();
     }
 
-    public static void makeResizable(Region region, Scene scene) {
-        Resizer resizer = new Resizer(region, scene);
+    public static void makeResizable(BlockView region, Scene scene) {
+        BlockResizer resizer = new BlockResizer(region, scene);
         region.setOnMousePressed(event -> resizer.mousePressed(event));
         region.setOnMouseDragged(event -> resizer.mouseDragged(event));
         region.setOnMouseMoved(event -> resizer.mouseOver(event));
@@ -30,7 +30,7 @@ public class Resizer {
     }
 
     protected void mouseReleased(MouseEvent event) {
-        region.setCursor(Cursor.DEFAULT);
+        scene.setCursor(Cursor.DEFAULT);
     }
 
     protected void mousePressed(MouseEvent event) {
@@ -46,10 +46,10 @@ public class Resizer {
 
     protected void mouseDragged(MouseEvent event) {
         if(cursor.equals(Cursor.N_RESIZE)) {
-            region.setPrefHeight(region.getPrefHeight() + (y - event.getSceneY()));
+            region.getBlock().setHeight(region.getPrefHeight() + (y - event.getSceneY()));
         }
         else if(cursor.equals(Cursor.E_RESIZE)) {
-            region.setPrefWidth(event.getSceneX() - region.getLayoutX());
+            region.getBlock().setWidth(event.getSceneX() - region.getLayoutX());
         }
         x = event.getSceneX();
         y = event.getSceneY();

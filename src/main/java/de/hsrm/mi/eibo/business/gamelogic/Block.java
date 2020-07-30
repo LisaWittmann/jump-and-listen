@@ -98,7 +98,7 @@ public class Block {
 
     public void setHeight(double height) {
         double oldValue = this.height;
-        this.height = height;
+        this.height = roundHeight(height);
         changes.firePropertyChange("height", oldValue, height);
     }
 

@@ -154,6 +154,7 @@ public class Game {
 
     public void setSong(Song song) {
         this.song = song;
+        this.level = song.getLevel();
         initBlocks(song);
     }
 
