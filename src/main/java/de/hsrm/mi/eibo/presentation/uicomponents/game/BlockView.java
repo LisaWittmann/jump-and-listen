@@ -35,12 +35,7 @@ public class BlockView extends StackPane {
         addButton = new Button("+");
         addButton.getStyleClass().add("text-button");
 
-        addButton.addEventHandler(ActionEvent.ACTION, event -> {
-            getStyleClass().clear();
-            getStyleClass().add("block");
-            block.isInitialized().set(true);
-            addButton.setVisible(false);
-        });
+        addButton.addEventHandler(ActionEvent.ACTION, event -> block.isInitialized().set(true));
 
         getStyleClass().add("empty");
         getChildren().add(addButton);
@@ -65,9 +60,9 @@ public class BlockView extends StackPane {
         });
 
         block.isInitialized().addListener(new ChangeListener<Boolean>(){
-
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                getStyleClass().clear();
                 getStyleClass().add("block");
                 addButton.setVisible(false);
                 addButton = null;

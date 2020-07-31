@@ -31,6 +31,7 @@ public class BlockResizer {
 
     protected void mouseReleased(MouseEvent event) {
         region.setCursor(Cursor.DEFAULT);
+        region.getBlock().setHeight(region.getPrefHeight());
     }
 
     protected void mousePressed(MouseEvent event) {
@@ -45,8 +46,9 @@ public class BlockResizer {
 
     protected void mouseDragged(MouseEvent event) {
         if(cursor.equals(Cursor.N_RESIZE)) {
-            region.setPrefHeight(region.getPrefHeight() + (y - event.getSceneY()));
-            region.getBlock().setHeight(region.getPrefHeight());
+            double height = region.getPrefHeight() + (y-event.getSceneY());
+            region.setPrefHeight(height);
+            //region.getBlock().setHeight(height);
         }
         y = event.getSceneY();
     }
