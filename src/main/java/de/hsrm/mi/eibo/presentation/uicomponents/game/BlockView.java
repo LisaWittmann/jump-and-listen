@@ -53,6 +53,7 @@ public class BlockView extends StackPane {
             return;
         block.changes.addPropertyChangeListener("posX", event -> setLayoutX(block.getPosX()));
         block.changes.addPropertyChangeListener("posY", event -> setLayoutY(block.getPosY()));
+        block.changes.addPropertyChangeListener("height", event -> setPrefHeight(block.getHeight()));
 
         block.isIntersected().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -62,6 +63,18 @@ public class BlockView extends StackPane {
                     getStyleClass().add("block-hit");
                 }
             }          
+        });
+
+        block.isInitialized().addListener(new ChangeListener<Boolean>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                getStyleClass().clear();
+                getStyleClass().add("block");
+                addButton.setVisible(false);
+                addButton = null;
+            }
+            
         });
     }
 
