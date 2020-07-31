@@ -1,9 +1,7 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.tone.SongBuilder;
@@ -17,7 +15,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -110,8 +107,9 @@ public class BuildViewController extends ViewController<MainApplication> {
                 continue;
             }
             Label name = new Label(tone.name());
-            name.getStyleClass().add("fading-text");
+            name.getStyleClass().add("normal-text");
             name.setStyle("-fx-text-alignment: left;");
+            name.setId("fading");
 
             double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
             name.setLayoutY(y-15);

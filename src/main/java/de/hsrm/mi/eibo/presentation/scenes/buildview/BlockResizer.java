@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 
 public class BlockResizer {
 
-    private static final int RESIZE_MARGIN = 5;
+    private static final int RESIZE_MARGIN = 20;
 
     private double y;
     

@@ -15,10 +15,12 @@ import de.hsrm.mi.eibo.business.tone.Song;
 public class SongPersitinator implements DataPersistinator<Song> {
 
     private final String dataPath = "songs.txt";
+    private BufferedReader reader = null;
+    private BufferedWriter writer = null;
 
-    public void saveData(List<Song> data) {
+    @Override
+    public void saveAll(List<Song> data) {
         StringBuilder sb = new StringBuilder();
-        BufferedWriter writer = null;
         for(Song s : data) {
             sb.append(s.toString()).append("\n");
         }
@@ -37,25 +39,8 @@ public class SongPersitinator implements DataPersistinator<Song> {
     }
 
     @Override
-    public void saveData(Song data) {
-        BufferedWriter writer = null;
-        try {   
-            writer =  new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
-            writer.write(data.toString() + "\n");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(writer != null) writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public List<Song> loadListData() {
+    public List<Song> loadAll() {
         List<Song> loaded = new ArrayList<>();
-        BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(dataPath));
             String line;
@@ -74,26 +59,24 @@ public class SongPersitinator implements DataPersistinator<Song> {
         return loaded;
     }
 
-    public Song loadByName(String name) {
-        for(Song s : loadListData()) {
-            if(s.getName().equals(name)) return s;
-        }
-        return null;
-    }
-
-    public List<Song> loadByLevel(Level level) {
-        List<Song> levelSongs = new ArrayList<>();
-        for(Song s : loadListData()) {
-            if(s.getLevel().equals(level)) {
-                levelSongs.add(s);
+    @Override
+    public void saveData(Song data) {
+        try {   
+            writer =  new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
+            writer.write(data.toString() + "\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return levelSongs;
     }
 
     @Override
     public Song loadData() {
-        BufferedReader reader = null;
         Song song = null;
         try {
             reader = new BufferedReader(new FileReader(dataPath));
@@ -110,6 +93,23 @@ public class SongPersitinator implements DataPersistinator<Song> {
             }
         }
         return song;
+    }
+
+    public List<Song> loadByLevel(Level level) {
+        List<Song> levelSongs = new ArrayList<>();
+        for(Song s : loadAll()) {
+            if(s.getLevel().equals(level)) {
+                levelSongs.add(s);
+            }
+        }
+        return levelSongs;
+    }
+    
+    public Song loadByName(String name) {
+        for(Song s : loadAll()) {
+            if(s.getName().equals(name)) return s;
+        }
+        return null;
     }
     
 }

@@ -26,7 +26,8 @@ public class GameView extends AnchorPane {
         settings.setStyle("-fx-font-size: 32px;");
 
         song = new ComboBox<>();
-        song.getStyleClass().add("transparent-combo-box");
+        song.getStyleClass().add("combo-box");
+        song.setId("transparent-combo-box");
 
         songBox = new HBox();
         songBox.setAlignment(Pos.TOP_CENTER);

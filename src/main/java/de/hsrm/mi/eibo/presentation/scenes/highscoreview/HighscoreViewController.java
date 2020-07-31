@@ -84,10 +84,12 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             if(game.getScore() == values.get(i)) module.setId("highscore-module");
 
             Label rank = new Label(String.valueOf(i+1));
-            rank.getStyleClass().add("h3-dark");
+            rank.getStyleClass().add("h3");
+            rank.setId("dark");
 
             Label score = new Label(String.valueOf(values.get(i)));
-            score.getStyleClass().add("dark-text");
+            score.getStyleClass().add("normal-text");
+            score.setId("dark");
 
             module.getChildren().addAll(rank, score);
             highscores.getChildren().add(module);

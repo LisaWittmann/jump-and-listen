@@ -1,16 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat");
 @import url("https://fonts.googleapis.com/css2?family=Sora");
 
-.window {
-    background-color: #2e2e2e;
-    -fx-background-color: #2e2e2e;
-}
-
-.overlay {
-    background-color: #cef6e3;
-    -fx-background-color: #cef6e3;
-    -fx-background-radius: 10px;
-}
+/* TEXT */
 
 .h1 {
     font-family: Sora;
@@ -21,15 +12,6 @@
     -fx-text-fill: #fafafa;
 }
 
-.h2-dark {
-    font-family: Sora;
-    font-size: 50px;
-    -fx-font-family: Sora;
-    -fx-font-size: 50px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #2e2e2e;
-}
-
 .h2 {
     font-family: Sora;
     font-size: 50px;
@@ -37,16 +19,6 @@
     -fx-font-size: 50px;
     -fx-text-alignment: center;
     -fx-text-fill: #fafafa;
-}
-
-.h3-dark {
-    font-family: Sora;
-    font-size: 32px;
-    -fx-font-family: Sora;
-    -fx-font-size: 32px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #2e2e2e;
-
 }
 
 .h3 {
@@ -80,23 +52,16 @@
     -fx-text-fill: #fafafa;
 }
 
-.fading-text {
-    font-family: Montserrat;
-    font-size: 24px;
-    -fx-font-family: Montserrat;
-    -fx-font-size: 24px;
-    -fx-text-alignment: center;
+#fading {
     -fx-text-fill: #a4a4a4;
 }
 
-.dark-text {
-    font-family: Montserrat;
-    font-size: 24px;
-    -fx-font-family: Montserrat;
-    -fx-font-size: 24px;
-    -fx-text-alignment: center;
+#dark {
     -fx-text-fill: #2e2e2e;
 }
+
+
+/* BUTTON */
 
 .text-button {
     background-color: transparent;
@@ -113,20 +78,33 @@
     -fx-text-fill: #cef6e3;
 }
 
-.big-text-button {
-    background-color: transparent;
-    font-family: Sora;
+#big-button {
     font-size: 32px;
-    -fx-background-color: transparent;
-    -fx-font-family: Sora;
     -fx-font-size: 32px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #cef6e3;
 }
 
-.big-text-button:hover {
-    -fx-text-fill: #fafafa;
+.icon-button {
+    min-width: 50px;
+    min-height: 50px;
+    background-color: transparent;
+    background-size: 35px 35px;
+    background-position: center;
+    background-repeat: no-repeat no-repeat;
+    -fx-min-width: 50px;
+    -fx-min-width: 50px;
+    -fx-background-color: transparent;
+    -fx-background-size: 35px 35px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat no-repeat;
 }
+
+#settings-button {
+    background-image: url("../images/settings_dark.png");
+    -fx-background-image: url("../images/settings_dark.png");
+}
+
+
+/* MODULE */
 
 .module {
     background-color: #fafafa;
@@ -143,20 +121,37 @@
     -fx-background-color: #cef6e3;
 }
 
+.window {
+    background-color: #2e2e2e;
+    -fx-background-color: #2e2e2e;
+}
+
+.overlay {
+    background-color: #cef6e3;
+    -fx-background-color: #cef6e3;
+    -fx-background-radius: 10px;
+}
+
+
+/* BLOCK */
+
 .block {
     background-color: #fafafa;
     -fx-background-color: #fafafa;
 }
 
-.block-hit {
+.hit {
     background-color: #cef6e3;
     -fx-background-color: #cef6e3;
 }
 
-.empty-block {
+.empty {
     background-color: #424242;
     -fx-background-color: #424242;
 }
+
+
+/* DROP DOWN */
 
 .combo-box {
     font-family: Sora;
@@ -198,6 +193,47 @@
    -fx-background-color: #fafafa;
 }
 
+#transparent-combo-box {
+    font-size: 28px;
+    background-color: transparent;
+    border-color: transparent;
+    -fx-font-size: 28px;
+    -fx-text-fill: #fafafa;
+    -fx-border-color: transparent;
+}
+
+#transparent-combo-box:hover {
+    background-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#transparent-combo-box .cell {
+    background-color: #2e2e2e;
+    border-color: #2e2e2e;
+    -fx-background-color: #2e2e2e;
+    -fx-text-fill: #fafafa;
+    -fx-text-alignment: center;
+    -fx-border-color: #2e2e2e;
+}
+
+#transparent-combo-box-popup {
+    background-color: #2e2e2e;
+   -fx-background-color: #2e2e2e;
+}
+
+#transparent-combo-box-popup .list-view .list-cell {
+    background-color: #2e2e2e;
+   -fx-background-color: #2e2e2e;
+}
+
+#transparent-combo-box-popup .list-view .list-cell:hover {
+    background-color: #2e2e2e;
+    -fx-background-color: #2e2e2e;
+}
+
+
+/* SLIDER */
+
 .slider {
     background-color: transparent;
     -fx-control-inner-background: #cef6e3;
@@ -215,50 +251,16 @@
     -fx-pref-width: 20px;
 }
 
-.transparent-combo-box {
-    font-family: Sora;
-    font-size: 28px;
-    background-color: transparent;
-    border-width: 2px;
-    border-radius: 5px;
-    -fx-font-size: 28px;
-    -fx-font-family: Sora;
-    -fx-text-alignment: center;
-    -fx-text-fill: #fafafa;
-    -fx-background-color: transparent;
-    -fx-background-radius: 5px;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-}
 
-.transparent-combo-box:hover {
-    background-color: transparent;
-    -fx-background-color: transparent;
-}
-
-.transparent-combo-box .cell {
-    -fx-text-fill: #fafafa;
-}
-
-.transparent-combo-box-popup {
-    background-color: transparent;
-   -fx-background-color: transparent;
-}
-
-.transparent-combo-box-popup .list-view .list-cell {
-    background-color: transparent;
-   -fx-background-color: transparent;
-}
-
-.combo-box-popup .list-view .list-cell:hover {
-    background-color: transparent;
-   -fx-background-color: transparent;
-}
+/* LINE */
 
 .line {
     stroke: #a4a4a4;
     -fx-stroke: #a4a4a4;
 }
+
+
+/* TEXTFIELD */
 
 .text-field {
     font-family: Sora;
@@ -270,5 +272,5 @@
     -fx-text-fill: #fafafa;
     -fx-font-family: Montserrat;
     -fx-font-size: 22px;
-    -fx-padding: 2 2 2 2;
+    -fx-padding: 5px 5px 5px 5px;
 }

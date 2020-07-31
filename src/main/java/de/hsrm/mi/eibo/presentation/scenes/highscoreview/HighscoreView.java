@@ -47,7 +47,8 @@ public class HighscoreView extends VBox {
         retryButton.getStyleClass().add("text-button");
 
         levelButton = new Button("next level");
-        levelButton.getStyleClass().add("big-text-button");
+        levelButton.getStyleClass().add("text-button");
+        levelButton.setId("big-button");
 
         VBox buttonBox = new VBox();
         buttonBox.setSpacing(-5);

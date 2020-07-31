@@ -64,7 +64,7 @@ public class Game {
         songPersitinator = new SongPersitinator();
 
         tutorial = false;
-        if(highscorePersistinator.loadListData().isEmpty()) tutorial = true;
+        if(highscorePersistinator.loadAll().isEmpty()) tutorial = true;
 
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
@@ -185,6 +185,11 @@ public class Game {
         }
     }
 
+    public void start() {
+        running = true;
+        activateMovement();
+    }
+
     public void restart() {
         setScore(0);
         player.setOnStartPosition();
@@ -200,11 +205,6 @@ public class Game {
         initBlocks(song);
     }
 
-    public void start() {
-        running = true;
-        activateMovement();
-    }
-
     public void end() {
         tutorial = false;
         if(score != 0) saveScore();
@@ -217,7 +217,7 @@ public class Game {
     }
 
     /**
-     * Speichert den aktuellen Score ab und setzt ihn danach wieder auf 0
+     * Speichert den aktuellen Score ab 
      */
     public void saveScore() {
         highscorePersistinator.saveData(new Highscore(song,score));

@@ -25,26 +25,31 @@ public class SettingView extends StackPane {
     public SettingView() {
 
         Label header = new Label("settings");
-        header.getStyleClass().add("h2-dark");
+        header.getStyleClass().add("h2");
+        header.setId("dark");
 
         Label distanceLabel = new Label("distance:");
-        distanceLabel.getStyleClass().add("h3-dark");
+        distanceLabel.getStyleClass().add("h3");
         distanceLabel.setStyle("-fx-text-alignment: left;");
+        distanceLabel.setId("dark");
         blockdistance = new Slider(50, 150, 100);
 
         Label speedLabel = new Label("speed:");
-        speedLabel.getStyleClass().add("h3-dark");
+        speedLabel.getStyleClass().add("h3");
         speedLabel.setStyle("-fx-text-alignment: left;");
+        speedLabel.setId("dark");
         speed = new Slider(0.1, 2, 1);
 
         Label volumeLabel = new Label("volume:");
-        volumeLabel.getStyleClass().add("h3-dark");
+        volumeLabel.getStyleClass().add("h3");
         volumeLabel.setStyle("-fx-text-alignment: left;");
+        volumeLabel.setId("dark");
         volume = new Slider(0, 100, 80);
 
         Label themeLabel = new Label("theme:");
-        themeLabel.getStyleClass().add("h3-dark");
+        themeLabel.getStyleClass().add("h3");
         themeLabel.setStyle("-fx-text-alignment: left;");
+        themeLabel.setId("dark");
         theme = new ComboBox<>();
         theme.getStyleClass().add("combo-box");
 
