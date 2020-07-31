@@ -1,11 +1,17 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 public class BuildView extends AnchorPane {
 
     Button doneButton, quitButton;
+    TextField songName;
+    HBox centerContainer;
     AnchorPane song;
     
     public BuildView() {
@@ -17,6 +23,12 @@ public class BuildView extends AnchorPane {
         doneButton.getStyleClass().add("text-button");
 
         song = new AnchorPane();
+        songName = new TextField();
+        songName.setPromptText("name your song");
+        centerContainer = new HBox();
+        centerContainer.setAlignment(Pos.CENTER);
+        centerContainer.setPadding(new Insets(20));
+        centerContainer.getChildren().add(songName);
 
         AnchorPane.setTopAnchor(quitButton, 0.0);
         AnchorPane.setLeftAnchor(quitButton, 0.0);
@@ -25,8 +37,10 @@ public class BuildView extends AnchorPane {
         AnchorPane.setRightAnchor(doneButton, 0.0);
 
         AnchorPane.setBottomAnchor(song, 0.0);
+        
+        AnchorPane.setTopAnchor(centerContainer, 0.0);
 
-        getChildren().addAll(song, quitButton, doneButton);
+        getChildren().addAll(song, centerContainer, quitButton, doneButton);
         getStyleClass().add("window");
     }
     

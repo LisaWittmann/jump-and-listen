@@ -256,5 +256,19 @@
 }
 
 .line {
+    stroke: #a4a4a4;
     -fx-stroke: #a4a4a4;
+}
+
+.text-field {
+    font-family: Sora;
+    font-size: 20px;
+    padding: 5px 5px 5px 5px;
+    background-color: #424242;
+    -fx-background-color: #424242;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #fafafa;
+    -fx-font-family: Montserrat;
+    -fx-font-size: 22px;
+    -fx-padding: 2 2 2 2;
 }

@@ -13,7 +13,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 
 public class BuildViewController extends ViewController<MainApplication> {
@@ -24,6 +26,9 @@ public class BuildViewController extends ViewController<MainApplication> {
     private Button quitButton;
     private Button doneButton;
     private AnchorPane song;
+
+    private HBox centerContainer;
+    private TextField songName;
 
     private double counter = 100;
     private double distance = 50;
@@ -41,8 +46,11 @@ public class BuildViewController extends ViewController<MainApplication> {
         quitButton = view.quitButton;
         doneButton = view.doneButton;
         song = view.song;
-
+        songName = view.songName;
+        centerContainer = view.centerContainer;
+    
         song.setPrefHeight(application.getScene().getHeight());
+        centerContainer.setPrefWidth(application.getScene().getWidth());
 
         initialize();
     }
@@ -51,7 +59,7 @@ public class BuildViewController extends ViewController<MainApplication> {
     public void initialize() {
         quitButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.START_VIEW));
         doneButton.addEventHandler(ActionEvent.ACTION, e -> {
-            application.getGame().setSong(songBuilder.confirm());
+            application.getGame().setSong(songBuilder.confirm(songName.getText()));
             application.switchScene(Scenes.GAME_VIEW);
         });
         initToneLines();

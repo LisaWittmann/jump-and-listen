@@ -59,11 +59,14 @@ public class SongBuilder {
     public void discardAll() {
         inputBlocks.clear();
     }
-    
-    public Song confirm() {
+
+    public Song confirm(String name) {
         buildedSong = new Song();
         buildedSong.setTones(transform());
         buildedSong.setLevel(calcLevel());
+        if(name.length() > 1) {
+            buildedSong.setName(name);
+        }
         songPersitinator.saveData(buildedSong);
         return buildedSong;
     }
