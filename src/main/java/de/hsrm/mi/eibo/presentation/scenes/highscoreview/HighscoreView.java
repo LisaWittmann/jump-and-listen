@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -12,8 +13,9 @@ import javafx.scene.layout.VBox;
  * 
  * @author pwieg001, lwitt001, lgers001
  */
-public class HighscoreView extends VBox {
+public class HighscoreView extends AnchorPane {
 
+    VBox content;
     VBox playerRank;
     Label playerScore;
     Label playerText;
@@ -22,6 +24,7 @@ public class HighscoreView extends VBox {
 
     Button retryButton;
     Button levelButton;
+    Button homeButton;
 
     public HighscoreView() {
 
@@ -50,17 +53,26 @@ public class HighscoreView extends VBox {
         levelButton.getStyleClass().add("text-button");
         levelButton.setId("big-button");
 
+        homeButton = new Button("home");
+        homeButton.getStyleClass().add("text-button");
+
+        AnchorPane.setTopAnchor(homeButton, 0.0);
+        AnchorPane.setLeftAnchor(homeButton, 0.0);
+
         VBox buttonBox = new VBox();
         buttonBox.setSpacing(-5);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.getChildren().addAll(levelButton, retryButton);
+        
+        content = new VBox();
+        content.setSpacing(40);
+        content.setPadding(new Insets(100));
+        content.setAlignment(Pos.TOP_CENTER);
+        content.getStyleClass().add("window");
 
-        setSpacing(40);
-        setPadding(new Insets(100));
-        setAlignment(Pos.TOP_CENTER);
-        getStyleClass().add("window");
+        content.getChildren().addAll(playerRank, highscores, buttonBox);
 
-        getChildren().addAll(playerRank, highscores, buttonBox);
+        getChildren().addAll(content, homeButton);
     }
     
 }
