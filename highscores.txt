@@ -13,3 +13,5 @@ hedwig’s theme;3110
 alle meine entchen;840
 testen;1520
 ch;300
+ch-test;320
+tonleiter;150
