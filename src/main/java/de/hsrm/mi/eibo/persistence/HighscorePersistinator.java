@@ -13,10 +13,12 @@ import de.hsrm.mi.eibo.business.tone.Song;
 
 public class HighscorePersistinator implements DataPersistinator<Highscore> {
 
-    private final String dataPath = System.getProperty("user.home") + "/highscores.txt";
+    private final String dataPath = "highscores.txt";
+    private BufferedReader reader = null;
+    private BufferedWriter writer = null;
 
-    public void saveData(List<Highscore> data) {
-        BufferedWriter writer = null;
+    @Override
+    public void saveAll(List<Highscore> data) {
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             for(Highscore h : data) {
@@ -33,9 +35,9 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         }
     }
 
-    public List<Highscore> loadListData() {
+    @Override
+    public List<Highscore> loadAll() {
         List<Highscore> loaded = new ArrayList<>();
-        BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(dataPath));
             String line;
@@ -54,20 +56,8 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         return loaded;
     }
 
-    public List<Highscore> loadBySong(Song song) {
-        List<Highscore> levelScores = new ArrayList<>();
-        for(Highscore h : loadListData()) {
-            if(h.getSong().getName().equals(song.getName())){
-                levelScores.add(h);
-            }
-        }
-        return levelScores;
-    }
-
     @Override
     public void saveData(Highscore data) {
-        if(loadListData().contains(data)) return;
-        BufferedWriter writer = null;
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(data.toString() + "\n");
@@ -85,7 +75,6 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     @Override
     public Highscore loadData() {
         Highscore highscore = null;
-        BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(dataPath));
             highscore = new Highscore(reader.readLine());
@@ -99,6 +88,16 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
             }
         }
         return highscore;
+    }
+
+    public List<Highscore> loadBySong(Song song) {
+        List<Highscore> levelScores = new ArrayList<>();
+        for(Highscore h : loadAll()) {
+            if(h != null && h.getSong().getName().equals(song.getName())){
+                levelScores.add(h);
+            }
+        }
+        return levelScores;
     }
     
 }

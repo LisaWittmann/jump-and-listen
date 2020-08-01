@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.security.auth.callback.TextOutputCallback;
-
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
@@ -67,9 +65,8 @@ public class Game {
         highscorePersistinator = new HighscorePersistinator();
         songPersitinator = new SongPersitinator();
 
-        if(highscorePersistinator.loadListData().isEmpty()) tutorial = true;
+        if(highscorePersistinator.loadAll().isEmpty()) tutorial = true;
         tutorial = true;
-
 
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
@@ -190,6 +187,11 @@ public class Game {
         }
     }
 
+    public void start() {
+        running = true;
+        activateMovement();
+    }
+
     public void restart() {
         setScore(0);
         player.setOnStartPosition();
@@ -205,11 +207,6 @@ public class Game {
         initBlocks(song);
     }
 
-    public void start() {
-        running = true;
-        activateMovement();
-    }
-
     public void end() {
         tutorial = false;
         if(score != 0) saveScore();
@@ -222,7 +219,7 @@ public class Game {
     }
 
     /**
-     * Speichert den aktuellen Score ab und setzt ihn danach wieder auf 0
+     * Speichert den aktuellen Score ab 
      */
     public void saveScore() {
         highscorePersistinator.saveData(new Highscore(song,score));
@@ -342,8 +339,6 @@ public class Game {
                     }
                     if(!block.equals(blocks.getFirst()) && !block.equals(blocks.getLast())){
                         tonemaker.createTone(block.getTone());
-                    //} catch (NullPointerException np) {
-                        //In dem fall ist man auf Start oder Ende
                     }
                     return true;
                 }

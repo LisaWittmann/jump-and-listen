@@ -46,6 +46,46 @@ public class Block {
         return minWidth;
     }
 
+    /**
+     * rundet Höhe, sodass diese in den min/max Grenzen und in der Schrittweite liegt
+     * @return gerundende Höhe
+     */
+    public static double roundHeight(double height) {
+        if(height < minHeight) return minHeight;
+        if(height > maxHeight) return maxHeight;
+
+        for(double i = minHeight; i <= maxHeight; i += distance) {
+            if(height > i + distance/2) continue;
+            else return i;
+        }
+        return height;
+    }
+
+    /**
+     * Sucht passende Höhe zu einem Ton anhand der konfigurierten Klassen-Variablen
+     * @param tone Ton zu dem Höhe ermittelt werden soll
+     * @return kalkulierte Höhe
+     */
+    public static double getHeightByTone(Tone tone) {
+        for(int i = 0; i < Tone.values().length; i++){
+            if(Tone.values()[i].equals(tone)) return minHeight + i*distance;
+        }
+        return minHeight;
+    }
+
+    /**
+     * Sucht Ton zu angegebener Höhe 
+     * @return getroffener Ton, sonst null
+     */
+    public static Tone getToneByHeight(double height) {
+        height = roundHeight(height);
+        for(int i = 0; i < Tone.values().length; i++) {
+            if((minHeight + i*distance) == height) return Tone.values()[i];
+        }
+        return null;
+    }
+
+
     private Tone tone;
     private ToneMaker toneMaker;
 
@@ -128,6 +168,13 @@ public class Block {
         tone = getToneByHeight(height); 
     }
 
+    public void setTone(Tone tone) {
+        if(initialized.get()) return;
+        this.tone = tone;
+        setHeight(getHeightByTone(tone));
+        initialized.set(true);
+    }
+
     public Tone getTone() {
         return tone;
     }
@@ -158,45 +205,6 @@ public class Block {
 
     public double getPosY() {
         return posY;
-    }
-
-     /**
-      * rundet Höhe, sodass diese in den min/max Grenzen und in der Schrittweite liegt
-      * @return gerundende Höhe
-      */
-    public static double roundHeight(double height) {
-        if(height < minHeight) return minHeight;
-        if(height > maxHeight) return maxHeight;
-
-        for(double i = minHeight; i <= maxHeight; i += distance) {
-            if(height > i + distance/2) continue;
-            else return i;
-        }
-        return height;
-    }
-
-    /**
-     * Sucht passende Höhe zu einem Ton anhand der konfigurierten Klassen-Variablen
-     * @param tone Ton zu dem Höhe ermittelt werden soll
-     * @return kalkulierte Höhe
-     */
-    public static double getHeightByTone(Tone tone) {
-        for(int i = 0; i < Tone.values().length; i++){
-            if(Tone.values()[i].equals(tone)) return minHeight + i*distance;
-        }
-        return minHeight;
-    }
-
-    /**
-     * Sucht Ton zu angegebener Höhe 
-     * @return getroffener Ton, sonst null
-     */
-    public static Tone getToneByHeight(double height) {
-        height = roundHeight(height);
-        for(int i = 0; i < Tone.values().length; i++) {
-            if((minHeight + i*distance) == height) return Tone.values()[i];
-        }
-        return null;
     }
     
 }

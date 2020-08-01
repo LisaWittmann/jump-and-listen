@@ -1,6 +1,9 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
@@ -9,6 +12,7 @@ import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
+import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,10 +49,7 @@ public class GameViewController extends ViewController<MainApplication> {
     private AnchorPane field;
 
     private AnchorPane layer;
-    private VBox tutorial;
-    private Label stepHeader;
-    private Label instruction;
-    private HBox slideButtons;
+    private TutorialView tutorial;
 
     private double mid;
     private PlayerView player;
@@ -73,14 +74,14 @@ public class GameViewController extends ViewController<MainApplication> {
 
         layer = view.layer;
         tutorial = view.tutorial;
-        stepHeader = view.stepHeader;
-        instruction = view.instruction;
-        slideButtons = view.slideButtons;
 
+        mid = application.getScene().getWidth()/2;
         songBox.setPrefWidth(application.getScene().getWidth());
         field.setPrefSize(view.getWidth(), view.getHeight());
         layer.setMinSize(application.getScene().getWidth(), application.getScene().getHeight());
-        mid = application.getScene().getWidth()/2;
+        tutorial.setPrefSize(400, 250);
+        tutorial.setLayoutX(mid - 200);
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - 125);
         
         initialize();
     }
@@ -186,46 +187,34 @@ public class GameViewController extends ViewController<MainApplication> {
                 song.getItems().add(s.getName());
             }
         } if(game.needsTutorial()) {
-            showTutorial();
+            setTutorial();
         } 
         addKeyListener();
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSong(song.getValue()));
     }
 
-    private void showTutorial() {
-        Map<String, String> steps = new LinkedHashMap<>();
-        steps.put("welcome", "");
+    private void setTutorial() {
+        LinkedHashMap<String, String> steps = new LinkedHashMap<>();
+        steps.put("welcome", "learn to play");
         steps.put("start", "press S to start");
         steps.put("move", "press A to move left");
         steps.put("jump", "press W to jump or SHIFT to boostJump");
         steps.put("settings", "costume speed, blocks and theme in settings");
+        tutorial.setSteps(steps);
 
         layer.setVisible(true);
         layer.toFront();
-        stepHeader.setText("welcome");
-        instruction.setText(steps.get("welcome"));
+        view.getChildren().add(tutorial);
+        tutorial.show();
 
-        for(String s : steps.keySet()) {
-            Button button = new Button();
-            button.setShape(new Circle(8));
-            button.setPrefSize(8,8);
-            button.setMaxSize(8,8);
-            button.getStyleClass().add("nav-button");
-            button.addEventHandler(ActionEvent.ACTION, event -> {
-                stepHeader.setText(s);
-                instruction.setText(steps.get(s));
-            });
-            slideButtons.getChildren().add(button);
-        }
-        tutorial.setPrefSize(400, 300);
-        tutorial.setLayoutX(mid - 200);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 -150);
-        layer.getChildren().add(tutorial);
-        layer.setOnMouseClicked(e -> {
-            tutorial.setVisible(false);
-            layer.setVisible(false);
+        tutorial.getVisibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                layer.setVisible(newValue);
+            }
         });
+
     }
 
     public void scrollBlocks(double x) {

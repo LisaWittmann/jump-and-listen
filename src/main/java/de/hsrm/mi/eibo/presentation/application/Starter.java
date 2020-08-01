@@ -11,7 +11,7 @@ public class Starter {
      * Aufruf des Hauptprogramms
      * @param args Komandozeilenparameter
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         MainApplication.main(args);
     }
 }

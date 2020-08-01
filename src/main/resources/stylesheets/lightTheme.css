@@ -1,16 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat");
 @import url("https://fonts.googleapis.com/css2?family=Sora");
 
-.window {
-    background-color: #fafafa;
-    -fx-background-color: #fafafa;
-}
-
-.overlay {
-    background-color: #f79f81;
-    -fx-background-color: #f79f81;
-    -fx-background-radius: 10px;
-}
+/* TEXT */
 
 .h1 {
     font-family: Sora;
@@ -21,29 +12,11 @@
     -fx-text-fill: #2e2e2e;
 }
 
-.h2-dark {
-    font-family: Sora;
-    font-size: 50px;
-    -fx-font-family: Sora;
-    -fx-font-size: 50px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #2e2e2e;
-}
-
 .h2 {
     font-family: Sora;
     font-size: 50px;
     -fx-font-family: Sora;
     -fx-font-size: 50px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #2e2e2e;
-}
-
-.h3-dark {
-    font-family: Sora;
-    font-size: 32px;
-    -fx-font-family: Sora;
-    -fx-font-size: 32px;
     -fx-text-alignment: center;
     -fx-text-fill: #2e2e2e;
 }
@@ -79,23 +52,16 @@
     -fx-text-fill: #2e2e2e;
 }
 
-.fading-text {
-    font-family: Montserrat;
-    font-size: 24px;
-    -fx-font-family: Montserrat;
-    -fx-font-size: 24px;
-    -fx-text-alignment: center;
+#fading {
     -fx-text-fill: #a4a4a4;
 }
 
-.dark-text {
-    font-family: Montserrat;
-    font-size: 24px;
-    -fx-font-family: Montserrat;
-    -fx-font-size: 24px;
-    -fx-text-alignment: center;
+#dark {
     -fx-text-fill: #2e2e2e;
 }
+
+
+/* BUTTON */
 
 .text-button {
     background-color: transparent;
@@ -112,35 +78,52 @@
     -fx-text-fill: #f79f81;
 }
 
-.text-button {
-    background-color: transparent;
-    font-family: Sora;
+#big-button {
     font-size: 32px;
-    -fx-background-color: transparent;
-    -fx-font-family: Sora;
     -fx-font-size: 32px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #f79f81;
 }
 
-.text-button:hover {
-    -fx-text-fill: #2e2e2e;
-}
-
-.big-text-button {
+.icon-button {
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
     background-color: transparent;
-    font-family: Sora;
-    font-size: 32px;
+    background-size: 22px 22px;
+    background-position: center;
+    background-repeat: no-repeat no-repeat;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
     -fx-background-color: transparent;
-    -fx-font-family: Sora;
-    -fx-font-size: 32px;
-    -fx-text-alignment: center;
-    -fx-text-fill: #f79f81;
+    -fx-background-size: 22px 22px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat no-repeat;
 }
 
-.big-text-button:hover {
-    -fx-text-fill: #2e2e2e;
+#close-button {
+    background-image: url("../images/close.png");
+    -fx-background-image: url("../images/close.png");
 }
+
+#forward-button {
+    background-image: url("../images/forward.png");
+    background-size: 32px 22px;
+    min-width: 40px;
+    min-height: 30px;
+    max-width: 40px;
+    max-height: 30px;
+    -fx-background-image: url("../images/forward.png");
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
+    -fx-background-size: 32px 22px;
+}
+
+
+/* MODULE */
 
 .module {
     background-color: #f6d8ce;
@@ -157,17 +140,31 @@
     -fx-background-color: #f79f81;
 }
 
+.window {
+    background-color: #fafafa;
+    -fx-background-color: #fafafa;
+}
+
+.overlay {
+    background-color: #f79f81;
+    -fx-background-color: #f79f81;
+    -fx-background-radius: 10px;
+}
+
+
+/* BLOCK */
+
 .block {
     background-color: #f6d8ce;
     -fx-background-color: #f6d8ce;
 }
 
-.block-hit {
+.hit {
     background-color:#f79f81;
     -fx-background-color: #f79f81;
 }
 
-.empty-block {
+.empty {
     background-color: #f2f2f2;
     -fx-background-color: #f2f2f2;
 }
@@ -187,6 +184,9 @@
     -fx-border-width: 2px;
     -fx-border-radius: 5px;
 }
+
+
+/* DROP DOWN */
 
 .combo-box:hover {
     background-color: #f6d8ce;
@@ -211,6 +211,42 @@
     -fx-background-color: #f6d8ce;
 }
 
+#transparent-combo-box {
+    font-size: 28px;
+    background-color: transparent;
+    border-color: transparent;
+    -fx-font-size: 28px;
+    -fx-text-fill: #2e2e2e;
+    -fx-border-color: transparent;
+}
+
+#transparent-combo-box:hover {
+    background-color: transparent;
+    -fx-background-color: transparent;
+}
+
+#transparent-combo-box .cell {
+    -fx-text-fill: #2e2e2e;
+}
+
+#transparent-combo-box-popup {
+    background-color: transparent;
+   -fx-background-color: transparent;
+}
+
+#transparent-combo-box-popup .list-view .list-cell {
+    background-color: transparent;
+   -fx-background-color: transparent;
+}
+
+#transparent-combo-box-popup .list-view .list-cell:hover {
+    background-color: transparent;
+   -fx-background-color: transparent;
+}
+
+
+/* SLIDER */
+
 .slider {
     background-color: transparent;
     -fx-control-inner-background: #f6d8ce;
@@ -228,46 +264,26 @@
     -fx-pref-width: 20px;
 }
 
-.transparent-combo-box {
-    font-family: Sora;
-    font-size: 28px;
-    background-color: transparent;
-    border-width: 2px;
-    border-radius: 5px;
-    -fx-font-size: 28px;
-    -fx-font-family: Sora;
-    -fx-text-alignment: center;
-    -fx-text-fill: #2e2e2e;
-    -fx-background-color: transparent;
-    -fx-background-radius: 5px;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-}
 
-.transparent-combo-box:hover {
-    background-color: transparent;
-    -fx-background-color: transparent;
-}
-
-.transparent-combo-box .cell {
-    -fx-text-fill: #2e2e2e;
-}
-
-.transparent-combo-box-popup {
-    background-color: transparent;
-   -fx-background-color: transparent;
-}
-
-.transparent-combo-box-popup .list-view .list-cell {
-    background-color: transparent;
-   -fx-background-color: transparent;
-}
-
-.combo-box-popup .list-view .list-cell:hover {
-    background-color: transparent;
-   -fx-background-color: transparent;
-}
+/* LINE */
 
 .line {
+    stroke: #a4a4a4;
     -fx-stroke: #a4a4a4;
+}
+
+
+/* TEXTFIELD */
+
+.text-field {
+    font-family: Sora;
+    font-size: 20px;
+    padding: 5px 5px 5px 5px;
+    background-color: #424242;
+    -fx-background-color: #424242;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #fafafa;
+    -fx-font-family: Montserrat;
+    -fx-font-size: 22px;
+    -fx-padding: 5px 5px 5px 5px;
 }

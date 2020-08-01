@@ -25,7 +25,7 @@ public class IchBinZuTestzwecken {
         songs.add(alleMeineEntchen);
         songs.add(hedwigsTheme);
         songs.add(vivaldi);
-        songPers.saveData(songs);
+        songPers.saveAll(songs);
     }
 
 }

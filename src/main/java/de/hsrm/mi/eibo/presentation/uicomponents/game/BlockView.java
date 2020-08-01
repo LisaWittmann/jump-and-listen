@@ -35,15 +35,9 @@ public class BlockView extends StackPane {
         addButton = new Button("+");
         addButton.getStyleClass().add("text-button");
 
-        addButton.addEventHandler(ActionEvent.ACTION, event -> {
-            getStyleClass().clear();
-            getStyleClass().add("block");
-            block.isInitialized().set(true);
-            addButton.setVisible(false);
-            addButton = null;
-        });
+        addButton.addEventHandler(ActionEvent.ACTION, event -> block.isInitialized().set(true));
 
-        getStyleClass().add("empty-block");
+        getStyleClass().add("empty");
         getChildren().add(addButton);
         StackPane.setAlignment(addButton, Pos.CENTER);
     }
@@ -53,15 +47,27 @@ public class BlockView extends StackPane {
             return;
         block.changes.addPropertyChangeListener("posX", event -> setLayoutX(block.getPosX()));
         block.changes.addPropertyChangeListener("posY", event -> setLayoutY(block.getPosY()));
+        block.changes.addPropertyChangeListener("height", event -> setPrefHeight(block.getHeight()));
 
         block.isIntersected().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
                     getStyleClass().clear();
-                    getStyleClass().add("block-hit");
+                    getStyleClass().add("hit");
                 }
             }          
+        });
+
+        block.isInitialized().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                getStyleClass().clear();
+                getStyleClass().add("block");
+                addButton.setVisible(false);
+                addButton = null;
+            }
+            
         });
     }
 

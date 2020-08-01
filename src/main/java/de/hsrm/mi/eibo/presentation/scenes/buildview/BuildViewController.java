@@ -1,5 +1,8 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.tone.SongBuilder;
 import de.hsrm.mi.eibo.business.tone.Tone;
@@ -11,9 +14,13 @@ import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
@@ -29,6 +36,8 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     private HBox centerContainer;
     private TextField songName;
+
+    private Block emptyBlock;
 
     private double counter = 100;
     private double distance = 50;
@@ -64,6 +73,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         });
         initToneLines();
         addBlock();
+        addKeyListener();
 
     }
 
@@ -72,13 +82,14 @@ public class BuildViewController extends ViewController<MainApplication> {
 
         Block block = songBuilder.addEmpty(counter, application.getScene().getHeight());
         BlockView blockView = new BlockView(block);
+        emptyBlock = block;
         
         song.getChildren().add(blockView);
         AnchorPane.setBottomAnchor(blockView, 0.0);
         counter += block.getWidth() + distance;
         scroll = (counter > application.getScene().getWidth() * 0.6667) ? true : false;
 
-        block.isInitialized().addListener(new ChangeListener<Boolean>() {
+        emptyBlock.isInitialized().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
@@ -96,8 +107,9 @@ public class BuildViewController extends ViewController<MainApplication> {
                 continue;
             }
             Label name = new Label(tone.name());
-            name.getStyleClass().add("fading-text");
+            name.getStyleClass().add("normal-text");
             name.setStyle("-fx-text-alignment: left;");
+            name.setId("fading");
 
             double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
             name.setLayoutY(y-15);
@@ -110,8 +122,37 @@ public class BuildViewController extends ViewController<MainApplication> {
         }
     }
 
-    public void scrollSong(double x) {
+    private void scrollSong(double x) {
         song.setLayoutX(song.getLayoutX()-x);
     }
     
+    private void addKeyListener() {
+        List<KeyCode> options = new ArrayList<>();
+        options.add(KeyCode.C);
+        options.add(KeyCode.D);
+        options.add(KeyCode.E);
+        options.add(KeyCode.F);
+        options.add(KeyCode.G);
+        options.add(KeyCode.A);
+        options.add(KeyCode.H);
+
+        application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+                for(KeyCode code : options) {
+                    if(new KeyCodeCombination(code, KeyCodeCombination.SHIFT_DOWN).match(event)) {
+                        emptyBlock.setTone(Tone.valueOf(code.name() + "S"));
+                        return;
+                    }
+                }
+
+                if(options.contains(event.getCode())) {
+                    emptyBlock.setTone(Tone.valueOf(event.getCode().name()));
+                    return;
+                }
+			}
+        });
+
+    }
 }
