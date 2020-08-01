@@ -1,10 +1,6 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
@@ -83,7 +79,7 @@ public class GameViewController extends ViewController<MainApplication> {
 
         songBox.setPrefWidth(application.getScene().getWidth());
         field.setPrefSize(view.getWidth(), view.getHeight());
-        layer.setPrefSize(view.getWidth(), view.getHeight());
+        layer.setMinSize(application.getScene().getWidth(), application.getScene().getHeight());
         mid = application.getScene().getWidth()/2;
         
         initialize();
@@ -180,23 +176,19 @@ public class GameViewController extends ViewController<MainApplication> {
         for(Block block : game.getBlocks()) {
             blockview = new BlockView(block);
             field.getChildren().add(blockview);
-        }
-        if(game.needsTutorial()) {
-            startTutorial();
-        } else addKeyListener();
-
-        if(!view.getChildren().contains(player)){
+        } if(!view.getChildren().contains(player)){
             view.getChildren().add(player);
-        }
-        if(!view.getChildren().contains(settingView)){
+        } if(!view.getChildren().contains(settingView)){
             view.getChildren().add(settingView);
             settingView.setVisible(false);
-        }
-        if(!song.getItems().contains(game.getSong().getName())){
+        } if(!song.getItems().contains(game.getSong().getName())){
             for(Song s : game.songsForLevel()) {
                 song.getItems().add(s.getName());
             }
-        }
+        } if(game.needsTutorial()) {
+            startTutorial();
+        } else addKeyListener();
+
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSong(song.getValue()));
     }
@@ -274,7 +266,7 @@ public class GameViewController extends ViewController<MainApplication> {
                 button.getStyleClass().add("focused");
                 for(Node n : slideButtons.getChildren()) {
                     Button bn = (Button) n;
-                    if(!bn.equals(button) && bn.getStyleClass().contains("focudes")) {
+                    if(!bn.equals(button) && bn.getStyleClass().contains("focuses")) {
                         bn.getStyleClass().remove("focused");
                     }
                 }
@@ -285,8 +277,8 @@ public class GameViewController extends ViewController<MainApplication> {
         tutorial.setPrefSize(400, 300);
         tutorial.setLayoutX(mid - 200);
         tutorial.setLayoutY(application.getScene().getHeight()/2 -150);
-        view.getChildren().add(tutorial);
-        view.setOnMouseClicked(e -> {
+        layer.getChildren().add(tutorial);
+        layer.setOnMouseClicked(e -> {
             tutorial.setVisible(false);
             layer.setVisible(false);
         });
