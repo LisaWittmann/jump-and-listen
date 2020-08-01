@@ -13,6 +13,7 @@ import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -110,7 +111,7 @@ public class BuildViewController extends ViewController<MainApplication> {
                 if(newValue) {
                     BlockResizer.makeResizable(blockView, application.getScene());
                     songBuilder.add(block);
-                    addBlock();
+                    addBlock(); 
                 }
             }
         });
@@ -168,6 +169,8 @@ public class BuildViewController extends ViewController<MainApplication> {
                 }
                 else if(event.getCode().equals(KeyCode.R)) { 
                     scrollSong(150);
+                } else if(event.getCode().equals(KeyCode.ESCAPE)) {
+                    application.switchScene(Scenes.START_VIEW);
                 }
 			}
         });
@@ -194,9 +197,6 @@ public class BuildViewController extends ViewController<MainApplication> {
                 layer.setVisible(newValue);
             }
         });
-
-        
-
     }
 
     private void scrollSong(double x) {

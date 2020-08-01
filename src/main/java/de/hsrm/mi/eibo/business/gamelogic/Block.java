@@ -87,7 +87,6 @@ public class Block {
 
 
     private Tone tone;
-    private ToneMaker toneMaker;
 
     private double posX, posY; //Achtung: Die sind bisher noch nicht gesetzt! 
     private double height, width;
@@ -102,9 +101,8 @@ public class Block {
      * @param tone eindeutiger Ton, null darf nicht übergeben werden
      * @param toneMaker ToneMaker der Ablaufumgebung
      */
-    public Block(Tone tone, ToneMaker toneMaker){
+    public Block(Tone tone){
         this.tone = tone;
-        this.toneMaker = toneMaker;
 
         width = minWidth;
         height = getHeightByTone(tone);
@@ -120,7 +118,6 @@ public class Block {
      */
     public Block(boolean platform) {
         tone = null;
-        toneMaker = null;
 
         if(platform) {
             height = minHeight;
@@ -160,10 +157,6 @@ public class Block {
         changes.firePropertyChange("posY", oldValue, posY);
     }
 
-    public void setToneMaker(ToneMaker toneMaker) {
-        this.toneMaker = toneMaker;
-    }
-
     public void setTone() { 
         tone = getToneByHeight(height); 
     }
@@ -177,10 +170,6 @@ public class Block {
 
     public Tone getTone() {
         return tone;
-    }
-
-    public ToneMaker getToneMaker() {
-        return toneMaker;
     }
 
     public SimpleBooleanProperty isIntersected() {
@@ -207,4 +196,12 @@ public class Block {
         return posY;
     }
     
+    public void playTone() {
+        ToneMaker toneMaker = new ToneMaker();
+        try {
+            toneMaker.createTone(tone.getFrequenz(), toneMaker.getVolume());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

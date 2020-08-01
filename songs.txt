@@ -4,6 +4,5 @@ expert-hedwig’s theme:H E G FS E H A FS E G FS DS E H H E G FS E H D CS C GS C
 expert-vivaldi:C E E E D C G G F E E E D C G G F E F G F E D E C E E E D C G G F E E E D C G G F E F G F E D E G F E F G A G E G F E F G A G F E D C D C E G F E F G A G E G F E F G A G E A G F E D C D C C E E E D E F F E D D D C D E E F G G G G F E E E E F G G G F E D E G F E F G A G E G F E F G A G E A G F E D C D C 
 intermediate-tastentest:A H G E F G F E D H A H H G C D F E G A D E H G H F C F C E A E E E F D C A E F E E 
 intermediate-halbton test:A AS A AS A AS AS AS AS E ES F FS G GS A AS H C CS D DS E ES F FS C H A H E 
-intermediate-unknown:A DS ES H C ES D ES G F F A E F G A ES FS GS H C D G FS E A D C G A 
 intermediate-testen:H ES C FS DS D A G H FS DS GS A C D E F G C C ES E FS G D E 
 beginner-ch:C H C H C H C H C H C H C H C 

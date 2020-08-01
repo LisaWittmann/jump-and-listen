@@ -93,7 +93,7 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     public List<Highscore> loadBySong(Song song) {
         List<Highscore> levelScores = new ArrayList<>();
         for(Highscore h : loadAll()) {
-            if(h != null && h.getSong().getName().equals(song.getName())){
+            if(h.getSong() != null && h.getSong().getName().equals(song.getName())) {
                 levelScores.add(h);
             }
         }

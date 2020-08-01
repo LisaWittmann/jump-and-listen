@@ -2,7 +2,7 @@ package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.GameViewController;
-import javafx.animation.AnimationTimer;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
@@ -17,16 +17,14 @@ import javafx.scene.layout.StackPane;
 public class PlayerView extends StackPane {
 
     private ImageView image;
-    private AnimationTimer timer;
 
     private double posX, posY;
 
-    private Image normalImg, jumpImg, dropImg;
+    private Image normalImg, moveImg;
 
     public PlayerView(Player player, GameViewController game) {
         normalImg = new Image(getClass().getResource("/images/player.png").toString());
-        jumpImg = new Image(getClass().getResource("/images/player_jump.png").toString());
-        dropImg = new Image(getClass().getResource("/images/player_drop.png").toString());
+        moveImg = new Image(getClass().getResource("/images/player_drop.png").toString());
 
         image = new ImageView();
         image.setFitWidth(100);
@@ -44,21 +42,21 @@ public class PlayerView extends StackPane {
         player.getJumpProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(jumpImg);
+                if(newValue) image.setImage(moveImg);
             }    
         });
 
         player.getBoostProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(jumpImg);
+                if(newValue) image.setImage(moveImg);
             }    
         });
 
         player.getDropProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(dropImg);
+                if(newValue) image.setImage(moveImg);
             }    
         });
 
@@ -67,6 +65,14 @@ public class PlayerView extends StackPane {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(normalImg);
             } 
+        });
+
+        player.getLandedProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) image.setImage(normalImg);
+            }
+            
         });
 
         player.changes.addPropertyChangeListener("koordinaten", event -> {
@@ -79,13 +85,5 @@ public class PlayerView extends StackPane {
                 setLayoutY(player.getPosY());
             }
         });
-    }
-    
-    public void startAnimation() {
-        timer.start();
-    }
-
-    public void stopAnimation() {
-        timer.stop();
     }
 }

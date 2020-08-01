@@ -30,6 +30,7 @@ public class Game {
     private boolean paused, running;
 
     private int score;
+    private int point;
     private HighscorePersistinator highscorePersistinator;
     private SongPersitinator songPersitinator;
 
@@ -130,6 +131,11 @@ public class Game {
 
     public void setSpeedFactor(double speedFactor) {
         this.speedFactor = speedFactor;
+        if(speedFactor < level.speedFactor) {
+            point = level.point+10;
+        } else if(speedFactor > level.speedFactor) {
+            point = level.point+10;
+        }
     }
 
     public void setSceneHeight(double sceneHeight){
@@ -139,6 +145,12 @@ public class Game {
 
     public void setBlockDistanz(double blockDistanz) {
         this.blockDistanz = blockDistanz;
+        if(blockDistanz < (level.distance - 10)) {
+            point = level.point+10;
+        } else if(blockDistanz > (level.distance + 10)) {
+            point += level.point+10;
+        }
+
         if (this.initialized.get()) {
             initBlockPosition();
         }
@@ -148,6 +160,7 @@ public class Game {
         this.level = level;
         setBlockDistanz(level.distance);
         setSpeedFactor(level.speedFactor);
+        point = level.point;
         List<Song> matchingSongs = songsForLevel();
         int random = (int) Math.random() * matchingSongs.size();
         setSong(matchingSongs.get(random));
@@ -170,7 +183,7 @@ public class Game {
     public void initBlocks(Song song) {
         blocks.addFirst(new Block(true)); 
         for(Tone tone : song.getTones()) {
-            blocks.addLast(new Block(tone, tonemaker));
+            blocks.addLast(new Block(tone));
         }
         blocks.add(new Block(true));
         initBlockPosition();
@@ -260,12 +273,14 @@ public class Game {
 
     public void movePlayerLeft(Boolean move) {
         player.setOnMove(move);
+        player.setLanded(false);
         player.setOnRight(false);
         player.setOnLeft(move);
     }
 
     public void movePlayerRight(Boolean move) {
         player.setOnMove(move);
+        player.setLanded(false);
         player.setOnLeft(false);
         player.setOnRight(move);
     }
@@ -283,9 +298,10 @@ public class Game {
 
     public void playerYCalculation() {
         if(checkBlockUnderPlayer()) {
-            //player.vFalling(0, true);
+            player.vFalling(0, true);
             player.setOnJump(false);
             player.setOnDrop(false);
+            player.setLanded(false);
             if (player.vFalling(0, false) > 0) {
                 player.posY -= (player.vFalling(0, false)/FPS) * speedFactor;
             }
@@ -322,6 +338,7 @@ public class Game {
                 if (player.posY + 100 < block.getPosY() && player.posY + 100 - (player.vFalling(0, false)/FPS) * speedFactor > block.getPosY()) {
                     player.posY = block.getPosY() - 100;
                     player.vFalling(0, true);
+                    player.setLanded(false);
                     player.setOnDrop(false);
                     player.setOnJump(false);
 
@@ -329,7 +346,7 @@ public class Game {
                         if (block.isIntersected().get()) {
                             setScore(getScore() - 10);
                         } else {
-                            setScore(getScore() + level.point);
+                            setScore(getScore() + point);
                         }
                     }
                     block.isIntersected().set(true);
@@ -359,7 +376,7 @@ public class Game {
                     if (player.getLeftProperty().get()) {
                         player.posX = ((player.posX - speedFactor * 10) < playerMinX) ? player.posX : (player.posX - speedFactor * 10);
                     }
-                    if (player.getMRightProperty().get()) {
+                    if (player.getRightProperty().get()) {
                         player.posX = ((player.posX + speedFactor * 10) > playerMaxX) ? player.posX : (player.posX + speedFactor * 10);
                     }
 

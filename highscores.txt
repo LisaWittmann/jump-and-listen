@@ -1,15 +1,10 @@
-alle meine entchen;360
-freunde schöner götterfunken;150
-freunde schöner götterfunken;550
-halbton test;2560
-unknown;250
-unknown;250
-vivaldi;1120
-testen;1350
-hedwig’s theme;400
-hedwig’s theme;160
-hedwig’s theme;390
-hedwig’s theme;3110
-alle meine entchen;840
-testen;1520
-ch;300
+freude schöner götterfunken;300
+ch;30
+freude schöner götterfunken;2950
+freude schöner götterfunken;2400
+alle meine entchen;590
+alle meine entchen;680
+alle meine entchen;150
+alle meine entchen;150
+alle meine entchen;150
+hedwig’s theme;720

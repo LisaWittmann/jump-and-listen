@@ -13,7 +13,10 @@ import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -55,6 +58,8 @@ public class MainApplication extends Application {
             scene = new Scene(currentScene, 1400, 800);
             scene.getStylesheets().add(theme.getUrl());
             game.setSceneHeight(scene.getHeight());
+
+            initEscape();
 
             controller = new BuildViewController(this);
             scenes.put(Scenes.BUILD_VIEW, controller.getRootView());
@@ -109,10 +114,6 @@ public class MainApplication extends Application {
         Block.configuteHeight(300, 600);
     }
 
-    public void setMobileLayout(){
-        //TODO: Lisa W
-    }
-
     /**
      * Ändert die angezeigte Scene
      * @param sceneName Scene, die angezeigt werden soll
@@ -125,6 +126,17 @@ public class MainApplication extends Application {
             scene.setRoot(nextScene);
             currentScene = nextScene;
         }
+    }
+
+    public void initEscape() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ESCAPE)) {
+                    switchScene(Scenes.START_VIEW);
+                }
+            } 
+        });
     }
 
     /** 

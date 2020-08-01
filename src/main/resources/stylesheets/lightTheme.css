@@ -287,3 +287,12 @@
     -fx-font-size: 22px;
     -fx-padding: 5px 5px 5px 5px;
 }
+
+#error {
+    border-color: darkred;
+    border-width: 2px;
+    border-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-border-width: 2px;
+    -fx-border-color: darkred;
+}

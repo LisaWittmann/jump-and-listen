@@ -134,15 +134,18 @@ public class GameViewController extends ViewController<MainApplication> {
                     game.movePlayerLeft(true);
                 } else if(event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(true);
-                }  else if(event.getCode().equals(KeyCode.S)) {
+                } else if(event.getCode().equals(KeyCode.S)) {
 						Platform.runLater(new Runnable(){
 							@Override
 							public void run() {
 								game.start();
 							}
                         }); 
-                    }
+                } else if(event.getCode().equals(KeyCode.ESCAPE)) {
+                    game.end();
+                    application.switchScene(Scenes.START_VIEW);
                 }
+            }
         });
 
         application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
