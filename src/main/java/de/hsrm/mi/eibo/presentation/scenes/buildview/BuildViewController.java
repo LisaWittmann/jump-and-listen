@@ -177,8 +177,8 @@ public class BuildViewController extends ViewController<MainApplication> {
         LinkedHashMap<String, String> steps = new LinkedHashMap<>();
         steps.put("welcome", "learn how to create own songs");
         steps.put("add tone", "'+' will add a new tone to your song");
-        steps.put("drag tone", "change the high of a tone by dragging it up or down");
-        steps.put("keyboard", "you can also add songs by tying in the letter");
+        steps.put("drag tone", "change the height of a tone by dragging it up or down");
+        steps.put("keyboard", "you can also add songs by typing in the letter");
         steps.put("scroll", "press R to scroll right and L to scroll left");
         steps.put("save", "you need to enter a name for your song to save it");
         tutorial.setSteps(steps);

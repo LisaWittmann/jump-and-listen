@@ -193,7 +193,7 @@ public class GameViewController extends ViewController<MainApplication> {
         steps.put("start", "press S to start");
         steps.put("move", "press A to move left");
         steps.put("jump", "press W to jump or SHIFT to boostJump");
-        steps.put("settings", "costume speed, blocks and theme in settings");
+        steps.put("settings", "customize speed, blocks and theme in settings");
         tutorial.setSteps(steps);
 
         layer.setVisible(true);

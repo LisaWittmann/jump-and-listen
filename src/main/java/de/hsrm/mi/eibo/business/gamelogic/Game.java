@@ -43,7 +43,7 @@ public class Game {
     final double FORCE_MULTI = 70;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.60);
-    final double BOOST_MULTI = 1.5;
+    final double BOOST_MULTI = 1.7;
     private double playerMinX = 0;
     private double playerMaxX = Double.POSITIVE_INFINITY;
     private boolean movementActive = false;
