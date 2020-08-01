@@ -68,9 +68,10 @@ public class SongBuilder {
             buildedSong = new Song();
             buildedSong.setTones(transform());
             buildedSong.setLevel(calcLevel());
-            if(name.length() > 1) {
+            if(songPersitinator.nameAccepted(name)) {
                 buildedSong.setName(name);
             }
+            else throw new NameException();
             songPersitinator.saveData(buildedSong);
             return buildedSong;
         }

@@ -164,7 +164,7 @@ public class Block {
         this.toneMaker = toneMaker;
     }
 
-    public void setTone() { //TODO: Exception wäre Sinnvoll
+    public void setTone() { 
         tone = getToneByHeight(height); 
     }
 

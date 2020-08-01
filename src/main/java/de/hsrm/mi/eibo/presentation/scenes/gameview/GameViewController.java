@@ -1,10 +1,6 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.business.tone.Song;
@@ -18,7 +14,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -27,8 +22,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
  * Nutzer

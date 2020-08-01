@@ -111,5 +111,14 @@ public class SongPersitinator implements DataPersistinator<Song> {
         }
         return null;
     }
+
+    public boolean nameAccepted(String name) {
+        for(Song s : loadAll()) {
+            if(s.getName().equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
     
 }
