@@ -7,6 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class GameView extends AnchorPane {
 
@@ -15,7 +16,13 @@ public class GameView extends AnchorPane {
     ComboBox<String> song;
     HBox songBox;
     AnchorPane field;
+    
     AnchorPane layer;
+    VBox tutorial;
+    HBox slideButtons;
+
+    Label stepHeader;
+    Label instruction;
 
     public GameView() {
         score = new Label();
@@ -37,6 +44,27 @@ public class GameView extends AnchorPane {
         layer = new AnchorPane();
         layer.setId("transparent");
         layer.setVisible(false);
+
+        tutorial = new VBox();
+        tutorial.setAlignment(Pos.TOP_CENTER);
+        tutorial.setPadding(new Insets(40, 0, 0, 0));
+        tutorial.setSpacing(20);
+        tutorial.setId("tutorial-window");
+
+        slideButtons = new HBox();
+        slideButtons.setAlignment(Pos.CENTER);
+        slideButtons.setSpacing(8);
+
+        stepHeader = new Label();
+        stepHeader.getStyleClass().add("h3");
+
+        instruction = new Label();
+        instruction.getStyleClass().add("normal-text");
+        instruction.setMaxWidth(250);
+        instruction.setAlignment(Pos.CENTER);
+        instruction.setWrapText(true);
+
+        tutorial.getChildren().addAll(stepHeader, instruction, slideButtons);
 
         getChildren().addAll(field, songBox, score, settings, layer);
 

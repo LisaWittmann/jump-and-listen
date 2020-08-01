@@ -1,8 +1,11 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.business.tone.Song;
@@ -15,16 +18,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
  * Nutzer
@@ -44,12 +48,14 @@ public class GameViewController extends ViewController<MainApplication> {
     private Label score;
     private AnchorPane field;
 
+    private AnchorPane layer;
+    private VBox tutorial;
+    private Label stepHeader;
     private Label instruction;
+    private HBox slideButtons;
 
     private double mid;
     private PlayerView player;
-
-    private List<KeyCode> options;
 
     public GameViewController(MainApplication application) {
         super(application);
@@ -69,26 +75,28 @@ public class GameViewController extends ViewController<MainApplication> {
         songBox = view.songBox;
         field = view.field;
 
+        layer = view.layer;
+        tutorial = view.tutorial;
+        stepHeader = view.stepHeader;
+        instruction = view.instruction;
+        slideButtons = view.slideButtons;
+
         songBox.setPrefWidth(application.getScene().getWidth());
         field.setPrefSize(view.getWidth(), view.getHeight());
+        layer.setPrefSize(view.getWidth(), view.getHeight());
         mid = application.getScene().getWidth()/2;
-        
-        instruction = new Label();
-        options = new ArrayList<>();
         
         initialize();
     }
 
     @Override
     public void initialize() {
-        setKeyOptions();
         score.setText(String.valueOf(game.getScore()));
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
             if(!view.getChildren().contains(settingView)){
                 view.getChildren().add(settingView);
-            }
-            else {
+            } else {
                 settingView.setVisible(true);
             }
             view.setOnMouseClicked(e -> settingView.setVisible(false));
@@ -97,8 +105,9 @@ public class GameViewController extends ViewController<MainApplication> {
         game.isInitialized().addListener(new ChangeListener<Boolean>(){
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) initGameSetup();
-                else {
+                if(newValue) {
+                    initGameSetup();
+                } else {
                     field.setLayoutX(0);
                     field.getChildren().clear();
                 }
@@ -120,13 +129,6 @@ public class GameViewController extends ViewController<MainApplication> {
         });
     }
 
-    private void setKeyOptions() {
-        options.add(KeyCode.S);
-        options.add(KeyCode.A);
-        options.add(KeyCode.D);
-        options.add(KeyCode.W);
-        options.add(KeyCode.SHIFT);
-    }
 
     public void addKeyListener() {
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -199,22 +201,8 @@ public class GameViewController extends ViewController<MainApplication> {
         song.setOnAction(event -> game.setSong(song.getValue()));
     }
 
-    public void startTutorial() {
-        view.getChildren().add(instruction);
-        instruction.setLayoutX(getMid()-110);
-        instruction.setLayoutY(200);
-        instruction.getStyleClass().add("fading-text");
-
-        LinkedList<String> steps = new LinkedList<>();
-        steps.addFirst("press S to start");
-        steps.add("press A to move left");
-        steps.add("press D to move right");
-        steps.add("press W to jump");
-        steps.add("press SHIFT to boost jump");
-        steps.addLast("press Q to quit tutorial");
-
-        instruction.setText(steps.getFirst());
-        
+    private void startTutorial() {
+        initInstructions();
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
@@ -259,10 +247,49 @@ public class GameViewController extends ViewController<MainApplication> {
                 }
             }
         }); 
-        
+    }
 
-    
+    private void initInstructions() {
+        Map<String, String> steps = new LinkedHashMap<>();
+        steps.put("welcome", "");
+        steps.put("start", "press S to start");
+        steps.put("move", "press A to move left");
+        steps.put("jump", "press W to jump or SHIFT to boostJump");
+        steps.put("settings", "costume speed, blocks and theme in settings");
 
+        layer.setVisible(true);
+        layer.toFront();
+        stepHeader.setText("welcome");
+        instruction.setText(steps.get("welcome"));
+
+        for(String s : steps.keySet()) {
+            Button button = new Button();
+            button.setShape(new Circle(8));
+            button.setPrefSize(8,8);
+            button.setMaxSize(8,8);
+            button.getStyleClass().add("nav-button");
+            button.addEventHandler(ActionEvent.ACTION, event -> {
+                stepHeader.setText(s);
+                instruction.setText(steps.get(s));
+                button.getStyleClass().add("focused");
+                for(Node n : slideButtons.getChildren()) {
+                    Button bn = (Button) n;
+                    if(!bn.equals(button) && bn.getStyleClass().contains("focudes")) {
+                        bn.getStyleClass().remove("focused");
+                    }
+                }
+
+            });
+            slideButtons.getChildren().add(button);
+        }
+        tutorial.setPrefSize(400, 300);
+        tutorial.setLayoutX(mid - 200);
+        tutorial.setLayoutY(application.getScene().getHeight()/2 -150);
+        view.getChildren().add(tutorial);
+        view.setOnMouseClicked(e -> {
+            tutorial.setVisible(false);
+            layer.setVisible(false);
+        });
     }
 
     public void scrollBlocks(double x) {
