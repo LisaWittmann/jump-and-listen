@@ -378,20 +378,6 @@ public class Game {
         }
     }
 
-    public void startTestMovement() {
-        playerMaxX = blocks.getFirst().getWidth()-50;
-        running = true;
-        activateMovement();
-    }
-
-    public void endTestMovement() {
-        setScore(0);
-        playerMaxX = Double.POSITIVE_INFINITY;
-        running = false;
-        tutorial = false;
-        movementActive = false;
-    }
-
     @Override
     protected void finalize() throws Throwable {
         running = false;

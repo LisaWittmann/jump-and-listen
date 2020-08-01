@@ -186,62 +186,14 @@ public class GameViewController extends ViewController<MainApplication> {
                 song.getItems().add(s.getName());
             }
         } if(game.needsTutorial()) {
-            startTutorial();
-        } else addKeyListener();
-
+            showTutorial();
+        } 
+        addKeyListener();
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSong(song.getValue()));
     }
 
-    private void startTutorial() {
-        initInstructions();
-        application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.SHIFT)) {
-                    game.getPlayer().setOnBoost(true);
-                    game.playerJump();
-                } else if(event.getCode().equals(KeyCode.W)) {
-                    game.getPlayer().setOnJump(true);
-                    game.playerJump();
-                } else if(event.getCode().equals(KeyCode.A)) {
-                    game.movePlayerLeft(true);
-                } else if(event.getCode().equals(KeyCode.D)) {
-                    game.movePlayerRight(true);
-                } else if(event.getCode().equals(KeyCode.S)) {
-						Platform.runLater(new Runnable(){
-							@Override
-							public void run() {
-								game.startTestMovement();
-							}
-                        }); 
-                } else if(event.getCode().equals(KeyCode.Q)) {
-                    game.endTestMovement();
-                    addKeyListener();
-                }
-            }
-        });
-
-        application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.SHIFT)) {
-                    game.getPlayer().setOnBoost(true);
-                    game.getPlayer().setOnBoost(false);
-                } else if(event.getCode().equals(KeyCode.W)) {
-                    game.getPlayer().setOnBoost(false);
-                    game.getPlayer().setOnJump(true);
-                    game.getPlayer().setOnJump(false);
-                } else if(event.getCode().equals(KeyCode.A)){
-                    game.movePlayerLeft(false);
-                } else if(event.getCode().equals(KeyCode.D)) {
-                    game.movePlayerRight(false);
-                }
-            }
-        }); 
-    }
-
-    private void initInstructions() {
+    private void showTutorial() {
         Map<String, String> steps = new LinkedHashMap<>();
         steps.put("welcome", "");
         steps.put("start", "press S to start");
@@ -263,14 +215,6 @@ public class GameViewController extends ViewController<MainApplication> {
             button.addEventHandler(ActionEvent.ACTION, event -> {
                 stepHeader.setText(s);
                 instruction.setText(steps.get(s));
-                button.getStyleClass().add("focused");
-                for(Node n : slideButtons.getChildren()) {
-                    Button bn = (Button) n;
-                    if(!bn.equals(button) && bn.getStyleClass().contains("focuses")) {
-                        bn.getStyleClass().remove("focused");
-                    }
-                }
-
             });
             slideButtons.getChildren().add(button);
         }

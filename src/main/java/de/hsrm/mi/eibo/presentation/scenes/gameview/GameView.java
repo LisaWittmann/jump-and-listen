@@ -19,7 +19,10 @@ public class GameView extends AnchorPane {
     
     AnchorPane layer;
     VBox tutorial;
-    HBox slideButtons;
+
+    AnchorPane buttons;
+    Button close;
+    Button forward;
 
     Label stepHeader;
     Label instruction;
@@ -51,9 +54,8 @@ public class GameView extends AnchorPane {
         tutorial.setSpacing(20);
         tutorial.setId("tutorial-window");
 
-        slideButtons = new HBox();
-        slideButtons.setAlignment(Pos.CENTER);
-        slideButtons.setSpacing(8);
+        buttons = new AnchorPane();
+        close = new Button();
 
         stepHeader = new Label();
         stepHeader.getStyleClass().add("h3");
@@ -64,7 +66,7 @@ public class GameView extends AnchorPane {
         instruction.setAlignment(Pos.CENTER);
         instruction.setWrapText(true);
 
-        tutorial.getChildren().addAll(stepHeader, instruction, slideButtons);
+        tutorial.getChildren().addAll(buttons, stepHeader, instruction);
 
         getChildren().addAll(field, songBox, score, settings, layer);
 
