@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.security.auth.callback.TextOutputCallback;
+
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
@@ -44,10 +46,12 @@ public class Game {
     final double G_FORCE = -9.8066 * FORCE_MULTI;
     final double JUMP_FORCE = G_FORCE * (-0.60);
     final double BOOST_MULTI = 1.5;
+    private double playerMinX = 0;
+    private double playerMaxX = Double.POSITIVE_INFINITY;
     private boolean movementActive = false;
+    private boolean tutorial = false;
     private int falldepthGameOver = 1000;
     private double sceneHeight = 0;
-    private boolean tutorial;
 
     public PropertyChangeSupport changes;
 
@@ -63,8 +67,9 @@ public class Game {
         highscorePersistinator = new HighscorePersistinator();
         songPersitinator = new SongPersitinator();
 
-        tutorial = false;
         if(highscorePersistinator.loadListData().isEmpty()) tutorial = true;
+        tutorial = true;
+
 
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
@@ -358,10 +363,10 @@ public class Game {
                     }
                     playerYCalculation();
                     if (player.getLeftProperty().get()) {
-                        player.posX -= speedFactor * 10;
+                        player.posX = ((player.posX - speedFactor * 10) < playerMinX) ? player.posX : (player.posX - speedFactor * 10);
                     }
                     if (player.getMRightProperty().get()) {
-                        player.posX += speedFactor * 10;
+                        player.posX = ((player.posX + speedFactor * 10) > playerMaxX) ? player.posX : (player.posX + speedFactor * 10);
                     }
 
                     player.moveTo(player.getPosX(), player.getPosY());
@@ -371,6 +376,20 @@ public class Game {
             movement.start();
             movementActive = true;
         }
+    }
+
+    public void startTestMovement() {
+        playerMaxX = blocks.getFirst().getWidth()-50;
+        running = true;
+        activateMovement();
+    }
+
+    public void endTestMovement() {
+        setScore(0);
+        playerMaxX = Double.POSITIVE_INFINITY;
+        running = false;
+        tutorial = false;
+        movementActive = false;
     }
 
     @Override

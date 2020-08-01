@@ -1,7 +1,8 @@
 package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.business.tone.Song;
@@ -48,6 +49,8 @@ public class GameViewController extends ViewController<MainApplication> {
     private double mid;
     private PlayerView player;
 
+    private List<KeyCode> options;
+
     public GameViewController(MainApplication application) {
         super(application);
         game = application.getGame();
@@ -68,15 +71,17 @@ public class GameViewController extends ViewController<MainApplication> {
 
         songBox.setPrefWidth(application.getScene().getWidth());
         field.setPrefSize(view.getWidth(), view.getHeight());
-
         mid = application.getScene().getWidth()/2;
-
+        
         instruction = new Label();
+        options = new ArrayList<>();
+        
         initialize();
     }
 
     @Override
     public void initialize() {
+        setKeyOptions();
         score.setText(String.valueOf(game.getScore()));
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
@@ -115,24 +120,27 @@ public class GameViewController extends ViewController<MainApplication> {
         });
     }
 
+    private void setKeyOptions() {
+        options.add(KeyCode.S);
+        options.add(KeyCode.A);
+        options.add(KeyCode.D);
+        options.add(KeyCode.W);
+        options.add(KeyCode.SHIFT);
+    }
+
     public void addKeyListener() {
-        KeyCombination boost = new KeyCodeCombination(KeyCode.UP, KeyCodeCombination.CONTROL_DOWN);
-        KeyCombination boostAlt = new KeyCodeCombination(KeyCode.W, KeyCodeCombination.CONTROL_DOWN);
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
-                if(boost.match(event) || boostAlt.match(event) || event.getCode().equals(KeyCode.CONTROL)){
+                if(event.getCode().equals(KeyCode.SHIFT)) {
                     game.getPlayer().setOnBoost(true);
                     game.playerJump();
-                } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
+                } else if(event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnJump(true);
                     game.playerJump();
-                } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    game.getPlayer().setOnDrop(true);
-                    game.playerYCalculation();
-                } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)) {
+                } else if(event.getCode().equals(KeyCode.A)) {
                     game.movePlayerLeft(true);
-                } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
+                } else if(event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(true);
                 }  else if(event.getCode().equals(KeyCode.S)) {
 						Platform.runLater(new Runnable(){
@@ -146,22 +154,18 @@ public class GameViewController extends ViewController<MainApplication> {
         });
 
         application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
-
             @Override
             public void handle(KeyEvent event) {
-                if(boost.match(event) || boostAlt.match(event) || event.getCode().equals(KeyCode.CONTROL)){
+                if(event.getCode().equals(KeyCode.SHIFT)) {
                     game.getPlayer().setOnBoost(true);
                     game.getPlayer().setOnBoost(false);
-                } else if(event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.W)) {
+                } else if(event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnBoost(false);
                     game.getPlayer().setOnJump(true);
                     game.getPlayer().setOnJump(false);
-                } else if(event.getCode().equals(KeyCode.DOWN)) {
-                    game.getPlayer().setOnDrop(true);
-                    game.getPlayer().setOnDrop(false);
-                } else if(event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.A)){
+                } else if(event.getCode().equals(KeyCode.A)){
                     game.movePlayerLeft(false);
-                } else if(event.getCode().equals(KeyCode.RIGHT) || event.getCode().equals(KeyCode.D)) {
+                } else if(event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(false);
                 }
             }
@@ -201,26 +205,63 @@ public class GameViewController extends ViewController<MainApplication> {
         instruction.setLayoutY(200);
         instruction.getStyleClass().add("fading-text");
 
-        instruction.setText("press S to start");
-        Map<KeyCode, String> steps = new HashMap<>();
-        steps.put(KeyCode.S, "press A to move left");
-        steps.put(KeyCode.A, "press D to move right");
-        steps.put(KeyCode.D, "press W to jump");
-        steps.put(KeyCode.W, "press W and Control to boost jump");
-        steps.put(KeyCode.CONTROL, "press Q to quit tutorial");
+        LinkedList<String> steps = new LinkedList<>();
+        steps.addFirst("press S to start");
+        steps.add("press A to move left");
+        steps.add("press D to move right");
+        steps.add("press W to jump");
+        steps.add("press SHIFT to boost jump");
+        steps.addLast("press Q to quit tutorial");
+
+        instruction.setText(steps.getFirst());
+        
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
-                if(steps.keySet().contains(event.getCode())) {
-                    instruction.setText(steps.get(event.getCode()));
+                if(event.getCode().equals(KeyCode.SHIFT)) {
+                    game.getPlayer().setOnBoost(true);
+                    game.playerJump();
+                } else if(event.getCode().equals(KeyCode.W)) {
+                    game.getPlayer().setOnJump(true);
+                    game.playerJump();
+                } else if(event.getCode().equals(KeyCode.A)) {
+                    game.movePlayerLeft(true);
+                } else if(event.getCode().equals(KeyCode.D)) {
+                    game.movePlayerRight(true);
+                } else if(event.getCode().equals(KeyCode.S)) {
+						Platform.runLater(new Runnable(){
+							@Override
+							public void run() {
+								game.startTestMovement();
+							}
+                        }); 
                 } else if(event.getCode().equals(KeyCode.Q)) {
-                    view.getChildren().remove(instruction);
+                    game.endTestMovement();
                     addKeyListener();
                 }
             }
         });
 
-        //TODO: wäre cool für springen und so weiter kurze Vorschau zu haben @Philipp geht sowas?
+        application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.SHIFT)) {
+                    game.getPlayer().setOnBoost(true);
+                    game.getPlayer().setOnBoost(false);
+                } else if(event.getCode().equals(KeyCode.W)) {
+                    game.getPlayer().setOnBoost(false);
+                    game.getPlayer().setOnJump(true);
+                    game.getPlayer().setOnJump(false);
+                } else if(event.getCode().equals(KeyCode.A)){
+                    game.movePlayerLeft(false);
+                } else if(event.getCode().equals(KeyCode.D)) {
+                    game.movePlayerRight(false);
+                }
+            }
+        }); 
+        
+
+    
 
     }
 
