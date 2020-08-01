@@ -298,9 +298,18 @@
     padding: 5px 5px 5px 5px;
     background-color: #424242;
     -fx-background-color: #424242;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 3px;
     -fx-text-fill: #fafafa;
     -fx-font-family: Montserrat;
     -fx-font-size: 22px;
     -fx-padding: 5px 5px 5px 5px;
+}
+
+#error {
+    border-color: darkred;
+    border-width: 2px;
+    border-radius: 3px;
+    -fx-border-radius: 3px;
+    -fx-border-width: 2px;
+    -fx-border-color: darkred;
 }

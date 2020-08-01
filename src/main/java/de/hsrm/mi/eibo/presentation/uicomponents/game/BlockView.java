@@ -65,9 +65,7 @@ public class BlockView extends StackPane {
                 getStyleClass().clear();
                 getStyleClass().add("block");
                 addButton.setVisible(false);
-                addButton = null;
-            }
-            
+            }   
         });
     }
 

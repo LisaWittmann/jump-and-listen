@@ -1,16 +1,18 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.gamelogic.Block;
+import de.hsrm.mi.eibo.business.tone.NameException;
 import de.hsrm.mi.eibo.business.tone.SongBuilder;
 import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
-
+import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -39,6 +41,9 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     private Block emptyBlock;
 
+    private AnchorPane layer;
+    private TutorialView tutorial;
+
     private double counter = 100;
     private double distance = 50;
 
@@ -57,28 +62,38 @@ public class BuildViewController extends ViewController<MainApplication> {
         song = view.song;
         songName = view.songName;
         centerContainer = view.centerContainer;
+        tutorial = view.tutorial;
+        layer = view.layer;
     
         song.setPrefHeight(application.getScene().getHeight());
+        layer.setPrefSize(application.getScene().getWidth(), application.getScene().getHeight());
         centerContainer.setPrefWidth(application.getScene().getWidth());
+        tutorial.setPrefSize(400, 250);
+        tutorial.setLayoutX(application.getScene().getWidth()/2 - 200);
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - 125);
 
         initialize();
     }
 
     @Override
     public void initialize() {
-        quitButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.START_VIEW));
-        doneButton.addEventHandler(ActionEvent.ACTION, e -> {
-            application.getGame().setSong(songBuilder.confirm(songName.getText()));
-            application.switchScene(Scenes.GAME_VIEW);
+        quitButton.addEventHandler(ActionEvent.ACTION, event -> application.switchScene(Scenes.START_VIEW));
+        doneButton.addEventHandler(ActionEvent.ACTION, event -> {
+            try {
+                application.getGame().setSong(songBuilder.confirm(songName.getText()));
+                application.switchScene(Scenes.GAME_VIEW);
+            } catch (NameException e) {
+                songName.setId("error");
+            }
         });
         initToneLines();
         addBlock();
         addKeyListener();
-
+        setTutorial();
     }
 
     public void addBlock() {
-        if(scroll) scrollSong(150);
+        if(scroll) scrollSong(-150);
 
         Block block = songBuilder.addEmpty(counter, application.getScene().getHeight());
         BlockView blockView = new BlockView(block);
@@ -121,10 +136,6 @@ public class BuildViewController extends ViewController<MainApplication> {
             view.getChildren().addAll(name, line);
         }
     }
-
-    private void scrollSong(double x) {
-        song.setLayoutX(song.getLayoutX()-x);
-    }
     
     private void addKeyListener() {
         List<KeyCode> options = new ArrayList<>();
@@ -151,8 +162,45 @@ public class BuildViewController extends ViewController<MainApplication> {
                     emptyBlock.setTone(Tone.valueOf(event.getCode().name()));
                     return;
                 }
+
+                else if(event.getCode().equals(KeyCode.L)) { 
+                    scrollSong(-150);
+                }
+                else if(event.getCode().equals(KeyCode.R)) { 
+                    scrollSong(150);
+                }
 			}
         });
+    }
+
+    private void setTutorial() {
+        LinkedHashMap<String, String> steps = new LinkedHashMap<>();
+        steps.put("welcome", "learn how to create own songs");
+        steps.put("add tone", "'+' will add a new tone to your song");
+        steps.put("drag tone", "change the high of a tone by dragging it up or down");
+        steps.put("keyboard", "you can also add songs by tying in the letter");
+        steps.put("scroll", "press R to scroll right and L to scroll left");
+        steps.put("save", "you need to enter a name for your song to save it");
+        tutorial.setSteps(steps);
+
+        layer.setVisible(true);
+        layer.toFront();
+        view.getChildren().add(tutorial);
+        tutorial.show();
+
+        tutorial.getVisibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                layer.setVisible(newValue);
+            }
+        });
+
+        
 
     }
+
+    private void scrollSong(double x) {
+        song.setLayoutX(song.getLayoutX()+x);
+    }
+
 }

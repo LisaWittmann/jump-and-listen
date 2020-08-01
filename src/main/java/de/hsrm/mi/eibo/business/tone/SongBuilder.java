@@ -60,15 +60,20 @@ public class SongBuilder {
         inputBlocks.clear();
     }
 
-    public Song confirm(String name) {
-        buildedSong = new Song();
-        buildedSong.setTones(transform());
-        buildedSong.setLevel(calcLevel());
-        if(name.length() > 1) {
-            buildedSong.setName(name);
+    public Song confirm(String name) throws NameException {
+        if(name == null || name.equals("")){
+            throw new NameException();
         }
-        songPersitinator.saveData(buildedSong);
-        return buildedSong;
+        else {
+            buildedSong = new Song();
+            buildedSong.setTones(transform());
+            buildedSong.setLevel(calcLevel());
+            if(name.length() > 1) {
+                buildedSong.setName(name);
+            }
+            songPersitinator.saveData(buildedSong);
+            return buildedSong;
+        }
     }
 
     public Song getBuildedSong() {

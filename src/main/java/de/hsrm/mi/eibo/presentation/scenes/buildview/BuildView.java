@@ -1,5 +1,7 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,6 +15,9 @@ public class BuildView extends AnchorPane {
     TextField songName;
     HBox centerContainer;
     AnchorPane song;
+
+    AnchorPane layer;
+    TutorialView tutorial;
     
     public BuildView() {
         
@@ -30,6 +35,11 @@ public class BuildView extends AnchorPane {
         centerContainer.setPadding(new Insets(20));
         centerContainer.getChildren().add(songName);
 
+        layer = new AnchorPane();
+        layer.setId("transparent");
+        layer.setVisible(false);
+        tutorial = new TutorialView();
+
         AnchorPane.setTopAnchor(quitButton, 0.0);
         AnchorPane.setLeftAnchor(quitButton, 0.0);
 
@@ -40,7 +50,7 @@ public class BuildView extends AnchorPane {
         
         AnchorPane.setTopAnchor(centerContainer, 0.0);
 
-        getChildren().addAll(song, centerContainer, quitButton, doneButton);
+        getChildren().addAll(song, centerContainer, quitButton, doneButton, layer);
         getStyleClass().add("window");
     }
     

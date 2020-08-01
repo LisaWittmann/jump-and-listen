@@ -66,7 +66,6 @@ public class Game {
         songPersitinator = new SongPersitinator();
 
         if(highscorePersistinator.loadAll().isEmpty()) tutorial = true;
-        tutorial = true;
 
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
