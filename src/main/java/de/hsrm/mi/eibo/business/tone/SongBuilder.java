@@ -24,9 +24,16 @@ public class SongBuilder {
         buildedSong = null;
     }
 
-    public Level calcLevel() {
-        if(inputBlocks.size() < 25) return Level.BEGINNER;
-        if(inputBlocks.size() < 70) return Level.INTERMEDIATE;
+    public Level calcLevel(List<Tone> tones) {
+        int maxdist = 0;
+        int dist;
+        for (int i = 0; i < tones.size() - 2; i++) {
+            dist = tones.get(i).ordinal() - tones.get(i+1).ordinal();
+            if (dist < 0) dist *= (-1);
+            if (dist > maxdist) maxdist = dist;
+        }
+        if(inputBlocks.size() < 25 && maxdist < 5) return Level.BEGINNER;
+        if(inputBlocks.size() < 70 && maxdist < 10) return Level.INTERMEDIATE;
         else return Level.EXPERT; 
     }
 
@@ -67,7 +74,7 @@ public class SongBuilder {
         else {
             buildedSong = new Song();
             buildedSong.setTones(transform());
-            buildedSong.setLevel(calcLevel());
+            buildedSong.setLevel(calcLevel(buildedSong.getTones()));
             if(songPersitinator.nameAccepted(name)) {
                 buildedSong.setName(name);
             }

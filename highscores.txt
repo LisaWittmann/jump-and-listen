@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 freude schöner götterfunken;300
 ch;30
 freude schöner götterfunken;2950
@@ -8,3 +9,22 @@ alle meine entchen;150
 alle meine entchen;150
 alle meine entchen;150
 hedwig’s theme;720
+=======
+alle meine entchen;360
+freunde schöner götterfunken;150
+freunde schöner götterfunken;550
+halbton test;2560
+unknown;250
+unknown;250
+vivaldi;1120
+testen;1350
+hedwig’s theme;400
+hedwig’s theme;160
+hedwig’s theme;390
+hedwig’s theme;3110
+alle meine entchen;840
+testen;1520
+ch;300
+ch-test;320
+tonleiter;150
+>>>>>>> e5273a48d4610a8a047a4590448b4731d8e711da

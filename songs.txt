@@ -6,3 +6,5 @@ intermediate-tastentest:A H G E F G F E D H A H H G C D F E G A D E H G H F C F 
 intermediate-halbton test:A AS A AS A AS AS AS AS E ES F FS G GS A AS H C CS D DS E ES F FS C H A H E 
 intermediate-testen:H ES C FS DS D A G H FS DS GS A C D E F G C C ES E FS G D E 
 beginner-ch:C H C H C H C H C H C H C H C 
+expert-ch-test:C H C H 
+beginner-tonleiter:C CS D DS E ES F FS G GS H H GS G FS F ES E DS D CS C C 
