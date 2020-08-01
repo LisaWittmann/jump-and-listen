@@ -154,6 +154,7 @@ public class BuildViewController extends ViewController<MainApplication> {
 			public void handle(KeyEvent event) {
                 for(KeyCode code : options) {
                     if(new KeyCodeCombination(code, KeyCodeCombination.SHIFT_DOWN).match(event)) {
+                        if (code.name().equals("h")) continue;
                         emptyBlock.setTone(Tone.valueOf(code.name() + "S"));
                         return;
                     }

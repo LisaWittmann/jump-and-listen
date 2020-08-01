@@ -11,7 +11,9 @@ import de.hsrm.mi.eibo.business.gamelogic.Level;
  */
 public class Song {
 
-    private final String SEPERATOR = " ";
+    private static final String TONSEPERATOR = " ";
+    private static final String NAMESEPERATOR = ":";
+    private static final String LEVELSEPERATOR = "-";
 
     private List<Tone> tones;
     private Level level;
@@ -27,11 +29,11 @@ public class Song {
     public Song(String string) {
         this();
         string = string.toUpperCase();
-        String [] parts = string.split("-");
+        String [] parts = string.split(LEVELSEPERATOR);
         level = Level.valueOf(parts[0]);
-        String [] sndparts = parts[1].split(":");
+        String [] sndparts = parts[1].split(NAMESEPERATOR);
         setName(sndparts[0]);
-        String [] notes = sndparts[1].split(SEPERATOR);
+        String [] notes = sndparts[1].split(TONSEPERATOR);
         for (String note: notes) {
             for (Tone tone : Tone.values()) {
                 if (note.equals(tone.name())) {
@@ -46,7 +48,7 @@ public class Song {
         this();
         this.level = level;
         string = string.toUpperCase();
-        String [] notes = string.split(SEPERATOR);
+        String [] notes = string.split(TONSEPERATOR);
         for (String note: notes) {
             for(Tone tone : Tone.values()) {
                 if (note.equals(tone.name())) {
@@ -59,10 +61,10 @@ public class Song {
 
     @Override
     public String toString() {
-        String erg = level.toString() + "-";
-        erg += name + ":";
+        String erg = level.toString() + LEVELSEPERATOR;
+        erg += name + NAMESEPERATOR;
         for (Tone tone : tones) {
-            erg = erg + tone.name() + SEPERATOR;
+            erg = erg + tone.name() + TONSEPERATOR;
         }
         return erg;
     }
@@ -75,10 +77,14 @@ public class Song {
         return level;
     }
 
-    public String getSEPERATOR() {
-        return SEPERATOR;
+    public static String getNameSeperator() {
+        return NAMESEPERATOR;
     }
 
+    public static String getLevelSeperator() {
+        return LEVELSEPERATOR;
+    }
+    
     public List<Tone> getTones() {
         return tones;
     }

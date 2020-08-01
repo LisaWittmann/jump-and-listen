@@ -46,7 +46,7 @@ public class MainApplication extends Application {
             game = new Game();
             player = game.getPlayer();
 
-            theme = Theme.DARK;            
+            theme = Theme.LIGHT;            
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();

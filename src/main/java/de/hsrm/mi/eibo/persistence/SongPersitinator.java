@@ -118,6 +118,9 @@ public class SongPersitinator implements DataPersistinator<Song> {
                 return false;
             }
         }
+        if(name.contains(Song.getLevelSeperator()) || name.contains(Song.getNameSeperator())){
+            return false;
+        }
         return true;
     }
     
