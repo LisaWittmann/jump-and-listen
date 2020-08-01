@@ -15,6 +15,7 @@ public class GameView extends AnchorPane {
     ComboBox<String> song;
     HBox songBox;
     AnchorPane field;
+    AnchorPane layer;
 
     public GameView() {
         score = new Label();
@@ -33,8 +34,11 @@ public class GameView extends AnchorPane {
         songBox.getChildren().add(song);
 
         field = new AnchorPane();
+        layer = new AnchorPane();
+        layer.setId("transparent");
+        layer.setVisible(false);
 
-        getChildren().addAll(field, songBox, score,  settings);
+        getChildren().addAll(field, songBox, score, settings, layer);
 
         AnchorPane.setBottomAnchor(field, 0.0);
 
