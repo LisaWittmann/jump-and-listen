@@ -29,8 +29,10 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     private Label playerScore;
     private Label playerText;
     private VBox highscores;
+    private VBox content;
     private Button retryButton;
     private Button levelButton;
+    private Button homeButton;
 
     private Game game;
     private List<Integer> values;
@@ -47,6 +49,10 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         highscores = view.highscores;
         retryButton = view.retryButton;
         levelButton = view.levelButton;
+        content = view.content;
+        homeButton = view.homeButton;
+
+        content.setPrefSize(application.getScene().getWidth(), application.getScene().getHeight());
 
         application.getGame().gameEnded().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -115,6 +121,10 @@ public class HighscoreViewController extends ViewController<MainApplication> {
                     application.switchScene(Scenes.GAME_VIEW);
                 }
             });
+        });
+
+        homeButton.addEventHandler(ActionEvent.ACTION, event -> {
+            application.switchScene(Scenes.START_VIEW);
         });
 
         
