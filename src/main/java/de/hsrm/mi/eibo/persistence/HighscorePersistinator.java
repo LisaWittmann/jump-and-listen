@@ -99,5 +99,25 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         }
         return levelScores;
     }
+
+    public void removeBySong(Song song) {
+        List<Highscore> data = loadAll();
+        try {   
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
+            for(Highscore h : data) {
+                if(h.getSong().getName() != null  && !h.getSong().getName().equals(song.getName())) {
+                    writer.write(h.toString() + "\n");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
 }

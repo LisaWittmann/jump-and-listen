@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.gamelogic.Level;
+import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
 import de.hsrm.mi.eibo.persistence.SongPersitinator;
 
 public class IchBinZuTestzwecken {
     static ToneMaker tm = new ToneMaker();
     static SongPersitinator songPers = new SongPersitinator();
+    static HighscorePersistinator highscorePers = new HighscorePersistinator();
 
     public static void main(String[] args){
         List<Song> songs = new ArrayList<Song>();

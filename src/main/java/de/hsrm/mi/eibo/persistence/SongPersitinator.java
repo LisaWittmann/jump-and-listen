@@ -17,11 +17,13 @@ public class SongPersitinator implements DataPersistinator<Song> {
     private final String dataPath = "songs.txt";
     private BufferedReader reader = null;
     private BufferedWriter writer = null;
+    private HighscorePersistinator highscorePers = new HighscorePersistinator();
 
     @Override
     public void saveAll(List<Song> data) {
         StringBuilder sb = new StringBuilder();
         for(Song s : data) {
+            if(!nameAccepted(s.getName())) continue;
             sb.append(s.toString()).append("\n");
         }
         try {   
@@ -61,6 +63,7 @@ public class SongPersitinator implements DataPersistinator<Song> {
 
     @Override
     public void saveData(Song data) {
+        if(!nameAccepted(data.getName())) return;
         try {   
             writer =  new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(data.toString() + "\n");
@@ -110,6 +113,27 @@ public class SongPersitinator implements DataPersistinator<Song> {
             if(s.getName().equals(name)) return s;
         }
         return null;
+    }
+
+    public void removeData(Song song) {
+        highscorePers.removeBySong(song);
+        List<Song> data = loadAll();
+        try {   
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
+            for(Song s : data) {
+                if(!s.getName().equals(song.getName())) {
+                    writer.write(s.toString() + "\n");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean nameAccepted(String name) {
