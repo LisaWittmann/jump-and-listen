@@ -45,7 +45,7 @@ public class StartView extends VBox {
 
         setSpacing(25);
         setPadding(new Insets(100));
-        setAlignment(Pos.CENTER);
+        setAlignment(Pos.TOP_CENTER);
         getStyleClass().add("window");
         setId("start-view");
 

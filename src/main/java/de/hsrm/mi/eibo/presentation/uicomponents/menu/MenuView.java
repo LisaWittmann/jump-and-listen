@@ -3,11 +3,12 @@ package de.hsrm.mi.eibo.presentation.uicomponents.menu;
 import java.beans.EventHandler;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class MenuView extends HBox {
+public class MenuView extends VBox {
 
     public MenuView() {
+        setId("menu");
 
     }
 

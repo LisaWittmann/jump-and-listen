@@ -73,7 +73,7 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        menuButton.addEventHandler(ActionEvent.ACTION, event -> application.switchScene(Scenes.START_VIEW));
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> showMenu());
         saveButton.addEventHandler(ActionEvent.ACTION, event -> {
             try {
                 application.getGame().setSong(songBuilder.confirm(songName.getText()));
@@ -204,13 +204,21 @@ public class BuildViewController extends ViewController<MainApplication> {
         song.setLayoutX(song.getLayoutX() + x);
     }
 
-    public void initResizableElements() {
+    private void initResizableElements() {
         song.setPrefHeight(application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         centerContainer.setPrefWidth(application.getWidth().get());
         tutorial.setPrefSize(400, 250);
         tutorial.setLayoutX(application.getWidth().get()/2 - tutorial.getPrefWidth()/2);
         tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
+    }
+
+    private void showMenu() {
+        layer.setVisible(true);
+        view.getChildren().add(menu);
+
+
     }
 
 }

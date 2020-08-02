@@ -2,7 +2,6 @@ package de.hsrm.mi.eibo.presentation.scenes.gameview;
 
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;

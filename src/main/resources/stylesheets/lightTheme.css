@@ -162,6 +162,12 @@
     -fx-background-color: rgba(46, 46, 46, 0.6);
 }
 
+#menu {
+    background-color: #fafafa;
+    -fx-background-color: #fafafa;
+    -fx-text-color: #2e2e2e;
+}
+
 
 /* BLOCK */
 

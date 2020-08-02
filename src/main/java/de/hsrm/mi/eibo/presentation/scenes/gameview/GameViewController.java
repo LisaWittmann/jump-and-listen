@@ -9,6 +9,7 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 /**
@@ -242,6 +242,7 @@ public class GameViewController extends ViewController<MainApplication> {
         tutorial.setPrefSize(400, 250);
         tutorial.setLayoutX(mid - tutorial.getPrefWidth());
         tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight());
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
 }

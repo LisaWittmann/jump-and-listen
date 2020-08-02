@@ -151,6 +151,12 @@
     -fx-background-radius: 10px;
 }
 
+#menu {
+    background-color: #424242;
+    -fx-background-color: #424242;
+    -fx-text-color: #fafafa;
+}
+
 .overlay {
     background-color: #cef6e3;
     -fx-background-color: #cef6e3;

@@ -70,12 +70,12 @@ public class SelectViewController extends ViewController<MainApplication> {
 				initResizeableElements();
 			}
         });
-
     }
 
     public void initResizeableElements() {
         content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
     

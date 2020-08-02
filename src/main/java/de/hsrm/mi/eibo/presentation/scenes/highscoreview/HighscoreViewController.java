@@ -140,6 +140,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
     public void initResizeableElements() {
         content.setMinSize(application.getWidth().get(), application.getScene().getHeight());
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
 }
