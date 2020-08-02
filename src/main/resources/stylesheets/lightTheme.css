@@ -103,17 +103,6 @@
 }
 
 
-#menu-button {
-    -fx-min-height: 50px;
-    -fx-max-height: 50px;
-    -fx-min-width: 50px;
-    -fx-max-width: 50px;
-    -fx-background-size: 45px 45px;
-    -fx-background-image: url("../images/menu_light.png"); 
-
-}
-
-
 /* MODULE */
 
 .module {
@@ -156,7 +145,6 @@
 #menu {
     background-color: #fafafa;
     -fx-background-color: #fafafa;
-    -fx-text-color: #2e2e2e;
 }
 
 

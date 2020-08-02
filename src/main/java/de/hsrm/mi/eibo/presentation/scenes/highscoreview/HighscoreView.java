@@ -55,7 +55,7 @@ public class HighscoreView extends AnchorPane {
         levelButton.getStyleClass().add("text-button");
         levelButton.setId("big-button");
 
-        menuButton = new Button("home");
+        menuButton = new Button("menu");
         menuButton.getStyleClass().add("text-button");
 
         AnchorPane.setTopAnchor(menuButton, 0.0);
