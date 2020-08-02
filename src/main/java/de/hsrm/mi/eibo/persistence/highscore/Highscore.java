@@ -1,6 +1,7 @@
-package de.hsrm.mi.eibo.persistence;
+package de.hsrm.mi.eibo.persistence.highscore;
 
 import de.hsrm.mi.eibo.business.tone.Song;
+import de.hsrm.mi.eibo.persistence.song.SongPersitinator;
 
 public class Highscore implements Comparable<Highscore>{
 

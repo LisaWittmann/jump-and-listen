@@ -9,9 +9,9 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.business.tone.ToneMaker;
-import de.hsrm.mi.eibo.persistence.Highscore;
-import de.hsrm.mi.eibo.persistence.HighscorePersistinator;
-import de.hsrm.mi.eibo.persistence.SongPersitinator;
+import de.hsrm.mi.eibo.persistence.highscore.*;
+import de.hsrm.mi.eibo.persistence.song.*;
+
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
@@ -174,7 +174,7 @@ public class Game {
 
     public void setSong(String name) {
         Song song = songPersitinator.loadByName(name);
-        if(!song.equals(this.song)) {
+        if(this.song != null && !song.equals(this.song)) {
             this.song = song;
             restart();
         }

@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.persistence;
+package de.hsrm.mi.eibo.persistence.song;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,28 +9,35 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsrm.mi.eibo.business.gamelogic.Level;
 import de.hsrm.mi.eibo.business.tone.Song;
+import de.hsrm.mi.eibo.persistence.DataPersistinator;
+import de.hsrm.mi.eibo.persistence.highscore.HighscorePersistinator;
 
 /**
- * Speicherung von Highscore-Instanzen in einer .txt Datei
- * Laden und Erzeugen von Highscores anhand einer .txt Datei
+ * Speicherung von Song-Instanzen in einer .txt Datei
+ * Laden und Erzeugen von Songs anhand einer .txt Datei
  * Löschen von Einträgen der .txt Datei
  * 
  * @author pwieg001, lwitt001, lgers001
  */
-public class HighscorePersistinator implements DataPersistinator<Highscore> {
+public class SongPersitinator implements DataPersistinator<Song> {
 
-    private final String dataPath = "highscores.txt";
+    private final String dataPath = "songs.txt";
     private BufferedReader reader = null;
     private BufferedWriter writer = null;
+    private HighscorePersistinator highscorePers = new HighscorePersistinator();
 
     @Override
-    public void saveAll(List<Highscore> data) {
+    public void saveAll(List<Song> data) {
+        StringBuilder sb = new StringBuilder();
+        for(Song s : data) {
+            if(!nameAccepted(s.getName())) continue;
+            sb.append(s.toString()).append("\n");
+        }
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
-            for(Highscore h : data) {
-                writer.write(h.toString() + "\n");
-            }
+            writer.write(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -43,13 +50,13 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     }
 
     @Override
-    public List<Highscore> loadAll() {
-        List<Highscore> loaded = new ArrayList<>();
+    public List<Song> loadAll() {
+        List<Song> loaded = new ArrayList<>();
         try {
             reader = new BufferedReader(new FileReader(dataPath));
             String line;
             while((line = reader.readLine()) != null) {
-                loaded.add(new Highscore(line));
+                loaded.add(new Song(line));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,9 +71,10 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     }
 
     @Override
-    public void saveData(Highscore data) {
+    public void saveData(Song data) {
+        if(!nameAccepted(data.getName())) return;
         try {   
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
+            writer =  new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(data.toString() + "\n");
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,11 +88,13 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     }
 
     @Override
-    public Highscore loadData() {
-        Highscore highscore = null;
+    public Song loadData() {
+        Song song = null;
         try {
             reader = new BufferedReader(new FileReader(dataPath));
-            highscore = new Highscore(reader.readLine());
+            String line;
+            line = reader.readLine();
+            song = new Song(line);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -94,26 +104,34 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
                 e.printStackTrace();
             }
         }
-        return highscore;
+        return song;
     }
 
-    public List<Highscore> loadBySong(Song song) {
-        List<Highscore> levelScores = new ArrayList<>();
-        for(Highscore h : loadAll()) {
-            if(h.getSong() != null && h.getSong().getName().equals(song.getName())) {
-                levelScores.add(h);
+    public List<Song> loadByLevel(Level level) {
+        List<Song> levelSongs = new ArrayList<>();
+        for(Song s : loadAll()) {
+            if(s.getLevel().equals(level)) {
+                levelSongs.add(s);
             }
         }
-        return levelScores;
+        return levelSongs;
+    }
+    
+    public Song loadByName(String name) {
+        for(Song s : loadAll()) {
+            if(s.getName().equals(name)) return s;
+        }
+        return null;
     }
 
-    public void removeBySong(Song song) {
-        List<Highscore> data = loadAll();
+    public void removeData(Song song) {
+        highscorePers.removeBySong(song);
+        List<Song> data = loadAll();
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
-            for(Highscore h : data) {
-                if(h.getSong().getName() != null  && !h.getSong().getName().equals(song.getName())) {
-                    writer.write(h.toString() + "\n");
+            for(Song s : data) {
+                if(!s.getName().equals(song.getName())) {
+                    writer.write(s.toString() + "\n");
                 }
             }
         } catch (Exception e) {
@@ -125,6 +143,21 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean nameAccepted(String name) {
+        for(Song s : loadAll()) {
+            if(s.getName().equals(name)) {
+                return false;
+            }
+        }
+        if(name.contains(Song.getLevelSeperator()) || name.contains(Song.getNameSeperator())) {
+            return false;
+        }
+        if(name.length() >= 30) {
+            return false;
+        }
+        return true;
     }
     
 }

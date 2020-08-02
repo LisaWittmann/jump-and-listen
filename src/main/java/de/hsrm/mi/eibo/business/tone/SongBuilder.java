@@ -6,7 +6,8 @@ import java.util.List;
 
 import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
-import de.hsrm.mi.eibo.persistence.SongPersitinator;
+import de.hsrm.mi.eibo.persistence.song.SongPersitinator;
+import de.hsrm.mi.eibo.persistence.song.NameException;
 
 /**
  * Erzeugung eines Songs aus Blöcken

@@ -133,6 +133,14 @@ public class MainApplication extends Application {
     public void switchScene(Scenes sceneName) {
         Pane nextScene;
 
+        if(game.isRunning()){
+            game.close();
+        }
+
+        if(sceneName.equals(Scenes.GAME_VIEW)) {
+            game.restart();
+        }
+
         if(scenes.containsKey(sceneName)){
             nextScene = scenes.get(sceneName);
             scene.setRoot(nextScene);

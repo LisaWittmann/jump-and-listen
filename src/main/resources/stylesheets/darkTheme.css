@@ -89,7 +89,7 @@
     min-height: 40px;
     max-height: 40px;
     background-color: transparent;
-    background-size: 22px 22px;
+    background-size: 35px 35px;
     background-position: center;
     background-repeat: no-repeat no-repeat;
     -fx-min-height: 40px;
@@ -97,29 +97,9 @@
     -fx-min-width: 40px;
     -fx-max-width: 40px;
     -fx-background-color: transparent;
-    -fx-background-size: 22px 22px;
+    -fx-background-size: 35px 35px;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat no-repeat;
-}
-
-#close-button {
-    background-image: url("../images/close.png");
-    -fx-background-image: url("../images/close.png");
-}
-
-#forward-button {
-    background-image: url("../images/forward.png");
-    background-size: 32px 22px;
-    min-width: 40px;
-    min-height: 30px;
-    max-width: 40px;
-    max-height: 30px;
-    -fx-background-image: url("../images/forward.png");
-    -fx-min-height: 30px;
-    -fx-max-height: 30px;
-    -fx-min-width: 40px;
-    -fx-max-width: 40px;
-    -fx-background-size: 32px 22px;
 }
 
 

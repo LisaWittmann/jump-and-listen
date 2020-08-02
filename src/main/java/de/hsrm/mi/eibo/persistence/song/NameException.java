@@ -1,4 +1,4 @@
-package de.hsrm.mi.eibo.business.tone;
+package de.hsrm.mi.eibo.persistence.song;
 
 public class NameException extends RuntimeException {
 

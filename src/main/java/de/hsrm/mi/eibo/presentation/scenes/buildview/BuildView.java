@@ -21,8 +21,9 @@ public class BuildView extends AnchorPane {
     
     public BuildView() {
         
-        menuButton = new Button("quit");
-        menuButton.getStyleClass().add("text-button");
+        menuButton = new Button();
+        menuButton.getStyleClass().add("icon-button");
+        menuButton.setId("menu-button");
 
         saveButton = new Button("save");
         saveButton.getStyleClass().add("text-button");

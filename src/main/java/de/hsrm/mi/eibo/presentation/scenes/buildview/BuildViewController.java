@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import de.hsrm.mi.eibo.business.gamelogic.Block;
-import de.hsrm.mi.eibo.business.tone.NameException;
 import de.hsrm.mi.eibo.business.tone.SongBuilder;
 import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
@@ -13,6 +12,7 @@ import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
+import de.hsrm.mi.eibo.persistence.song.NameException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -67,13 +67,19 @@ public class BuildViewController extends ViewController<MainApplication> {
         tutorial = view.tutorial;
         layer = view.layer;
 
+        view.getChildren().add(menu);
+
         initResizableElements();
         initialize();
     }
 
     @Override
     public void initialize() {
-        menuButton.addEventHandler(ActionEvent.ACTION, event -> showMenu());
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> {
+            menu.toFront();
+            menu.setVisible(true);
+        });
+
         saveButton.addEventHandler(ActionEvent.ACTION, event -> {
             try {
                 application.getGame().setSong(songBuilder.confirm(songName.getText()));
@@ -136,6 +142,13 @@ public class BuildViewController extends ViewController<MainApplication> {
                 initResizableElements();
             }
         });
+
+        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                layer.setVisible(newValue);
+            }
+        });
     }
 
     private void addKeyListener() {
@@ -192,7 +205,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         view.getChildren().add(tutorial);
         tutorial.show();
 
-        tutorial.getVisibleProperty().addListener(new ChangeListener<Boolean>() {
+        tutorial.visibleProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 layer.setVisible(newValue);
@@ -214,11 +227,10 @@ public class BuildViewController extends ViewController<MainApplication> {
         menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
-    private void showMenu() {
-        layer.setVisible(true);
-        view.getChildren().add(menu);
-
-
+    public void resetView() {
+        song.setLayoutX(0);
+        song.getChildren().clear();
+        addBlock();
     }
 
 }

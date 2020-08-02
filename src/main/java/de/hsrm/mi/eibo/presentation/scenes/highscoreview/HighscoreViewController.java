@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -34,6 +35,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     private Button retryButton;
     private Button levelButton;
     private Button menuButton;
+    private AnchorPane layer;
 
     private Game game;
     private List<Integer> values;
@@ -51,7 +53,10 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         retryButton = view.retryButton;
         levelButton = view.levelButton;
         content = view.content;
-        menuButton = view.homeButton;
+        menuButton = view.menuButton;
+        layer = view.layer;
+
+        view.getChildren().add(menu);
 
         initResizeableElements();
 
@@ -133,7 +138,14 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         });
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            application.switchScene(Scenes.START_VIEW);
+            menu.setVisible(true);
+        });
+
+        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                layer.setVisible(newValue);
+            }
         });
 
     }
@@ -141,6 +153,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     public void initResizeableElements() {
         content.setMinSize(application.getWidth().get(), application.getScene().getHeight());
         menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
     }
 
 }

@@ -84,42 +84,33 @@
 }
 
 .icon-button {
-    min-width: 40px;
-    max-width: 40px;
-    min-height: 40px;
-    max-height: 40px;
+    min-width: 36px;
+    max-width: 36px;
+    min-height: 36px;
+    max-height: 36px;
     background-color: transparent;
-    background-size: 22px 22px;
+    background-size: 36px 36px;
     background-position: center;
     background-repeat: no-repeat no-repeat;
-    -fx-min-height: 40px;
-    -fx-max-height: 40px;
-    -fx-min-width: 40px;
-    -fx-max-width: 40px;
+    -fx-min-height: 36px;
+    -fx-max-height: 36px;
+    -fx-min-width: 36px;
+    -fx-max-width: 36px;
     -fx-background-color: transparent;
-    -fx-background-size: 22px 22px;
+    -fx-background-size: 36px 36px;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat no-repeat;
 }
 
-#close-button {
-    background-image: url("../images/close.png");
-    -fx-background-image: url("../images/close.png");
-}
 
-#forward-button {
-    background-image: url("../images/forward.png");
-    background-size: 32px 22px;
-    min-width: 40px;
-    min-height: 30px;
-    max-width: 40px;
-    max-height: 30px;
-    -fx-background-image: url("../images/forward.png");
-    -fx-min-height: 30px;
-    -fx-max-height: 30px;
-    -fx-min-width: 40px;
-    -fx-max-width: 40px;
-    -fx-background-size: 32px 22px;
+#menu-button {
+    -fx-min-height: 50px;
+    -fx-max-height: 50px;
+    -fx-min-width: 50px;
+    -fx-max-width: 50px;
+    -fx-background-size: 45px 45px;
+    -fx-background-image: url("../images/menu_light.png"); 
+
 }
 
 
@@ -152,8 +143,8 @@
 }
 
 #tutorial-window {
-    background-color: #bdbdbd;
-    -fx-background-color: #bdbdbd;
+    background-color: #fafafa;
+    -fx-background-color: #fafafa;
     -fx-background-radius: 10px;
 }
 

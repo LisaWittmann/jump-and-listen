@@ -35,7 +35,6 @@ public class GameViewController extends ViewController<MainApplication> {
     private Game game;
 
     private Button menuButton;
-    private Button settings;
     private Pane settingView;
 
     private ComboBox<String> song;
@@ -68,6 +67,8 @@ public class GameViewController extends ViewController<MainApplication> {
         layer = view.layer;
         tutorial = view.tutorial;
 
+        view.getChildren().add(menu);
+
         initResizeableElements();
         initialize();
     }
@@ -76,20 +77,10 @@ public class GameViewController extends ViewController<MainApplication> {
     public void initialize() {
         score.setText(String.valueOf(game.getScore()));
 
-        settings = new Button("settings");
-        settings.setVisible(false);
-        settings.addEventHandler(ActionEvent.ACTION, event -> {
-            if (!view.getChildren().contains(settingView)) {
-                view.getChildren().add(settingView);
-            } else {
-                settingView.setVisible(true);
-            }
-            view.setOnMouseClicked(e -> settingView.setVisible(false));
-        });
-        menu.addItem(settings, null);
-
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.show();
+            layer.toFront();
+            menu.toFront();
+            menu.setVisible(true);
         });
 
         game.isInitialized().addListener(new ChangeListener<Boolean>() {
@@ -118,6 +109,22 @@ public class GameViewController extends ViewController<MainApplication> {
                     application.switchScene(Scenes.HIGHCSCORE_VIEW);
             }
         });
+
+        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				layer.setVisible(newValue);
+			}
+        });
+
+        application.getWidth().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                initResizeableElements();
+            } 
+        });
+
+
     }
 
     public void addKeyListener() {
@@ -167,13 +174,6 @@ public class GameViewController extends ViewController<MainApplication> {
             }
         });
 
-        application.getWidth().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                initResizeableElements();
-            } 
-        });
-
     }
 
     private void initGameSetup() {
@@ -217,13 +217,19 @@ public class GameViewController extends ViewController<MainApplication> {
         view.getChildren().add(tutorial);
         tutorial.show();
 
-        tutorial.getVisibleProperty().addListener(new ChangeListener<Boolean>() {
+        tutorial.visibleProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 layer.setVisible(newValue);
             }
         });
 
+        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                layer.setVisible(newValue);
+            }
+        });
     }
 
     public void scrollBlocks(double x) {

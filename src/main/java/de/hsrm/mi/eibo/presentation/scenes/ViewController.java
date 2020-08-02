@@ -22,7 +22,7 @@ public abstract class ViewController<T extends Application> {
     
     public ViewController(T application) {
         this.application = application;
-        this.menu = new MenuView();
+        this.menu = new MenuView(application);
     }
 
     public Pane getRootView() {

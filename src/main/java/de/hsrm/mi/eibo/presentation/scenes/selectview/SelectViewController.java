@@ -42,6 +42,8 @@ public class SelectViewController extends ViewController<MainApplication> {
         menuButton = view.menuButton;
         layer = view.layer;
 
+        view.getChildren().add(menu);
+
         initResizeableElements();
         initialize();
     }
@@ -61,7 +63,7 @@ public class SelectViewController extends ViewController<MainApplication> {
         }
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.show();
+            menu.setVisible(true);
         });
 
         application.getWidth().addListener(new ChangeListener<Number>(){
@@ -69,6 +71,13 @@ public class SelectViewController extends ViewController<MainApplication> {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				initResizeableElements();
 			}
+        });
+
+        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                layer.setVisible(newValue);
+            }
         });
     }
 

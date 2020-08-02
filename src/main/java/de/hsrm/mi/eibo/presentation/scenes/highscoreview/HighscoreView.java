@@ -24,7 +24,9 @@ public class HighscoreView extends AnchorPane {
 
     Button retryButton;
     Button levelButton;
-    Button homeButton;
+    Button menuButton;
+
+    AnchorPane layer;
 
     public HighscoreView() {
 
@@ -53,11 +55,11 @@ public class HighscoreView extends AnchorPane {
         levelButton.getStyleClass().add("text-button");
         levelButton.setId("big-button");
 
-        homeButton = new Button("home");
-        homeButton.getStyleClass().add("text-button");
+        menuButton = new Button("home");
+        menuButton.getStyleClass().add("text-button");
 
-        AnchorPane.setTopAnchor(homeButton, 0.0);
-        AnchorPane.setLeftAnchor(homeButton, 0.0);
+        AnchorPane.setTopAnchor(menuButton, 0.0);
+        AnchorPane.setLeftAnchor(menuButton, 0.0);
 
         VBox buttonBox = new VBox();
         buttonBox.setSpacing(-5);
@@ -70,8 +72,12 @@ public class HighscoreView extends AnchorPane {
         content.setAlignment(Pos.TOP_CENTER);
         content.getChildren().addAll(playerRank, highscores, buttonBox);
 
+        layer = new AnchorPane();
+        layer.setId("transparent");
+        layer.setVisible(false);
+
         getStyleClass().add("window");
-        getChildren().addAll(content, homeButton);
+        getChildren().addAll(content, menuButton, layer);
     }
     
 }
