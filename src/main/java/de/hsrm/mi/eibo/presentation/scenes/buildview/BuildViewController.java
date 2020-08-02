@@ -33,8 +33,8 @@ public class BuildViewController extends ViewController<MainApplication> {
     private BuildView view;
     private SongBuilder songBuilder;
 
-    private Button quitButton;
-    private Button doneButton;
+    private Button menuButton;
+    private Button saveButton;
     private AnchorPane song;
 
     private HBox centerContainer;
@@ -58,28 +58,23 @@ public class BuildViewController extends ViewController<MainApplication> {
         view = new BuildView();
         setRootView(view);
 
-        quitButton = view.quitButton;
-        doneButton = view.doneButton;
+        menuButton = view.menuButton;
+        saveButton = view.saveButton;
         song = view.song;
         songName = view.songName;
         centerContainer = view.centerContainer;
+        
         tutorial = view.tutorial;
         layer = view.layer;
-    
-        song.setPrefHeight(application.getScene().getHeight());
-        layer.setPrefSize(application.getScene().getWidth(), application.getScene().getHeight());
-        centerContainer.setPrefWidth(application.getScene().getWidth());
-        tutorial.setPrefSize(400, 250);
-        tutorial.setLayoutX(application.getScene().getWidth()/2 - 200);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - 125);
 
+        initResizableElements();
         initialize();
     }
 
     @Override
     public void initialize() {
-        quitButton.addEventHandler(ActionEvent.ACTION, event -> application.switchScene(Scenes.START_VIEW));
-        doneButton.addEventHandler(ActionEvent.ACTION, event -> {
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> application.switchScene(Scenes.START_VIEW));
+        saveButton.addEventHandler(ActionEvent.ACTION, event -> {
             try {
                 application.getGame().setSong(songBuilder.confirm(songName.getText()));
                 application.switchScene(Scenes.GAME_VIEW);
@@ -87,57 +82,62 @@ public class BuildViewController extends ViewController<MainApplication> {
                 songName.setId("error");
             }
         });
-        initToneLines();
-        addBlock();
-        addKeyListener();
-        setTutorial();
-    }
 
-    public void addBlock() {
-        if(scroll) scrollSong(-150);
+        for (Tone tone : Tone.values()) {
+            if (tone.isHalbton()) continue;
 
-        Block block = songBuilder.addEmpty(counter, application.getScene().getHeight());
-        BlockView blockView = new BlockView(block);
-        emptyBlock = block;
-        
-        song.getChildren().add(blockView);
-        AnchorPane.setBottomAnchor(blockView, 0.0);
-        counter += block.getWidth() + distance;
-        scroll = (counter > application.getScene().getWidth() * 0.6667) ? true : false;
-
-        emptyBlock.isInitialized().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
-                    BlockResizer.makeResizable(blockView, application.getScene());
-                    songBuilder.add(block);
-                    addBlock(); 
-                }
-            }
-        });
-    }
-
-    private void initToneLines() {
-        for(Tone tone : Tone.values()) {
-            if(tone.isHalbton()) {
-                continue;
-            }
             Label name = new Label(tone.name());
             name.getStyleClass().add("normal-text");
             name.setStyle("-fx-text-alignment: left;");
             name.setId("fading");
 
             double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
-            name.setLayoutY(y-15);
+            name.setLayoutY(y - 15);
             name.setLayoutX(20);
-            
+
             Line line = new Line(50, y, 5000, y);
             line.getStyleClass().add("line");
-            
+
             view.getChildren().addAll(name, line);
         }
+
+        addBlock();
+        addKeyListener();
+        setTutorial();
     }
-    
+
+    public void addBlock() {
+        if (scroll)
+            scrollSong(-150);
+
+        Block block = songBuilder.addEmpty(counter, application.getScene().getHeight());
+        BlockView blockView = new BlockView(block);
+        emptyBlock = block;
+
+        song.getChildren().add(blockView);
+        AnchorPane.setBottomAnchor(blockView, 0.0);
+        counter += block.getWidth() + distance;
+        scroll = (counter > application.getWidth().get() * 0.6667) ? true : false;
+
+        emptyBlock.isInitialized().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    BlockResizer.makeResizable(blockView, application.getScene());
+                    songBuilder.add(block);
+                    addBlock();
+                }
+            }
+        });
+
+        application.getWidth().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                initResizableElements();
+            }
+        });
+    }
+
     private void addKeyListener() {
         List<KeyCode> options = new ArrayList<>();
         options.add(KeyCode.C);
@@ -150,30 +150,30 @@ public class BuildViewController extends ViewController<MainApplication> {
 
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
-			@Override
-			public void handle(KeyEvent event) {
-                for(KeyCode code : options) {
-                    if(new KeyCodeCombination(code, KeyCodeCombination.SHIFT_DOWN).match(event)) {
-                        if (code.name().equals("h")) continue;
+            @Override
+            public void handle(KeyEvent event) {
+                for (KeyCode code : options) {
+                    if (new KeyCodeCombination(code, KeyCodeCombination.SHIFT_DOWN).match(event)) {
+                        if (code.name().equals("h"))
+                            continue;
                         emptyBlock.setTone(Tone.valueOf(code.name() + "S"));
                         return;
                     }
                 }
 
-                if(options.contains(event.getCode())) {
+                if (options.contains(event.getCode())) {
                     emptyBlock.setTone(Tone.valueOf(event.getCode().name()));
                     return;
                 }
 
-                else if(event.getCode().equals(KeyCode.L)) { 
+                else if (event.getCode().equals(KeyCode.L)) {
                     scrollSong(-150);
-                }
-                else if(event.getCode().equals(KeyCode.R)) { 
+                } else if (event.getCode().equals(KeyCode.R)) {
                     scrollSong(150);
-                } else if(event.getCode().equals(KeyCode.ESCAPE)) {
+                } else if (event.getCode().equals(KeyCode.ESCAPE)) {
                     application.switchScene(Scenes.START_VIEW);
                 }
-			}
+            }
         });
     }
 
@@ -201,7 +201,16 @@ public class BuildViewController extends ViewController<MainApplication> {
     }
 
     private void scrollSong(double x) {
-        song.setLayoutX(song.getLayoutX()+x);
+        song.setLayoutX(song.getLayoutX() + x);
+    }
+
+    public void initResizableElements() {
+        song.setPrefHeight(application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        centerContainer.setPrefWidth(application.getWidth().get());
+        tutorial.setPrefSize(400, 250);
+        tutorial.setLayoutX(application.getWidth().get()/2 - tutorial.getPrefWidth()/2);
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
     }
 
 }

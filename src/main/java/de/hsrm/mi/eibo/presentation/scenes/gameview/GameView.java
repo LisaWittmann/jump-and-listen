@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 
 public class GameView extends AnchorPane {
 
-    Button settings;
+    Button menuButton;
     Label score;
     ComboBox<String> song;
     HBox songBox;
@@ -25,17 +25,14 @@ public class GameView extends AnchorPane {
         score.getStyleClass().add("h3");
         score.setStyle("-fx-text-alignment: right;");
 
-        settings = new Button("settings");
-        settings.getStyleClass().add("text-button");
-        settings.setStyle("-fx-font-size: 32px;");
+        menuButton = new Button("menu");
+        menuButton.getStyleClass().add("text-button");
+        menuButton.setStyle("-fx-font-size: 32px;");
 
         song = new ComboBox<>();
+        song.setPrefWidth(550);
         song.getStyleClass().add("combo-box");
         song.setId("transparent-combo-box");
-
-        songBox = new HBox();
-        songBox.setAlignment(Pos.TOP_CENTER);
-        songBox.getChildren().add(song);
 
         field = new AnchorPane();
         
@@ -45,14 +42,14 @@ public class GameView extends AnchorPane {
 
         tutorial = new TutorialView();
 
-        getChildren().addAll(field, songBox, score, settings, layer);
+        getChildren().addAll(field, song, score, menuButton, layer);
 
         AnchorPane.setBottomAnchor(field, 0.0);
 
-        AnchorPane.setTopAnchor(settings, 0.0);
-        AnchorPane.setLeftAnchor(settings, 10.0);
+        AnchorPane.setTopAnchor(menuButton, 0.0);
+        AnchorPane.setLeftAnchor(menuButton, 10.0);
 
-        AnchorPane.setTopAnchor(songBox, 10.0);
+        AnchorPane.setTopAnchor(song, 10.0);
 
         AnchorPane.setTopAnchor(score, 10.0);
         AnchorPane.setRightAnchor(score, 15.0);

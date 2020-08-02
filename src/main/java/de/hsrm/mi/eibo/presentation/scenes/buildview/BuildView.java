@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 
 public class BuildView extends AnchorPane {
 
-    Button doneButton, quitButton;
+    Button saveButton, menuButton;
     TextField songName;
     HBox centerContainer;
     AnchorPane song;
@@ -21,11 +21,11 @@ public class BuildView extends AnchorPane {
     
     public BuildView() {
         
-        quitButton = new Button("quit");
-        quitButton.getStyleClass().add("text-button");
+        menuButton = new Button("quit");
+        menuButton.getStyleClass().add("text-button");
 
-        doneButton = new Button("save");
-        doneButton.getStyleClass().add("text-button");
+        saveButton = new Button("save");
+        saveButton.getStyleClass().add("text-button");
 
         song = new AnchorPane();
         songName = new TextField();
@@ -40,17 +40,17 @@ public class BuildView extends AnchorPane {
         layer.setVisible(false);
         tutorial = new TutorialView();
 
-        AnchorPane.setTopAnchor(quitButton, 0.0);
-        AnchorPane.setLeftAnchor(quitButton, 0.0);
+        AnchorPane.setTopAnchor(menuButton, 0.0);
+        AnchorPane.setLeftAnchor(menuButton, 0.0);
 
-        AnchorPane.setTopAnchor(doneButton, 0.0);
-        AnchorPane.setRightAnchor(doneButton, 0.0);
+        AnchorPane.setTopAnchor(saveButton, 0.0);
+        AnchorPane.setRightAnchor(saveButton, 0.0);
 
         AnchorPane.setBottomAnchor(song, 0.0);
         
         AnchorPane.setTopAnchor(centerContainer, 0.0);
 
-        getChildren().addAll(song, centerContainer, quitButton, doneButton, layer);
+        getChildren().addAll(song, centerContainer, menuButton, saveButton, layer);
         getStyleClass().add("window");
     }
     

@@ -13,6 +13,7 @@ import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -42,11 +43,10 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) {
         try {
             setDesktopLayout();
-            
+
             game = new Game();
             player = game.getPlayer();
-
-            theme = Theme.LIGHT;            
+            theme = Theme.LIGHT;      
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
@@ -57,9 +57,14 @@ public class MainApplication extends Application {
             currentScene = scenes.get(Scenes.START_VIEW);
             scene = new Scene(currentScene, 1400, 800);
             scene.getStylesheets().add(theme.getUrl());
-            game.setSceneHeight(scene.getHeight());
+            
+            this.primaryStage = primaryStage;
+            this.primaryStage.setTitle("jump & listen");
+            this.primaryStage.setScene(scene);
+            this.primaryStage.show();
 
             initEscape();
+            game.setSceneHeight(scene.getHeight());
 
             controller = new BuildViewController(this);
             scenes.put(Scenes.BUILD_VIEW, controller.getRootView());
@@ -73,12 +78,7 @@ public class MainApplication extends Application {
             controller = new HighscoreViewController(this);
             scenes.put(Scenes.HIGHCSCORE_VIEW, controller.getRootView());
             
-            this.primaryStage = primaryStage;
-            this.primaryStage.setTitle("jump & listen");
-            this.primaryStage.setScene(scene);
-            this.primaryStage.show();
-
-            primaryStage.setOnCloseRequest(event -> {
+            this.primaryStage.setOnCloseRequest(event -> {
                 game.close();
             });
 
@@ -101,6 +101,18 @@ public class MainApplication extends Application {
 
     public Theme getTheme() {
         return theme;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public ReadOnlyDoubleProperty getWidth() {
+        return primaryStage.widthProperty();
+    }
+
+    public ReadOnlyDoubleProperty getHeight() {
+        return primaryStage.heightProperty();
     }
 
     public void switchTheme(Theme theme) {

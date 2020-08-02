@@ -1,5 +1,7 @@
 package de.hsrm.mi.eibo.presentation.scenes;
 
+import de.hsrm.mi.eibo.presentation.uicomponents.menu.MenuView;
+
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 
@@ -11,6 +13,8 @@ import javafx.scene.layout.Pane;
  */
 public abstract class ViewController<T extends Application> {
 
+    protected MenuView menu;
+
     protected Pane rootView;
     protected T application;
 
@@ -18,6 +22,7 @@ public abstract class ViewController<T extends Application> {
     
     public ViewController(T application) {
         this.application = application;
+        this.menu = new MenuView();
     }
 
     public Pane getRootView() {

@@ -22,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
  * Nutzer
@@ -33,10 +34,10 @@ public class GameViewController extends ViewController<MainApplication> {
     private GameView view;
     private Game game;
 
+    private Button menuButton;
     private Button settings;
     private Pane settingView;
 
-    private HBox songBox;
     private ComboBox<String> song;
     private Label score;
     private AnchorPane field;
@@ -59,23 +60,15 @@ public class GameViewController extends ViewController<MainApplication> {
         SettingViewController controller = new SettingViewController(application);
         settingView = controller.getRootView();
 
-        settings = view.settings;
+        menuButton = view.menuButton;
         score = view.score;
         song = view.song;
-        songBox = view.songBox;
         field = view.field;
 
         layer = view.layer;
         tutorial = view.tutorial;
 
-        mid = application.getScene().getWidth()/2;
-        songBox.setPrefWidth(application.getScene().getWidth());
-        field.setPrefSize(view.getWidth(), view.getHeight());
-        layer.setMinSize(application.getScene().getWidth(), application.getScene().getHeight());
-        tutorial.setPrefSize(400, 250);
-        tutorial.setLayoutX(mid - 200);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - 125);
-        
+        initResizeableElements();
         initialize();
     }
 
@@ -83,19 +76,26 @@ public class GameViewController extends ViewController<MainApplication> {
     public void initialize() {
         score.setText(String.valueOf(game.getScore()));
 
+        settings = new Button("settings");
+        settings.setVisible(false);
         settings.addEventHandler(ActionEvent.ACTION, event -> {
-            if(!view.getChildren().contains(settingView)){
+            if (!view.getChildren().contains(settingView)) {
                 view.getChildren().add(settingView);
             } else {
                 settingView.setVisible(true);
             }
             view.setOnMouseClicked(e -> settingView.setVisible(false));
         });
+        menu.addItem(settings, null);
 
-        game.isInitialized().addListener(new ChangeListener<Boolean>(){
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> {
+            menu.show();
+        });
+
+        game.isInitialized().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
+                if (newValue) {
                     initGameSetup();
                 } else {
                     field.setLayoutX(0);
@@ -111,81 +111,93 @@ public class GameViewController extends ViewController<MainApplication> {
                 }
             });
         });
-        game.gameEnded().addListener(new ChangeListener<Boolean>(){
+        game.gameEnded().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) application.switchScene(Scenes.HIGHCSCORE_VIEW);
+                if (newValue)
+                    application.switchScene(Scenes.HIGHCSCORE_VIEW);
             }
         });
     }
 
-
     public void addKeyListener() {
-        application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>(){
+        application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.SHIFT)) {
+                if (event.getCode().equals(KeyCode.SHIFT)) {
                     game.getPlayer().setOnBoost(true);
                     game.playerJump();
-                } else if(event.getCode().equals(KeyCode.W)) {
+                } else if (event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnJump(true);
                     game.playerJump();
-                } else if(event.getCode().equals(KeyCode.A)) {
+                } else if (event.getCode().equals(KeyCode.A)) {
                     game.movePlayerLeft(true);
-                } else if(event.getCode().equals(KeyCode.D)) {
+                } else if (event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(true);
-                } else if(event.getCode().equals(KeyCode.S)) {
-						Platform.runLater(new Runnable(){
-							@Override
-							public void run() {
-								game.start();
-							}
-                        }); 
-                } else if(event.getCode().equals(KeyCode.ESCAPE)) {
+                } else if (event.getCode().equals(KeyCode.S)) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            game.start();
+                        }
+                    });
+                } else if (event.getCode().equals(KeyCode.ESCAPE)) {
                     game.end();
+                    game.restart();
                     application.switchScene(Scenes.START_VIEW);
                 }
             }
         });
 
-        application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>(){
+        application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.SHIFT)) {
+                if (event.getCode().equals(KeyCode.SHIFT)) {
                     game.getPlayer().setOnBoost(true);
                     game.getPlayer().setOnBoost(false);
-                } else if(event.getCode().equals(KeyCode.W)) {
+                } else if (event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnBoost(false);
                     game.getPlayer().setOnJump(true);
                     game.getPlayer().setOnJump(false);
-                } else if(event.getCode().equals(KeyCode.A)){
+                } else if (event.getCode().equals(KeyCode.A)) {
                     game.movePlayerLeft(false);
-                } else if(event.getCode().equals(KeyCode.D)) {
+                } else if (event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(false);
                 }
             }
-        }); 
+        });
+
+        application.getWidth().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                initResizeableElements();
+            } 
+        });
 
     }
 
-    public void initGameSetup() {
+    private void initGameSetup() {
         BlockView blockview = null;
-        for(Block block : game.getBlocks()) {
+        for (Block block : game.getBlocks()) {
             blockview = new BlockView(block);
             field.getChildren().add(blockview);
-        } if(!view.getChildren().contains(player)){
+        }
+        if (!view.getChildren().contains(player)) {
             view.getChildren().add(player);
-        } if(!view.getChildren().contains(settingView)){
+        }
+        if (!view.getChildren().contains(settingView)) {
             view.getChildren().add(settingView);
             settingView.setVisible(false);
-        } if(!song.getItems().contains(game.getSong().getName())){
+        }
+        if (!song.getItems().contains(game.getSong().getName())) {
             song.getItems().clear();
-            for(Song s : game.songsForLevel()) {
+            for (Song s : game.songsForLevel()) {
                 song.getItems().add(s.getName());
             }
-        } if(game.needsTutorial()) {
+        }
+        if (game.needsTutorial()) {
             setTutorial();
-        } 
+        }
         addKeyListener();
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSong(song.getValue()));
@@ -220,6 +232,16 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public double getMid() {
         return mid;
+    }
+
+    public void initResizeableElements() {
+        mid = application.getWidth().get()/2;
+        song.setLayoutX(application.getWidth().get()/2 - song.getPrefWidth()/2);
+        field.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        tutorial.setPrefSize(400, 250);
+        tutorial.setLayoutX(mid - tutorial.getPrefWidth());
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight());
     }
 
 }

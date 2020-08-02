@@ -12,6 +12,13 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
 import de.hsrm.mi.eibo.business.tone.Song;
 
+/**
+ * Speicherung von Song-Instanzen in einer .txt Datei
+ * Laden und Erzeugen von Songs anhand einer .txt Datei
+ * Löschen von Einträgen der .txt Datei
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class SongPersitinator implements DataPersistinator<Song> {
 
     private final String dataPath = "songs.txt";
@@ -142,7 +149,10 @@ public class SongPersitinator implements DataPersistinator<Song> {
                 return false;
             }
         }
-        if(name.contains(Song.getLevelSeperator()) || name.contains(Song.getNameSeperator())){
+        if(name.contains(Song.getLevelSeperator()) || name.contains(Song.getNameSeperator())) {
+            return false;
+        }
+        if(name.length() >= 30) {
             return false;
         }
         return true;

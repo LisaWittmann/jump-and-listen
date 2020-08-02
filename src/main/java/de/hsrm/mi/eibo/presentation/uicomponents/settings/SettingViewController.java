@@ -9,23 +9,21 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
-import javafx.scene.paint.Color;
 
 /**
- * Controller für die Overlay View Gibt neue Einstellungen an das Game weiter
+ * Controller für die Overlay SettingsView 
+ * Gibt neue Einstellungen an das Game weiter
  * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class SettingViewController extends ViewController<MainApplication> {
 
     private SettingView view;
-    
+
     private Slider blockdistance, speed, volume;
     private ComboBox<Theme> theme;
 
     private Game game;
-    
-    protected Color mainColor;
 
     public SettingViewController(MainApplication application) {
         super(application);
@@ -51,23 +49,24 @@ public class SettingViewController extends ViewController<MainApplication> {
         blockdistance.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				game.setBlockDistanz(newValue.doubleValue());
-			}
+                game.setBlockDistanz(newValue.doubleValue());
+            }
         });
 
         speed.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				game.setSpeedFactor(newValue.doubleValue());
-			}
+                game.setSpeedFactor(newValue.doubleValue());
+            }
         });
 
         volume.valueProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				game.getToneMaker().setVolume((int) newValue.doubleValue());
-			}
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                game.getToneMaker().setVolume((int) newValue.doubleValue());
+            }
         });
+        
     }
     
 }

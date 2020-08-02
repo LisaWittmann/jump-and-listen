@@ -5,6 +5,7 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,7 +33,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     private VBox content;
     private Button retryButton;
     private Button levelButton;
-    private Button homeButton;
+    private Button menuButton;
 
     private Game game;
     private List<Integer> values;
@@ -50,19 +51,26 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         retryButton = view.retryButton;
         levelButton = view.levelButton;
         content = view.content;
-        homeButton = view.homeButton;
+        menuButton = view.homeButton;
 
-        content.setPrefSize(application.getScene().getWidth(), application.getScene().getHeight());
+        initResizeableElements();
+
+        application.getWidth().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                initResizeableElements();
+            }
+        });
 
         application.getGame().gameEnded().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
+                if (newValue) {
                     Platform.runLater(new Runnable() {
-					    @Override
-					    public void run() {
-						    initialize();	
-					    }
+                        @Override
+                        public void run() {
+                            initialize();
+                        }
                     });
                 }
             }
@@ -80,16 +88,17 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         }
 
         highscores.getChildren().clear();
-        for(int i = 0; i < values.size(); i++) {
+        for (int i = 0; i < values.size(); i++) {
             HBox module = new HBox();
             module.getStyleClass().add("module");
             module.setSpacing(160);
             module.setPadding(new Insets(0, 0, 0, 40));
             module.setAlignment(Pos.CENTER_LEFT);
 
-            if(game.getScore() == values.get(i)) module.setId("highscore-module");
+            if (game.getScore() == values.get(i))
+                module.setId("highscore-module");
 
-            Label rank = new Label(String.valueOf(i+1));
+            Label rank = new Label(String.valueOf(i + 1));
             rank.getStyleClass().add("h3");
             rank.setId("dark");
 
@@ -116,17 +125,21 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         retryButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
                 @Override
-	            public void run() {
+                public void run() {
                     game.restart();
                     application.switchScene(Scenes.GAME_VIEW);
                 }
             });
         });
 
-        homeButton.addEventHandler(ActionEvent.ACTION, event -> {
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> {
             application.switchScene(Scenes.START_VIEW);
         });
 
-        
     }
+
+    public void initResizeableElements() {
+        content.setMinSize(application.getWidth().get(), application.getScene().getHeight());
+    }
+
 }

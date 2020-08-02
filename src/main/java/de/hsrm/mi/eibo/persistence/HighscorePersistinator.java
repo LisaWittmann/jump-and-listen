@@ -11,6 +11,13 @@ import java.util.List;
 
 import de.hsrm.mi.eibo.business.tone.Song;
 
+/**
+ * Speicherung von Highscore-Instanzen in einer .txt Datei
+ * Laden und Erzeugen von Highscores anhand einer .txt Datei
+ * Löschen von Einträgen der .txt Datei
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class HighscorePersistinator implements DataPersistinator<Highscore> {
 
     private final String dataPath = "highscores.txt";

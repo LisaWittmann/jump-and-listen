@@ -48,7 +48,6 @@ public class BlockResizer {
         if(cursor.equals(Cursor.N_RESIZE)) {
             double height = region.getPrefHeight() + (y-event.getSceneY());
             region.setPrefHeight(height);
-            //region.getBlock().setHeight(height);
         }
         y = event.getSceneY();
     }

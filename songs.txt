@@ -7,3 +7,4 @@ intermediate-testen:H ES C FS DS D A G H FS DS GS A C D E F G C C ES E FS G D E
 beginner-ch:C H C H C H C H C H C H C H C 
 beginner-tonleiter:C CS D DS E ES F FS G GS H H GS G FS F ES E DS D CS C C 
 expert-vivaldi:C E E E D C G G F E E E D C G G F E F G F E D E C E E E D C G G F E E E D C G G F E F G F E D E G F E F G A G E G F E F G A G F E D C D C E G F E F G A G E G F E F G A G E A G F E D C D C C E E E D E F F E D D D C D E E F G G G G F E E E E F G G G F E D E G F E F G A G E G F E F G A G E A G F E D C D C 
+expert-lisa:A D G E F H H D A F E F E D E E E 
