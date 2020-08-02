@@ -13,7 +13,7 @@ import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 import de.hsrm.mi.eibo.persistence.song.NameException;
-
+import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,6 +27,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 public class BuildViewController extends ViewController<MainApplication> {
 
@@ -77,7 +78,7 @@ public class BuildViewController extends ViewController<MainApplication> {
     public void initialize() {
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
             menu.toFront();
-            menu.setVisible(true);
+            menu.show();
         });
 
         saveButton.addEventHandler(ActionEvent.ACTION, event -> {
@@ -106,7 +107,6 @@ public class BuildViewController extends ViewController<MainApplication> {
 
             view.getChildren().addAll(name, line);
         }
-
         addBlock();
         addKeyListener();
         setTutorial();

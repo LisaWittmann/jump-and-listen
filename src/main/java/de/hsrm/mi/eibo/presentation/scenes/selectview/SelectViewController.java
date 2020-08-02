@@ -63,7 +63,7 @@ public class SelectViewController extends ViewController<MainApplication> {
         }
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.setVisible(true);
+            menu.show();
         });
 
         application.getWidth().addListener(new ChangeListener<Number>(){

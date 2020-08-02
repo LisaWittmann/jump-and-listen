@@ -20,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Klasse zum Starten der JavaFX-Oberfläche
@@ -61,6 +62,7 @@ public class MainApplication extends Application {
             this.primaryStage = primaryStage;
             this.primaryStage.setTitle("jump & listen");
             this.primaryStage.setScene(scene);
+            this.primaryStage.initStyle(StageStyle.DECORATED);
             this.primaryStage.show();
 
             initEscape();

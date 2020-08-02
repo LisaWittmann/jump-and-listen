@@ -80,7 +80,7 @@ public class GameViewController extends ViewController<MainApplication> {
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
             layer.toFront();
             menu.toFront();
-            menu.setVisible(true);
+            menu.show();
         });
 
         game.isInitialized().addListener(new ChangeListener<Boolean>() {

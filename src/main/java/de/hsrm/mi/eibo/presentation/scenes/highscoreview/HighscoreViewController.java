@@ -138,7 +138,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         });
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.setVisible(true);
+            menu.show();
         });
 
         menu.visibleProperty().addListener(new ChangeListener<Boolean>() {

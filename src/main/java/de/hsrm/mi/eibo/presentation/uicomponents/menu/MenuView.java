@@ -2,13 +2,16 @@ package de.hsrm.mi.eibo.presentation.uicomponents.menu;
 
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class MenuView extends VBox {
 
@@ -30,7 +33,7 @@ public class MenuView extends VBox {
         header = new HBox();
         header.setAlignment(Pos.TOP_RIGHT);
         header.setPadding(new Insets(20));
-        
+
         close = new Button("×");
         close.getStyleClass().add("text-button");
         header.getChildren().add(close);
@@ -62,31 +65,58 @@ public class MenuView extends VBox {
     public void initialize() {
 
         close.addEventHandler(ActionEvent.ACTION, event -> {
-            setVisible(false);
+            close();
         });
 
         home.addEventHandler(ActionEvent.ACTION, event -> {
             application.switchScene(Scenes.START_VIEW);
-            setVisible(false);
+            close();
         });
 
         create.addEventHandler(ActionEvent.ACTION, event -> {
             application.switchScene(Scenes.BUILD_VIEW);
-            setVisible(false);
+            close();
         });
 
         play.addEventHandler(ActionEvent.ACTION, event -> {
             application.switchScene(Scenes.SELECT_VIEW);
-            setVisible(false);
+            close();
         });
 
         songs.addEventHandler(ActionEvent.ACTION, event -> {
-            setVisible(false);
+            close();
         });
 
         settings.addEventHandler(ActionEvent.ACTION, event -> {
-            setVisible(false);
+            close();
         });
+    }
+
+    public void show() {
+        this.setVisible(true);
+        TranslateTransition animation = new TranslateTransition();
+        animation.setNode(this);
+        animation.setDuration(Duration.millis(500));
+        animation.setFromX(0 - getPrefWidth());
+        animation.setToX(0);
+        animation.play();
+    }
+
+    public void close() {
+        TranslateTransition animation = new TranslateTransition();
+        animation.setNode(this);
+        animation.setDuration(Duration.millis(500));
+        animation.setFromX(0);
+        animation.setToX(0 - getPrefWidth());
+        animation.play();
+
+        animation.setOnFinished(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent event) {
+				setVisible(false);
+			}
+        });
+
     }
 
 }
