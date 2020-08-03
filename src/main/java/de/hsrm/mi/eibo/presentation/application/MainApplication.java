@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -39,6 +40,7 @@ public class MainApplication extends Application {
     private Player player;
 
     private Theme theme;
+    private Image startImage;
 
     @Override
     public void start(Stage primaryStage) {
@@ -47,7 +49,8 @@ public class MainApplication extends Application {
 
             game = new Game();
             player = game.getPlayer();
-            theme = Theme.DARK;      
+            theme = Theme.LIGHT;
+            startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
@@ -89,6 +92,10 @@ public class MainApplication extends Application {
         }
     }
 
+    public Image getStartImage() {
+        return startImage;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -121,6 +128,7 @@ public class MainApplication extends Application {
         this.theme = theme;
         scene.getStylesheets().clear();
         scene.getStylesheets().add(theme.getUrl());
+        startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
     }
 
     public void setDesktopLayout(){

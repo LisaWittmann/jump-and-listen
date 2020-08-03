@@ -21,8 +21,8 @@ public class BuildView extends AnchorPane {
     
     public BuildView() {
         
-        menuButton = new Button("menu");
-        menuButton.getStyleClass().add("text-button");
+        menuButton = new Button("");        
+        menuButton.setId("menu-button");
 
         saveButton = new Button("save");
         saveButton.getStyleClass().add("text-button");
@@ -40,8 +40,8 @@ public class BuildView extends AnchorPane {
         layer.setVisible(false);
         tutorial = new TutorialView();
 
-        AnchorPane.setTopAnchor(menuButton, 0.0);
-        AnchorPane.setLeftAnchor(menuButton, 0.0);
+        AnchorPane.setTopAnchor(menuButton, 10.0);
+        AnchorPane.setLeftAnchor(menuButton, 10.0);
 
         AnchorPane.setTopAnchor(saveButton, 0.0);
         AnchorPane.setRightAnchor(saveButton, 0.0);

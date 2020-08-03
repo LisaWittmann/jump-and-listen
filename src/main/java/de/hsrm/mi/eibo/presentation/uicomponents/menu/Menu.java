@@ -18,6 +18,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+/**
+ * Menü zum Navigieren durch die Applikation
+ * stößt keine Programmlogik an
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class Menu extends VBox {
 
     private MainApplication application;

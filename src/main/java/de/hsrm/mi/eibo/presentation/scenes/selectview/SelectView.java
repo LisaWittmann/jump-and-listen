@@ -43,10 +43,10 @@ public class SelectView extends AnchorPane {
         layer.setId("transparent");
         layer.setVisible(false);
 
-        menuButton = new Button("menu");
-        menuButton.getStyleClass().add("text-button");
+        menuButton = new Button("");
+        menuButton.setId("menu-button");
         
-        AnchorPane.setTopAnchor(menuButton, 0.0);
+        AnchorPane.setTopAnchor(menuButton, 10.0);
         AnchorPane.setLeftAnchor(menuButton, 10.0);
 
         getChildren().addAll(content, menuButton, layer);

@@ -5,7 +5,6 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -37,7 +36,7 @@ public class StartViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        image.setImage(new Image(getClass().getResource("/images/intro_" + application.getTheme().name().toLowerCase() + ".png").toExternalForm()));
+        image.setImage(application.getStartImage());
         
         startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.SELECT_VIEW));
         

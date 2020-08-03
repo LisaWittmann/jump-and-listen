@@ -83,23 +83,25 @@
     -fx-font-size: 32px;
 }
 
-.icon-button {
-    min-width: 36px;
-    max-width: 36px;
-    min-height: 36px;
-    max-height: 36px;
+#menu-button {
+    min-height: 45px;
+    max-height: 45px;
+    min-width: 45px;
+    max-width: 45px;
     background-color: transparent;
-    background-size: 36px 36px;
+    background-size: 32px 25px;
     background-position: center;
     background-repeat: no-repeat no-repeat;
-    -fx-min-height: 36px;
-    -fx-max-height: 36px;
-    -fx-min-width: 36px;
-    -fx-max-width: 36px;
+    background-image: url("../images/menu_light.png");
+    -fx-min-height: 45px;
+    -fx-max-height: 45px;
+    -fx-min-width: 45px;
+    -fx-max-width: 45px;
     -fx-background-color: transparent;
-    -fx-background-size: 36px 36px;
+    -fx-background-size: 32px 23px;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat no-repeat;
+    -fx-background-image: url("../images/menu_light.png");
 }
 
 

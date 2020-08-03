@@ -24,9 +24,8 @@ public class GameView extends AnchorPane {
         score.getStyleClass().add("h3");
         score.setStyle("-fx-text-alignment: right;");
 
-        menuButton = new Button("menu");
-        menuButton.getStyleClass().add("text-button");
-        menuButton.setStyle("-fx-font-size: 32px;");
+        menuButton = new Button("");
+        menuButton.setId("menu-button");
 
         song = new ComboBox<>();
         song.setPrefWidth(550);
@@ -45,7 +44,7 @@ public class GameView extends AnchorPane {
 
         AnchorPane.setBottomAnchor(field, 0.0);
 
-        AnchorPane.setTopAnchor(menuButton, 0.0);
+        AnchorPane.setTopAnchor(menuButton, 10.0);
         AnchorPane.setLeftAnchor(menuButton, 10.0);
 
         AnchorPane.setTopAnchor(song, 10.0);

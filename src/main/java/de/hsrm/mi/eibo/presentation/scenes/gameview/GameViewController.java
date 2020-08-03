@@ -7,7 +7,6 @@ import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
-import de.hsrm.mi.eibo.presentation.uicomponents.settings.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 
 import javafx.application.Platform;
@@ -21,7 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 /**
  * Controller der GameView handled Kommunikation während des Spiels mit dem
@@ -35,7 +33,6 @@ public class GameViewController extends ViewController<MainApplication> {
     private Game game;
 
     private Button menuButton;
-    private Pane settingView;
 
     private ComboBox<String> song;
     private Label score;

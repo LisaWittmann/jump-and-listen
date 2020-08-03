@@ -12,5 +12,9 @@ public enum Theme {
     public String getUrl() {
         return url;
     }
+
+    public String toString() {
+        return name().toLowerCase();
+    }
     
 }
