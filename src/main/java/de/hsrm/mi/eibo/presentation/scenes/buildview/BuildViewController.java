@@ -29,7 +29,7 @@ import javafx.scene.shape.Line;
 public class BuildViewController extends ViewController<MainApplication> {
 
     private BuildView view;
-    private SongBuilder songBuilder;
+    private SongManager songBuilder;
 
     private Button menuButton;
     private Button saveButton;
@@ -50,7 +50,7 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     public BuildViewController(MainApplication application) {
         super(application);
-        songBuilder = new SongBuilder();
+        songBuilder = new SongManager();
         scroll = false;
 
         view = new BuildView();
@@ -137,7 +137,7 @@ public class BuildViewController extends ViewController<MainApplication> {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
-                    BlockResizer.makeResizable(blockView, application.getScene());
+                    BlockEditor.makeResizable(blockView, application.getScene());
                     songBuilder.add(block);
                     addBlock();
                 }

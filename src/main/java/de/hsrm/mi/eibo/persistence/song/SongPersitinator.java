@@ -9,7 +9,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hsrm.mi.eibo.business.gamelogic.Level;
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.persistence.DataPersistinator;
 import de.hsrm.mi.eibo.persistence.highscore.HighscorePersistinator;
@@ -107,23 +106,6 @@ public class SongPersitinator implements DataPersistinator<Song> {
         return song;
     }
 
-    public List<Song> loadByLevel(Level level) {
-        List<Song> levelSongs = new ArrayList<>();
-        for(Song s : loadAll()) {
-            if(s.getLevel().equals(level)) {
-                levelSongs.add(s);
-            }
-        }
-        return levelSongs;
-    }
-    
-    public Song loadByName(String name) {
-        for(Song s : loadAll()) {
-            if(s.getName().equals(name)) return s;
-        }
-        return null;
-    }
-
     public void removeData(Song song) {
         highscorePers.removeBySong(song);
         List<Song> data = loadAll();
@@ -143,6 +125,13 @@ public class SongPersitinator implements DataPersistinator<Song> {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Song loadByName(String name) {
+        for(Song s : loadAll()) {
+            if(s.getName().equals(name)) return s;
+        }
+        return null;
     }
 
     public boolean nameAccepted(String name) {

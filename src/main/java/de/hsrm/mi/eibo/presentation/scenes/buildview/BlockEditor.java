@@ -5,33 +5,33 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 
-public class BlockResizer {
+public class BlockEditor {
 
     private static final int RESIZE_MARGIN = 20;
 
     private double y;
     
-    private BlockView region;
+    private BlockView blockView;
     private Scene scene;
     private Cursor cursor;
 
-    private BlockResizer(BlockView region, Scene scene) {
-        this.region = region;
+    private BlockEditor(BlockView blockView, Scene scene) {
+        this.blockView = blockView;
         this.scene = scene;
         this.cursor = scene.getCursor();
     }
 
-    public static void makeResizable(BlockView region, Scene scene) {
-        BlockResizer resizer = new BlockResizer(region, scene);
-        region.setOnMousePressed(event -> resizer.mousePressed(event));
-        region.setOnMouseDragged(event -> resizer.mouseDragged(event));
-        region.setOnMouseMoved(event -> resizer.mouseOver(event));
-        region.setOnMouseReleased(event -> resizer.mouseReleased(event));
+    public static void makeResizable(BlockView blockView, Scene scene) {
+        BlockEditor editor = new BlockEditor(blockView, scene);
+        blockView.setOnMousePressed(event -> editor.mousePressed(event));
+        blockView.setOnMouseDragged(event -> editor.mouseDragged(event));
+        blockView.setOnMouseMoved(event -> editor.mouseOver(event));
+        blockView.setOnMouseReleased(event -> editor.mouseReleased(event));
     }
 
     protected void mouseReleased(MouseEvent event) {
-        region.setCursor(Cursor.DEFAULT);
-        region.getBlock().setHeight(region.getPrefHeight());
+        blockView.setCursor(Cursor.DEFAULT);
+        blockView.getBlock().setHeight(blockView.getPrefHeight());
     }
 
     protected void mousePressed(MouseEvent event) {
@@ -46,8 +46,8 @@ public class BlockResizer {
 
     protected void mouseDragged(MouseEvent event) {
         if(cursor.equals(Cursor.N_RESIZE)) {
-            double height = region.getPrefHeight() + (y-event.getSceneY());
-            region.setPrefHeight(height);
+            double height = blockView.getPrefHeight() + (y-event.getSceneY());
+            blockView.setPrefHeight(height);
         }
         y = event.getSceneY();
     }
@@ -56,13 +56,13 @@ public class BlockResizer {
         if(event.getY() < RESIZE_MARGIN) {
             return Cursor.N_RESIZE;
         } 
-        else if(event.getX() >= (region.getWidth() - RESIZE_MARGIN)) {
+        else if(event.getX() >= (blockView.getWidth() - RESIZE_MARGIN)) {
             return Cursor.E_RESIZE;
         } 
         else if(event.getY() > RESIZE_MARGIN) {
             return Cursor.S_RESIZE;
         }
-        else if(event.getX() <= (region.getWidth())) {
+        else if(event.getX() <= (blockView.getWidth())) {
             return Cursor.W_RESIZE;
         }
         return null;

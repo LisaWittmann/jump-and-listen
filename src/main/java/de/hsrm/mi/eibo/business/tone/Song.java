@@ -14,26 +14,30 @@ public class Song {
     private static final String TONSEPERATOR = " ";
     private static final String NAMESEPERATOR = ":";
     private static final String LEVELSEPERATOR = "-";
+    private static final String EDITSEPERATOR = ";";
 
     private List<Tone> tones;
     private Level level;
     private String name;
+    private boolean editable;
 
     public Song() {
-        super();
         level = Level.BEGINNER;
         tones = new LinkedList<>();
         name = "unknown";
+        editable = true;
     }
     
     public Song(String string) {
         this();
         string = string.toUpperCase();
-        String [] parts = string.split(LEVELSEPERATOR);
-        level = Level.valueOf(parts[0]);
-        String [] sndparts = parts[1].split(NAMESEPERATOR);
-        setName(sndparts[0]);
-        String [] notes = sndparts[1].split(TONSEPERATOR);
+        String [] first = string.split(LEVELSEPERATOR);
+        level = Level.valueOf(first[0]);
+        String [] second = first[1].split(EDITSEPERATOR);
+        editable = (second[0].equals("TRUE")) ? true : false;
+        String[] third = second[1].split(NAMESEPERATOR);
+        setName(third[0]);
+        String [] notes = third[1].split(TONSEPERATOR);
         for (String note: notes) {
             for (Tone tone : Tone.values()) {
                 if (note.equals(tone.name())) {
@@ -44,29 +48,24 @@ public class Song {
         }
     }
 
-    public Song(Level level, String string) {
-        this();
-        this.level = level;
-        string = string.toUpperCase();
-        String [] notes = string.split(TONSEPERATOR);
-        for (String note: notes) {
-            for(Tone tone : Tone.values()) {
-                if (note.equals(tone.name())) {
-                    tones.add(tone);
-                    continue;
-                }
-            }
-        }
+    protected void setTones(List<Tone> tones) {
+        this.tones = tones;
     }
 
-    @Override
-    public String toString() {
-        String erg = level.toString() + LEVELSEPERATOR;
-        erg += name + NAMESEPERATOR;
-        for (Tone tone : tones) {
-            erg = erg + tone.name() + TONSEPERATOR;
-        }
-        return erg;
+    protected void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public void setName(String name) {
+        this.name = name.toLowerCase();
+    } 
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public boolean isEditable() {
+        return editable;
     }
 
     public String getName() {
@@ -77,6 +76,22 @@ public class Song {
         return level;
     }
 
+    public List<Tone> getTones() {
+        return tones;
+    }
+
+    @Override
+    public String toString() {
+        String erg = level.toString() + LEVELSEPERATOR;
+        erg += editable + EDITSEPERATOR;
+        erg += name + NAMESEPERATOR;
+        for (Tone tone : tones) {
+            erg = erg + tone.name() + TONSEPERATOR;
+        }
+        return erg;
+    }
+
+
     public static String getNameSeperator() {
         return NAMESEPERATOR;
     }
@@ -84,20 +99,9 @@ public class Song {
     public static String getLevelSeperator() {
         return LEVELSEPERATOR;
     }
-    
-    public List<Tone> getTones() {
-        return tones;
+
+    public static String getEditSeperator() {
+        return EDITSEPERATOR;
     }
 
-    protected void setTones(List<Tone> tones) {
-        this.tones = tones;
-    }
-
-    protected void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public void setName(String name){
-        this.name = name.toLowerCase();
-    } 
 }

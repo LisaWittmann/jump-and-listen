@@ -58,13 +58,12 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
         view.getChildren().add(menu);
 
-        initResizeable();
         initialize();
     }
 
     @Override
     public void initResizeable() {
-        content.setMinSize(application.getWidth().get(), application.getScene().getHeight());
+        content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
     }
@@ -89,6 +88,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     }
 
     public void show() {
+        initResizeable();
         playerScore.setText(String.valueOf(game.getScore()));
         values = game.getHighScores();
         if (game.getHighScores().size() > 0 && game.getScore() == values.get(0)) {

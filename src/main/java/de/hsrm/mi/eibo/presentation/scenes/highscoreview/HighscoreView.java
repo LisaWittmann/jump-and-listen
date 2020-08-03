@@ -67,8 +67,8 @@ public class HighscoreView extends AnchorPane {
         buttonBox.getChildren().addAll(levelButton, retryButton);
         
         content = new VBox();
-        content.setSpacing(40);
-        content.setPadding(new Insets(60));
+        content.setSpacing(20);
+        content.setPadding(new Insets(40, 20, 40, 20));
         content.setAlignment(Pos.TOP_CENTER);
         content.getChildren().addAll(playerRank, highscores, buttonBox);
 

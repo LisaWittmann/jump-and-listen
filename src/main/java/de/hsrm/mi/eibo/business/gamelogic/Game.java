@@ -6,11 +6,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.hsrm.mi.eibo.business.tone.Song;
-import de.hsrm.mi.eibo.business.tone.Tone;
-import de.hsrm.mi.eibo.business.tone.ToneMaker;
+import de.hsrm.mi.eibo.business.tone.*;
 import de.hsrm.mi.eibo.persistence.highscore.*;
-import de.hsrm.mi.eibo.persistence.song.*;
 
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -31,8 +28,8 @@ public class Game {
 
     private int score;
     private int point;
+    private SongManager songManager;
     private HighscorePersistinator highscorePersistinator;
-    private SongPersitinator songPersitinator;
 
     private SimpleBooleanProperty initialized;
     private SimpleBooleanProperty ended;
@@ -62,10 +59,9 @@ public class Game {
         blocks = new LinkedList<>();
         player = new Player();
         tonemaker = new ToneMaker();
+        songManager = new SongManager();
 
         highscorePersistinator = new HighscorePersistinator();
-        songPersitinator = new SongPersitinator();
-
         if(highscorePersistinator.loadAll().isEmpty()) tutorial = true;
 
         initialized = new SimpleBooleanProperty(false);
@@ -95,6 +91,10 @@ public class Game {
 
     public Song getSong() {
         return song;
+    }
+
+    public SongManager getSongManager() {
+        return songManager;
     }
 
     public Player getPlayer() {
@@ -161,8 +161,9 @@ public class Game {
         setBlockDistanz(level.distance);
         setSpeedFactor(level.speedFactor);
         point = level.point;
-        List<Song> matchingSongs = songsForLevel();
-        int random = (int) Math.random() * matchingSongs.size();
+
+        List<Song> matchingSongs = songManager.getSongByLevel(level);
+        int random = (int) (Math.random() * matchingSongs.size());
         setSong(matchingSongs.get(random));
     }
 
@@ -173,7 +174,7 @@ public class Game {
     }
 
     public void setSong(String name) {
-        Song song = songPersitinator.loadByName(name);
+        Song song = songManager.getSongByName(name);
         if(this.song != null && !song.equals(this.song)) {
             this.song = song;
             restart();
@@ -265,10 +266,6 @@ public class Game {
             }
         }
         return sublist;
-    }
-
-    public List<Song> songsForLevel() {
-        return songPersitinator.loadByLevel(level);
     }
 
     public void movePlayerLeft(Boolean move) {
