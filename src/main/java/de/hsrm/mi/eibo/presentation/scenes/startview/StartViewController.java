@@ -37,12 +37,15 @@ public class StartViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        image.setImage(new Image(
-                getClass().getResource("/images/intro_" + application.getTheme().name().toLowerCase() + ".png")
-                        .toExternalForm()));
+        image.setImage(new Image(getClass().getResource("/images/intro_" + application.getTheme().name().toLowerCase() + ".png").toExternalForm()));
+        
         startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.SELECT_VIEW));
+        
         createButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.BUILD_VIEW));
     }
+
+    @Override
+    public void initResizeable() { }
 
 
 

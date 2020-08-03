@@ -37,7 +37,14 @@ public class SettingViewController extends ViewController<MainApplication> {
         speed = view.speed;
         volume = view.volume;
 
+        initResizeable();
         initialize();
+    }
+
+    @Override
+    public void initResizeable() {
+        view.setLayoutX(application.getWidth().get()/2 - view.getPrefWidth()/2);
+        view.setLayoutY(application.getScene().getHeight()/2 - view.getPrefHeight()/2);
     }
 
     @Override

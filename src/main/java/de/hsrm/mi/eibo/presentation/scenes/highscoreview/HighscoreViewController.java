@@ -58,15 +58,19 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
         view.getChildren().add(menu);
 
-        initResizeableElements();
+        initResizeable();
+        initialize();
+    }
 
-        application.getWidth().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                initResizeableElements();
-            }
-        });
+    @Override
+    public void initResizeable() {
+        content.setMinSize(application.getWidth().get(), application.getScene().getHeight());
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+    }
 
+    @Override
+    public void initialize() {
         application.getGame().gameEnded().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -74,16 +78,17 @@ public class HighscoreViewController extends ViewController<MainApplication> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            initialize();
+                            show();
                         }
                     });
                 }
             }
         });
+        
+
     }
 
-    @Override
-    public void initialize() {
+    public void show() {
         playerScore.setText(String.valueOf(game.getScore()));
         values = game.getHighScores();
         if (game.getHighScores().size() > 0 && game.getScore() == values.get(0)) {
@@ -148,12 +153,12 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             }
         });
 
-    }
-
-    public void initResizeableElements() {
-        content.setMinSize(application.getWidth().get(), application.getScene().getHeight());
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        application.getWidth().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                initResizeable();
+            }
+        });
     }
 
 }

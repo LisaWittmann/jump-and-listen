@@ -2,6 +2,9 @@ package de.hsrm.mi.eibo.presentation.uicomponents.menu;
 
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
+import de.hsrm.mi.eibo.presentation.scenes.gameview.GameView;
+import de.hsrm.mi.eibo.presentation.uicomponents.settings.SettingViewController;
+
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -9,11 +12,13 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public class MenuView extends VBox {
+public class Menu extends VBox {
 
     private MainApplication application;
 
@@ -26,7 +31,9 @@ public class MenuView extends VBox {
     private Button songs;
     private Button settings;
 
-    public MenuView(Application application) {
+    private Pane view;
+
+    public Menu(Application application) {
         this.application = (MainApplication) application;
         setVisible(false);
 
@@ -52,6 +59,7 @@ public class MenuView extends VBox {
 
         settings = new Button("settings");
         settings.getStyleClass().add("text-button");
+        settings.setVisible(false);
 
         setAlignment(Pos.TOP_LEFT);
         setPadding(new Insets(20, 10, 20, 10));
@@ -63,7 +71,6 @@ public class MenuView extends VBox {
     }
 
     public void initialize() {
-
         close.addEventHandler(ActionEvent.ACTION, event -> {
             close();
         });
@@ -86,37 +93,58 @@ public class MenuView extends VBox {
         songs.addEventHandler(ActionEvent.ACTION, event -> {
             close();
         });
+    }
 
-        settings.addEventHandler(ActionEvent.ACTION, event -> {
-            close();
-        });
+    public void setView(Pane view) {
+        this.view = view;
     }
 
     public void show() {
         this.setVisible(true);
-        TranslateTransition animation = new TranslateTransition();
-        animation.setNode(this);
-        animation.setDuration(Duration.millis(500));
-        animation.setFromX(0 - getPrefWidth());
-        animation.setToX(0);
-        animation.play();
+        TranslateTransition transition = new TranslateTransition();
+        transition.setNode(this);
+        transition.setDuration(Duration.millis(500));
+        transition.setFromX(0 - getPrefWidth());
+        transition.setToX(0);
+        transition.play();
     }
 
     public void close() {
-        TranslateTransition animation = new TranslateTransition();
-        animation.setNode(this);
-        animation.setDuration(Duration.millis(500));
-        animation.setFromX(0);
-        animation.setToX(0 - getPrefWidth());
-        animation.play();
+        TranslateTransition transition = new TranslateTransition();
+        transition.setNode(this);
+        transition.setDuration(Duration.millis(500));
+        transition.setFromX(0);
+        transition.setToX(0 - getPrefWidth());
+        transition.play();
 
-        animation.setOnFinished(new EventHandler<ActionEvent>(){
+        transition.setOnFinished(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {
 				setVisible(false);
 			}
         });
-
     }
+
+    public void enableSettings() {
+        if(view instanceof GameView) {
+            settings.setVisible(true);
+            settings.addEventHandler(ActionEvent.ACTION, event -> {
+                SettingViewController controller = new SettingViewController(application);
+                view.getChildren().add(controller.getRootView());
+                controller.initResizeable();
+
+                view.setOnMousePressed(new EventHandler<MouseEvent>() {
+				    @Override
+				    public void handle(MouseEvent event) {
+					    if(view.getChildren().contains(controller.getRootView())) {
+                            view.getChildren().remove(controller.getRootView());
+                            close();
+                        }
+                    }
+                });
+            });
+        }
+    }
+
 
 }

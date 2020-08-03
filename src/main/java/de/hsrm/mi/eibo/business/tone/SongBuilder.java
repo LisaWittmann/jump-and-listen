@@ -7,7 +7,9 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
 import de.hsrm.mi.eibo.persistence.song.SongPersitinator;
-import de.hsrm.mi.eibo.persistence.song.NameException;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Erzeugung eines Songs aus Blöcken
@@ -16,6 +18,8 @@ import de.hsrm.mi.eibo.persistence.song.NameException;
 public class SongBuilder {
 
     private SongPersitinator songPersitinator;
+    private ObservableList<Song> savedSongs;
+    
     private Song buildedSong;
     private List<Block> inputBlocks;
 
@@ -23,6 +27,23 @@ public class SongBuilder {
         songPersitinator = new SongPersitinator();
         inputBlocks = new ArrayList<>();
         buildedSong = null;
+        savedSongs = FXCollections.observableArrayList();
+    }
+
+    public Song getBuildedSong() {
+        return buildedSong;
+    }
+
+    public Block addNext(double x, double height) {
+        Block block = new Block(false);
+        block.setPosX(x);
+        block.setPosY(height-block.getHeight());
+        return block;
+    }
+
+    public void add(Block block) {
+        block.setHeight(Block.roundHeight(block.getHeight()));
+        inputBlocks.add(block);
     }
 
     public Level calcLevel(List<Tone> tones) {
@@ -48,18 +69,6 @@ public class SongBuilder {
         return tones;
     }
 
-    public void add(Block block) {
-        block.setHeight(Block.roundHeight(block.getHeight()));
-        inputBlocks.add(block);
-    }
-
-    public Block addEmpty(double x, double height) {
-        Block block = new Block(false);
-        block.setPosX(x);
-        block.setPosY(height-block.getHeight());
-        return block;
-    }
-
     public void discard(Block block) {
         if(inputBlocks.contains(block)) inputBlocks.remove(block);
     }
@@ -83,9 +92,5 @@ public class SongBuilder {
             songPersitinator.saveData(buildedSong);
             return buildedSong;
         }
-    }
-
-    public Song getBuildedSong() {
-        return buildedSong;
     }
 }

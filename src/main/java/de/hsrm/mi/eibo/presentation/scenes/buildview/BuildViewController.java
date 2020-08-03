@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import de.hsrm.mi.eibo.business.tone.*;
 import de.hsrm.mi.eibo.business.gamelogic.Block;
-import de.hsrm.mi.eibo.business.tone.SongBuilder;
-import de.hsrm.mi.eibo.business.tone.Tone;
 import de.hsrm.mi.eibo.presentation.application.MainApplication;
 import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
-import de.hsrm.mi.eibo.persistence.song.NameException;
-import javafx.animation.TranslateTransition;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,7 +25,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
-import javafx.util.Duration;
 
 public class BuildViewController extends ViewController<MainApplication> {
 
@@ -70,8 +67,19 @@ public class BuildViewController extends ViewController<MainApplication> {
 
         view.getChildren().add(menu);
 
-        initResizableElements();
+        initResizeable();
         initialize();
+    }
+
+    @Override
+    public void initResizeable() {
+        song.setPrefHeight(application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        centerContainer.setPrefWidth(application.getWidth().get());
+        tutorial.setPrefSize(400, 250);
+        tutorial.setLayoutX(application.getWidth().get()/2 - tutorial.getPrefWidth()/2);
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
     @Override
@@ -109,14 +117,14 @@ public class BuildViewController extends ViewController<MainApplication> {
         }
         addBlock();
         addKeyListener();
-        setTutorial();
+        initTutorial();
     }
 
     public void addBlock() {
         if (scroll)
             scrollSong(-150);
 
-        Block block = songBuilder.addEmpty(counter, application.getScene().getHeight());
+        Block block = songBuilder.addNext(counter, application.getScene().getHeight());
         BlockView blockView = new BlockView(block);
         emptyBlock = block;
 
@@ -139,7 +147,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         application.getWidth().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                initResizableElements();
+                initResizeable();
             }
         });
 
@@ -190,7 +198,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         });
     }
 
-    private void setTutorial() {
+    private void initTutorial() {
         LinkedHashMap<String, String> steps = new LinkedHashMap<>();
         steps.put("welcome", "learn how to create own songs");
         steps.put("add tone", "'+' will add a new tone to your song");
@@ -215,16 +223,6 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     private void scrollSong(double x) {
         song.setLayoutX(song.getLayoutX() + x);
-    }
-
-    private void initResizableElements() {
-        song.setPrefHeight(application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        centerContainer.setPrefWidth(application.getWidth().get());
-        tutorial.setPrefSize(400, 250);
-        tutorial.setLayoutX(application.getWidth().get()/2 - tutorial.getPrefWidth()/2);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
     public void resetView() {

@@ -44,13 +44,19 @@ public class SelectViewController extends ViewController<MainApplication> {
 
         view.getChildren().add(menu);
 
-        initResizeableElements();
+        initResizeable();
         initialize();
     }
 
     @Override
+    public void initResizeable() {
+        content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
+    }
+    
+    @Override
     public void initialize() {
-
         for (Level currentLevel : Level.values()) {
             Label name = new Label(currentLevel.toString());
             name.getStyleClass().add("h3");
@@ -69,7 +75,7 @@ public class SelectViewController extends ViewController<MainApplication> {
         application.getWidth().addListener(new ChangeListener<Number>(){
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				initResizeableElements();
+				initResizeable();
 			}
         });
 
@@ -79,12 +85,6 @@ public class SelectViewController extends ViewController<MainApplication> {
                 layer.setVisible(newValue);
             }
         });
-    }
-
-    public void initResizeableElements() {
-        content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
     

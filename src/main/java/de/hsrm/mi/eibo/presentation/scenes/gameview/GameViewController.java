@@ -56,9 +56,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
         player = new PlayerView(game.getPlayer(), this);
 
-        SettingViewController controller = new SettingViewController(application);
-        settingView = controller.getRootView();
-
         menuButton = view.menuButton;
         score = view.score;
         song = view.song;
@@ -68,9 +65,22 @@ public class GameViewController extends ViewController<MainApplication> {
         tutorial = view.tutorial;
 
         view.getChildren().add(menu);
+        menu.enableSettings();
 
-        initResizeableElements();
+        initResizeable();
         initialize();
+    }
+
+    @Override
+    public void initResizeable() {
+        mid = application.getWidth().get()/2;
+        song.setLayoutX(application.getWidth().get()/2 - song.getPrefWidth()/2);
+        field.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
+        tutorial.setPrefSize(400, 250);
+        tutorial.setLayoutX(mid - tutorial.getPrefWidth());
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight());
+        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
     @Override
@@ -120,7 +130,7 @@ public class GameViewController extends ViewController<MainApplication> {
         application.getWidth().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                initResizeableElements();
+                initResizeable();
             } 
         });
 
@@ -182,28 +192,28 @@ public class GameViewController extends ViewController<MainApplication> {
             blockview = new BlockView(block);
             field.getChildren().add(blockview);
         }
+        
         if (!view.getChildren().contains(player)) {
             view.getChildren().add(player);
         }
-        if (!view.getChildren().contains(settingView)) {
-            view.getChildren().add(settingView);
-            settingView.setVisible(false);
-        }
+
         if (!song.getItems().contains(game.getSong().getName())) {
             song.getItems().clear();
             for (Song s : game.songsForLevel()) {
                 song.getItems().add(s.getName());
             }
         }
+        
         if (game.needsTutorial()) {
-            setTutorial();
+            initTutoral();
         }
+        
         addKeyListener();
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSong(song.getValue()));
     }
 
-    private void setTutorial() {
+    private void initTutoral() {
         LinkedHashMap<String, String> steps = new LinkedHashMap<>();
         steps.put("welcome", "learn to play");
         steps.put("start", "press S to start");
@@ -238,17 +248,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public double getMid() {
         return mid;
-    }
-
-    public void initResizeableElements() {
-        mid = application.getWidth().get()/2;
-        song.setLayoutX(application.getWidth().get()/2 - song.getPrefWidth()/2);
-        field.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        tutorial.setPrefSize(400, 250);
-        tutorial.setLayoutX(mid - tutorial.getPrefWidth());
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight());
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
 }
