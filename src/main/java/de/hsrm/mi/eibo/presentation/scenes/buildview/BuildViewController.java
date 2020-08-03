@@ -11,11 +11,14 @@ import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
-
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -29,7 +32,7 @@ import javafx.scene.shape.Line;
 public class BuildViewController extends ViewController<MainApplication> {
 
     private BuildView view;
-    private SongManager songBuilder;
+    private SongManager songManager;
 
     private Button menuButton;
     private Button saveButton;
@@ -43,15 +46,9 @@ public class BuildViewController extends ViewController<MainApplication> {
     private AnchorPane layer;
     private TutorialView tutorial;
 
-    private double counter = 100;
-    private double distance = 50;
-
-    private boolean scroll;
-
     public BuildViewController(MainApplication application) {
         super(application);
-        songBuilder = new SongManager();
-        scroll = false;
+        songManager = application.getSongManager();
 
         view = new BuildView();
         setRootView(view);
@@ -61,7 +58,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         song = view.song;
         songName = view.songName;
         centerContainer = view.centerContainer;
-        
+
         tutorial = view.tutorial;
         layer = view.layer;
 
@@ -77,9 +74,9 @@ public class BuildViewController extends ViewController<MainApplication> {
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         centerContainer.setPrefWidth(application.getWidth().get());
         tutorial.setPrefSize(400, 250);
-        tutorial.setLayoutX(application.getWidth().get()/2 - tutorial.getPrefWidth()/2);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
+        tutorial.setLayoutX(application.getWidth().get() / 2 - tutorial.getPrefWidth() / 2);
+        tutorial.setLayoutY(application.getScene().getHeight() / 2 - tutorial.getPrefHeight() / 2);
+        menu.setPrefSize(application.getWidth().get() / 5, application.getScene().getHeight());
     }
 
     @Override
@@ -91,7 +88,7 @@ public class BuildViewController extends ViewController<MainApplication> {
 
         saveButton.addEventHandler(ActionEvent.ACTION, event -> {
             try {
-                application.getGame().setSong(songBuilder.confirm(songName.getText()));
+                application.getGame().setSong(songManager.confirm(songName.getText()));
                 application.switchScene(Scenes.GAME_VIEW);
             } catch (NameException e) {
                 songName.setId("error");
@@ -99,7 +96,8 @@ public class BuildViewController extends ViewController<MainApplication> {
         });
 
         for (Tone tone : Tone.values()) {
-            if (tone.isHalbton()) continue;
+            if (tone.isHalbton())
+                continue;
 
             Label name = new Label(tone.name());
             name.getStyleClass().add("normal-text");
@@ -115,34 +113,6 @@ public class BuildViewController extends ViewController<MainApplication> {
 
             view.getChildren().addAll(name, line);
         }
-        addBlock();
-        addKeyListener();
-        initTutorial();
-    }
-
-    public void addBlock() {
-        if (scroll)
-            scrollSong(-150);
-
-        Block block = songBuilder.addNext(counter, application.getScene().getHeight());
-        BlockView blockView = new BlockView(block);
-        emptyBlock = block;
-
-        song.getChildren().add(blockView);
-        AnchorPane.setBottomAnchor(blockView, 0.0);
-        counter += block.getWidth() + distance;
-        scroll = (counter > application.getWidth().get() * 0.6667) ? true : false;
-
-        emptyBlock.isInitialized().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    BlockEditor.makeResizable(blockView, application.getScene());
-                    songBuilder.add(block);
-                    addBlock();
-                }
-            }
-        });
 
         application.getWidth().addListener(new ChangeListener<Number>() {
             @Override
@@ -157,6 +127,48 @@ public class BuildViewController extends ViewController<MainApplication> {
                 layer.setVisible(newValue);
             }
         });
+
+        songManager.getInputBlocks().addListener(new ListChangeListener<Block>() {
+            @Override
+            public void onChanged(Change<? extends Block> changes) {
+                while (changes.next()) {
+                    if (changes.wasAdded()) {
+                        for (Block block : changes.getAddedSubList()) {
+                            if(block.getPosX() > application.getWidth().get()) {
+                                scrollSong(-150);
+                            }
+                            convert(block, block.isInitialized().get());
+                        }
+                    }
+
+                    else if(changes.wasRemoved()) {
+
+                        if(songManager.getInputBlocks().isEmpty()) {   
+                            resetView();
+                        }
+
+                        else {
+                            List<BlockView> remove = new ArrayList<>();
+                        
+                            for(Node node : song.getChildren()) {
+                                BlockView blockView = (BlockView) node;
+                                if(changes.getRemoved().contains(blockView.getBlock())){
+                                    remove.add(blockView);
+                                }
+                            }
+                        
+                            for(BlockView blockView : remove) {
+                                song.getChildren().remove(blockView);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        songManager.addLast();
+        addKeyListener();
+        initTutorial();
     }
 
     private void addKeyListener() {
@@ -175,7 +187,7 @@ public class BuildViewController extends ViewController<MainApplication> {
             public void handle(KeyEvent event) {
                 for (KeyCode code : options) {
                     if (new KeyCodeCombination(code, KeyCodeCombination.SHIFT_DOWN).match(event)) {
-                        if (code.name().equals("h"))
+                        if (code.name().equals("H"))
                             continue;
                         emptyBlock.setTone(Tone.valueOf(code.name() + "S"));
                         return;
@@ -204,6 +216,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         steps.put("add tone", "'+' will add a new tone to your song");
         steps.put("drag tone", "change the height of a tone by dragging it up or down");
         steps.put("keyboard", "you can also add songs by typing in the letter");
+        steps.put("remove", "click right on a tone to remove it from your song");
         steps.put("scroll", "press R to scroll right and L to scroll left");
         steps.put("save", "you need to enter a name for your song to save it");
         tutorial.setSteps(steps);
@@ -225,10 +238,34 @@ public class BuildViewController extends ViewController<MainApplication> {
         song.setLayoutX(song.getLayoutX() + x);
     }
 
+    public void convert(Block block, boolean initialized) {
+        BlockView blockView = new BlockView(block);
+        song.getChildren().add(blockView);
+        AnchorPane.setBottomAnchor(blockView, 0.0);
+
+        if(!initialized) {
+            emptyBlock = block;
+            block.isInitialized().addListener(new InvalidationListener(){
+				@Override
+				public void invalidated(Observable observable) {
+					if(block.isInitialized().get()){
+                        BlockEditor.makeEditable(blockView, songManager);
+                        songManager.addLast();
+                    }
+				}
+            });
+        }
+        
+        else {
+            BlockEditor.makeEditable(blockView, songManager);
+        }
+    }
+
     public void resetView() {
         song.setLayoutX(0);
         song.getChildren().clear();
-        addBlock();
+        songName.setText("");
+        songManager.addLast();
     }
 
 }

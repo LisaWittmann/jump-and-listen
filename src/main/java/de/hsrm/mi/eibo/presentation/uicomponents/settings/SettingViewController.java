@@ -56,7 +56,7 @@ public class SettingViewController extends ViewController<MainApplication> {
         blockdistance.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                game.setBlockDistanz(newValue.doubleValue());
+                game.setBlockDistance(newValue.doubleValue());
             }
         });
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import de.hsrm.mi.eibo.business.gamelogic.Block;
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.business.gamelogic.Player;
+import de.hsrm.mi.eibo.business.tone.SongManager;
 import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.scenes.buildview.*;
 import de.hsrm.mi.eibo.presentation.scenes.startview.*;
@@ -38,6 +39,7 @@ public class MainApplication extends Application {
 
     private Game game;
     private Player player;
+    private SongManager songManager;
 
     private Theme theme;
     private Image startImage;
@@ -49,6 +51,8 @@ public class MainApplication extends Application {
 
             game = new Game();
             player = game.getPlayer();
+            songManager = game.getSongManager();
+
             theme = Theme.LIGHT;
             startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
 
@@ -104,6 +108,10 @@ public class MainApplication extends Application {
         return player;
     }
 
+    public SongManager getSongManager() {
+        return songManager;
+    }
+
     public Scene getScene() {
         return scene;
     }
@@ -149,6 +157,10 @@ public class MainApplication extends Application {
 
         if(sceneName.equals(Scenes.GAME_VIEW)) {
             game.restart();
+        }
+
+        if(scene.getRoot() instanceof BuildView) {
+            songManager.discardAll();
         }
 
         if(scenes.containsKey(sceneName)){

@@ -28,6 +28,8 @@ public class BuildView extends AnchorPane {
         saveButton.getStyleClass().add("text-button");
 
         song = new AnchorPane();
+        song.setLayoutX(0);
+        
         songName = new TextField();
         songName.setPromptText("name your song");
         centerContainer = new HBox();

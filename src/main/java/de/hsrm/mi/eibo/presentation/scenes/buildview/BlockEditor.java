@@ -1,8 +1,8 @@
 package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
+import de.hsrm.mi.eibo.business.tone.SongManager;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 
 public class BlockEditor {
@@ -12,17 +12,18 @@ public class BlockEditor {
     private double y;
     
     private BlockView blockView;
-    private Scene scene;
     private Cursor cursor;
 
-    private BlockEditor(BlockView blockView, Scene scene) {
+    private SongManager manager;
+
+    private BlockEditor(BlockView blockView, SongManager manager) {
         this.blockView = blockView;
-        this.scene = scene;
-        this.cursor = scene.getCursor();
+        this.cursor = blockView.getCursor();
+        this.manager = manager;
     }
 
-    public static void makeResizable(BlockView blockView, Scene scene) {
-        BlockEditor editor = new BlockEditor(blockView, scene);
+    public static void makeEditable(BlockView blockView, SongManager manager) {
+        BlockEditor editor = new BlockEditor(blockView, manager);
         blockView.setOnMousePressed(event -> editor.mousePressed(event));
         blockView.setOnMouseDragged(event -> editor.mouseDragged(event));
         blockView.setOnMouseMoved(event -> editor.mouseOver(event));
@@ -36,12 +37,16 @@ public class BlockEditor {
 
     protected void mousePressed(MouseEvent event) {
         y = event.getSceneY();   
+        
+        if(event.isSecondaryButtonDown()) {
+            manager.discard(blockView.getBlock());
+        }
     }
 
     protected void mouseOver(MouseEvent event) {
         cursor = getCursor(event); 
-        if(cursor != null) scene.setCursor(cursor); 
-        else scene.setCursor(Cursor.DEFAULT);
+        if(cursor != null) blockView.setCursor(cursor); 
+        else blockView.setCursor(Cursor.DEFAULT);
     }
 
     protected void mouseDragged(MouseEvent event) {

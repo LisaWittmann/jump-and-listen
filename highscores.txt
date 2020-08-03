@@ -13,3 +13,5 @@ tonleiter;960
 alle meine entchen;1120
 hedwig’s theme;4870
 vivaldi;1200
+löschen;2560
+a;1200

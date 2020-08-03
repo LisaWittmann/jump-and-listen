@@ -25,6 +25,10 @@ public class SongManager {
     private Song buildedSong;
     private ObservableList<Block> inputBlocks;
 
+    private double counter = 100;
+    private double distance = 50;
+    private double height = 0;
+
     public SongManager() {
         buildedSong = null;
         songPersitinator = new SongPersitinator();
@@ -33,27 +37,38 @@ public class SongManager {
         savedSongs.addAll(songPersitinator.loadAll());
     }
 
-    public Song getBuildedSong() {
-        return buildedSong;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
-    public Block addNext(double x, double height) {
+    public ObservableList<Block> getInputBlocks() {
+        return inputBlocks;
+    }
+
+    public void initBlockPosition() {
+        counter = 100;
+        for(Block block : inputBlocks) {
+            block.setPosY(height - block.getHeight());
+            block.setPosX(counter);
+            counter += block.getWidth() + distance;
+        }
+    }
+
+    public void addLast() {
         Block block = new Block(false);
-        block.setPosX(x);
+        block.setPosX(counter);
         block.setPosY(height-block.getHeight());
-        return block;
-    }
-
-    public void add(Block block) {
-        block.setHeight(Block.roundHeight(block.getHeight()));
+        counter += block.getWidth() + distance;
         inputBlocks.add(block);
     }
 
     public void discard(Block block) {
         if(inputBlocks.contains(block)) inputBlocks.remove(block);
+        initBlockPosition();
     }
 
     public void discardAll() {
+        counter = 100;
         inputBlocks.clear();
     }
 
@@ -65,13 +80,19 @@ public class SongManager {
             buildedSong = new Song();
             buildedSong.setTones(convertToTones());
             buildedSong.setLevel(calcLevel(buildedSong.getTones()));
+            buildedSong.setEditable(true);
             if(songPersitinator.nameAccepted(name)) {
                 buildedSong.setName(name);
             }
             else throw new NameException();
             addSong(buildedSong);
+            discardAll();
             return buildedSong;
         }
+    }
+
+    public Song getBuildedSong() {
+        return buildedSong;
     }
 
     public Level calcLevel(List<Tone> tones) {
@@ -118,7 +139,7 @@ public class SongManager {
     }
 
     public void editSong(Song song) { 
-        inputBlocks.clear();
+        discardAll();
         inputBlocks.addAll(convertToBlocks(song.getTones()));
     }
 

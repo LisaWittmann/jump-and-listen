@@ -36,7 +36,7 @@ public class Game {
 
     //Einstellungen:
     private double speedFactor = 1;
-    private double blockDistanz = 100;
+    private double distance = 100;
     final int FPS = 20;
     final double FORCE_MULTI = 70;
     final double G_FORCE = -9.8066 * FORCE_MULTI;
@@ -122,7 +122,7 @@ public class Game {
     }
     
     public double getBlockDistanz() {
-        return blockDistanz;
+        return distance;
     }
 
     public double getSpeedFactor() {
@@ -140,14 +140,15 @@ public class Game {
 
     public void setSceneHeight(double sceneHeight){
         this.sceneHeight = sceneHeight;
-        this.falldepthGameOver = (int) this.sceneHeight + 50;
+        falldepthGameOver = (int) sceneHeight + 50;
+        songManager.setHeight(sceneHeight);
     }
 
-    public void setBlockDistanz(double blockDistanz) {
-        this.blockDistanz = blockDistanz;
-        if(blockDistanz < (level.distance - 10)) {
+    public void setBlockDistance(double distance) {
+        this.distance = distance;
+        if(distance < (level.distance - 10)) {
             point = level.point+10;
-        } else if(blockDistanz > (level.distance + 10)) {
+        } else if(distance > (level.distance + 10)) {
             point += level.point+10;
         }
 
@@ -158,7 +159,7 @@ public class Game {
 
     public void setLevel(Level level) {
         this.level = level;
-        setBlockDistanz(level.distance);
+        setBlockDistance(level.distance);
         setSpeedFactor(level.speedFactor);
         point = level.point;
 
@@ -170,6 +171,7 @@ public class Game {
     public void setSong(Song song) {
         this.song = song;
         this.level = song.getLevel();
+        this.point = song.getLevel().point;
         initBlocks(song);
     }
 
@@ -196,7 +198,7 @@ public class Game {
         for(Block block : blocks) {
             block.setPosY(sceneHeight - block.getHeight());
             block.setPosX(x);
-            x += block.getWidth() + blockDistanz;
+            x += block.getWidth() + distance;
         }
     }
 
