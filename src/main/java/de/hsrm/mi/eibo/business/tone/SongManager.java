@@ -24,6 +24,7 @@ public class SongManager {
     
     private Song buildedSong;
     private ObservableList<Block> inputBlocks;
+    private Block emptyBlock;
 
     private double counter = 100;
     private double distance = 50;
@@ -35,6 +36,7 @@ public class SongManager {
         inputBlocks = FXCollections.observableArrayList();
         savedSongs = FXCollections.observableArrayList();
         savedSongs.addAll(songPersitinator.loadAll());
+        emptyBlock = null;
     }
 
     public void setHeight(double height) {
@@ -60,6 +62,7 @@ public class SongManager {
         block.setPosY(height-block.getHeight());
         counter += block.getWidth() + distance;
         inputBlocks.add(block);
+        emptyBlock = block;
     }
 
     public void discard(Block block) {
@@ -77,6 +80,7 @@ public class SongManager {
             throw new NameException();
         }
         else {
+            inputBlocks.remove(emptyBlock);
             buildedSong = new Song();
             buildedSong.setTones(convertToTones());
             buildedSong.setLevel(calcLevel(buildedSong.getTones()));
@@ -133,9 +137,10 @@ public class SongManager {
     }
 
     public void removeSong(Song song) {
-        songPersitinator.removeData(song);
+        if(!song.isEditable()) return;
+        List<Song> songs = songPersitinator.removeData(song);
         savedSongs.clear();
-        savedSongs.addAll(songPersitinator.loadAll());
+        savedSongs.addAll(songs);
     }
 
     public void editSong(Song song) { 

@@ -106,17 +106,20 @@ public class SongPersitinator implements DataPersistinator<Song> {
         return song;
     }
 
-    public void removeData(Song song) {
-        if(!song.isEditable()) return;
-        highscorePers.removeBySong(song);
+    public List<Song> removeData(Song song) {
         List<Song> data = loadAll();
+        List<Song> newData = new ArrayList<>();
+        for(Song s : data) {
+            if(!s.getName().equalsIgnoreCase(song.getName())) {
+                newData.add(s);
+            }
+            else {
+                highscorePers.removeBySong(song);
+            }
+        }
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
-            for(Song s : data) {
-                if(!s.getName().equals(song.getName())) {
-                    writer.write(s.toString() + "\n");
-                }
-            }
+            writer.write("");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -126,6 +129,8 @@ public class SongPersitinator implements DataPersistinator<Song> {
                 e.printStackTrace();
             }
         }
+        saveAll(newData);
+        return newData;
     }
 
     public Song loadByName(String name) {

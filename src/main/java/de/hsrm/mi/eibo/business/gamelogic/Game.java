@@ -129,6 +129,10 @@ public class Game {
         return speedFactor;
     }
 
+    public void setTutorial(boolean tutorial) {
+        this.tutorial = false;
+    }
+
     public void setSpeedFactor(double speedFactor) {
         this.speedFactor = speedFactor;
         if(speedFactor < level.speedFactor) {

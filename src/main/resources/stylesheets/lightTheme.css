@@ -88,6 +88,37 @@
     -fx-text-fill: #f79f81;
 }
 
+.icon-button {
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat no-repeat;
+    min-height: 25px;
+    max-height: 25px;
+    min-width: 25px;
+    max-width: 25px;
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat no-repeat;
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+}
+
+#edit-button {
+    background-size: 22px 22px;
+    background-image: url("../images/edit_light.png");
+    -fx-background-size: 22px 22px;
+    -fx-background-image: url("../images/edit_light.png");
+}
+
+#remove-button {
+    background-size: 18px 22px;
+    background-image: url("../images/remove_light.png");
+    -fx-background-size: 18px 22px;
+    -fx-background-image: url("../images/remove_light.png");
+}
+
 #menu-button {
     min-height: 45px;
     max-height: 45px;

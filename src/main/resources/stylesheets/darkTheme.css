@@ -88,6 +88,36 @@
     -fx-text-fill: #cef6e3;
 }
 
+.icon-button {
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat no-repeat;
+    min-height: 25px;
+    max-height: 25px;
+    min-width: 25px;
+    max-width: 25px;
+    -fx-background-color: transparent;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat no-repeat;
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+}
+
+#edit-button {
+    background-size: 22px 22px;
+    background-image: url("../images/edit_dark.png");
+    -fx-background-size: 22px 22px;
+    -fx-background-image: url("../images/edit_dark.png");
+}
+
+#remove-button {
+    background-size: 18px 22px;
+    background-image: url("../images/remove_dark.png");
+    -fx-background-size: 18px 22px;
+    -fx-background-image: url("../images/remove_dark.png");
+}
 
 #menu-button {
     min-height: 45px;

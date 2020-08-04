@@ -221,8 +221,12 @@ public class GameViewController extends ViewController<MainApplication> {
 
         layer.setVisible(true);
         layer.toFront();
+        tutorial.toFront();
         view.getChildren().add(tutorial);
+        tutorial.toFront();
         tutorial.show();
+
+        game.setTutorial(false);
 
         tutorial.visibleProperty().addListener(new ChangeListener<Boolean>() {
             @Override
