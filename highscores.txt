@@ -30,3 +30,6 @@ freude schöner götterfunken;2500
 vivaldi;480
 vivaldi;880
 vivaldi;9910
+freude schöner götterfunken;3150
+hedwig’s theme;4880
+vivaldi;480

@@ -93,16 +93,18 @@ public class SongManager {
 
             if(songPersitinator.nameAccepted(name)) {
                 buildedSong.setName(name);
+                addSong(buildedSong);
             }
 
-            else if(editSong != null){
-                //TODO
+            else if(editSong != null) {
+                savedSongs.clear();
+                buildedSong.setName(editSong.getName());
+                savedSongs.addAll(songPersitinator.overrideData(buildedSong));
                 editSong = null;
             }
 
             else throw new NameException();
             
-            addSong(buildedSong);
             discardAll();
             return buildedSong;
         }
@@ -151,9 +153,8 @@ public class SongManager {
 
     public void removeSong(Song song) {
         if(!song.isEditable()) return;
-        List<Song> songs = songPersitinator.removeData(song);
         savedSongs.clear();
-        savedSongs.addAll(songs);
+        savedSongs.addAll(songPersitinator.removeData(song));
     }
 
     public void editSong(Song song) { 

@@ -133,6 +133,35 @@ public class SongPersitinator implements DataPersistinator<Song> {
         return newData;
     }
 
+    public List<Song> overrideData(Song song) {
+        List<Song> data = loadAll();
+        List<Song> newData = new ArrayList<>();
+        
+        for(Song s : data) {
+            if(!s.getName().equalsIgnoreCase(song.getName())) {
+                newData.add(s);
+            }
+            else {
+                highscorePers.removeBySong(s);
+                newData.add(song);
+            }
+        }
+        try {   
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
+            writer.write("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        saveAll(newData);
+        return newData;
+    }
+
     public Song loadByName(String name) {
         for(Song s : loadAll()) {
             if(s.getName().equals(name)) return s;

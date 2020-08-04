@@ -64,7 +64,9 @@ public class BlockView extends StackPane {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 getStyleClass().clear();
                 getStyleClass().add("block");
-                addButton.setVisible(false);
+                if(addButton != null) {
+                    addButton.setVisible(false);
+                }
             }   
         });
     }
