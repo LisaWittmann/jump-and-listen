@@ -322,11 +322,31 @@
     -fx-padding: 5px 5px 5px 5px;
 }
 
-#error {
+.error {
     border-color: darkred;
     border-width: 2px;
     border-radius: 3px;
     -fx-border-radius: 3px;
     -fx-border-width: 2px;
     -fx-border-color: darkred;
+}
+
+
+/* LIST VIEW */
+
+.list-view {
+    background-color: #f2f2f2;
+    border-color: #f2f2f2;
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #f2f2f2;
+}
+
+.list-view .list-cell:filled:hover {
+    background-color: #f6d8ce;
+    -fx-background-color: #f6d8ce;       
+}
+
+.list-view .list-cell:filled:selected:focused, .list-view .list-cell:filled:selected {
+    background-color: #f79f81;
+    -fx-background-color: #f79f81;
 }

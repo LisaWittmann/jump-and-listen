@@ -23,6 +23,8 @@ public class SongManager {
     private ObservableList<Song> savedSongs;
     
     private Song buildedSong;
+    private Song editSong;
+
     private ObservableList<Block> inputBlocks;
     private Block emptyBlock;
 
@@ -32,11 +34,14 @@ public class SongManager {
 
     public SongManager() {
         buildedSong = null;
+        editSong = null;
+        emptyBlock = null;
+
         songPersitinator = new SongPersitinator();
+
         inputBlocks = FXCollections.observableArrayList();
         savedSongs = FXCollections.observableArrayList();
         savedSongs.addAll(songPersitinator.loadAll());
-        emptyBlock = null;
     }
 
     public void setHeight(double height) {
@@ -85,10 +90,18 @@ public class SongManager {
             buildedSong.setTones(convertToTones());
             buildedSong.setLevel(calcLevel(buildedSong.getTones()));
             buildedSong.setEditable(true);
+
             if(songPersitinator.nameAccepted(name)) {
                 buildedSong.setName(name);
             }
+
+            else if(editSong != null){
+                //TODO
+                editSong = null;
+            }
+
             else throw new NameException();
+            
             addSong(buildedSong);
             discardAll();
             return buildedSong;
@@ -145,8 +158,13 @@ public class SongManager {
 
     public void editSong(Song song) { 
         discardAll();
+        editSong = song;
         inputBlocks.addAll(convertToBlocks(song.getTones()));
         initBlockPosition();
+    }
+
+    public Song getEditSong() {
+        return editSong;
     }
 
     public ObservableList<Song> getSavedSongs() {

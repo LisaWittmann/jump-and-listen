@@ -98,14 +98,20 @@ public class SongListCell extends ListCell<Song> {
                 @Override
                 public void handle(MouseEvent event) {
                     if(event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                        application.getGame().setSong(song);
-                        application.switchScene(Scenes.GAME_VIEW);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                application.getGame().setSong(song);
+                                application.switchScene(Scenes.GAME_VIEW);
+                            }
+                        });
                     }
                 }
             });
             setGraphic(content);
         }
         else {
+            setText(null);
             setGraphic(null);
         }
     }

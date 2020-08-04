@@ -89,7 +89,7 @@ public class BuildViewController extends ViewController<MainApplication> {
                 application.getGame().setSong(songManager.confirm(songName.getText()));
                 application.switchScene(Scenes.GAME_VIEW);
             } catch (NameException e) {
-                songName.setId("error");
+                songName.getStyleClass().add("error");
             }
         });
 
@@ -112,9 +112,16 @@ public class BuildViewController extends ViewController<MainApplication> {
             public void onChanged(Change<? extends Block> changes) {
                 while (changes.next()) {
                     if (changes.wasAdded()) {
+                        
                         if(song.getChildren().isEmpty()) {
                             addKeyListener();
                         }
+                        
+                        if(songManager.getEditSong() != null) {
+                            songName.setText(songManager.getEditSong().getName());
+                        }
+
+
                         for (Block block : changes.getAddedSubList()) {
                             if(block.getPosX() > application.getWidth().get()) {
                                 scrollSong(-150);
@@ -274,7 +281,12 @@ public class BuildViewController extends ViewController<MainApplication> {
     public void resetView() {
         song.setLayoutX(0);
         song.getChildren().clear();
+        
+        if(songName.getStyleClass().contains("error")) {
+            songName.getStyleClass().remove("error");
+        }
         songName.setText("");
+        
     }
 
 }
