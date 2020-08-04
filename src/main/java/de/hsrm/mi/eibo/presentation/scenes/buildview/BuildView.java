@@ -2,19 +2,17 @@ package de.hsrm.mi.eibo.presentation.scenes.buildview;
 
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 
 public class BuildView extends AnchorPane {
 
     Button saveButton, menuButton;
     TextField songName;
-    HBox centerContainer;
+
     AnchorPane song;
+    AnchorPane toneLines;
 
     AnchorPane layer;
     TutorialView tutorial;
@@ -31,11 +29,10 @@ public class BuildView extends AnchorPane {
         song.setLayoutX(0);
         
         songName = new TextField();
+        songName.setPrefWidth(300);
         songName.setPromptText("name your song");
-        centerContainer = new HBox();
-        centerContainer.setAlignment(Pos.CENTER);
-        centerContainer.setPadding(new Insets(20));
-        centerContainer.getChildren().add(songName);
+
+        toneLines = new AnchorPane();
 
         layer = new AnchorPane();
         layer.setId("transparent");
@@ -49,10 +46,11 @@ public class BuildView extends AnchorPane {
         AnchorPane.setRightAnchor(saveButton, 0.0);
 
         AnchorPane.setBottomAnchor(song, 0.0);
+        AnchorPane.setBottomAnchor(toneLines, 0.0);;
         
-        AnchorPane.setTopAnchor(centerContainer, 0.0);
+        AnchorPane.setTopAnchor(songName, 10.0);
 
-        getChildren().addAll(song, centerContainer, menuButton, saveButton, layer);
+        getChildren().addAll(song, toneLines, songName, menuButton, saveButton, layer);
         getStyleClass().add("window");
     }
     

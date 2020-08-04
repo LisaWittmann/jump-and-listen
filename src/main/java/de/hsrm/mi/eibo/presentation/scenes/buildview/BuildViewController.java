@@ -11,6 +11,7 @@ import de.hsrm.mi.eibo.presentation.scenes.Scenes;
 import de.hsrm.mi.eibo.presentation.scenes.ViewController;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
@@ -26,7 +27,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 
 public class BuildViewController extends ViewController<MainApplication> {
@@ -36,10 +36,10 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     private Button menuButton;
     private Button saveButton;
-    private AnchorPane song;
-
-    private HBox centerContainer;
     private TextField songName;
+
+    private AnchorPane song;
+    private AnchorPane toneLines;
 
     private Block emptyBlock;
 
@@ -55,9 +55,9 @@ public class BuildViewController extends ViewController<MainApplication> {
 
         menuButton = view.menuButton;
         saveButton = view.saveButton;
-        song = view.song;
         songName = view.songName;
-        centerContainer = view.centerContainer;
+        song = view.song;
+        toneLines = view.toneLines;
 
         tutorial = view.tutorial;
         layer = view.layer;
@@ -71,8 +71,9 @@ public class BuildViewController extends ViewController<MainApplication> {
     @Override
     public void initResizeable() {
         song.setPrefHeight(application.getScene().getHeight());
+        toneLines.setPrefHeight(application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        centerContainer.setPrefWidth(application.getWidth().get());
+        songName.setLayoutX(application.getWidth().get()/2 - songName.getPrefWidth()/2);
         tutorial.setPrefSize(400, 250);
         tutorial.setLayoutX(application.getWidth().get() / 2 - tutorial.getPrefWidth() / 2);
         tutorial.setLayoutY(application.getScene().getHeight() / 2 - tutorial.getPrefHeight() / 2);
@@ -95,25 +96,6 @@ public class BuildViewController extends ViewController<MainApplication> {
             }
         });
 
-        for (Tone tone : Tone.values()) {
-            if (tone.isHalbton())
-                continue;
-
-            Label name = new Label(tone.name());
-            name.getStyleClass().add("normal-text");
-            name.setStyle("-fx-text-alignment: left;");
-            name.setId("fading");
-
-            double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
-            name.setLayoutY(y - 15);
-            name.setLayoutX(20);
-
-            Line line = new Line(50, y, 5000, y);
-            line.getStyleClass().add("line");
-
-            view.getChildren().addAll(name, line);
-        }
-
         application.getWidth().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -133,6 +115,9 @@ public class BuildViewController extends ViewController<MainApplication> {
             public void onChanged(Change<? extends Block> changes) {
                 while (changes.next()) {
                     if (changes.wasAdded()) {
+                        if(song.getChildren().isEmpty()) {
+                            addKeyListener();
+                        }
                         for (Block block : changes.getAddedSubList()) {
                             if(block.getPosX() > application.getWidth().get()) {
                                 scrollSong(-150);
@@ -166,8 +151,8 @@ public class BuildViewController extends ViewController<MainApplication> {
             }
         });
 
-        songManager.addLast();
         addKeyListener();
+        initToneLines();
         initTutorial();
     }
 
@@ -208,6 +193,27 @@ public class BuildViewController extends ViewController<MainApplication> {
                 }
             }
         });
+    }
+
+    private void initToneLines() {
+        for (Tone tone : Tone.values()) {
+            if (tone.isHalbton())
+                continue;
+
+            Label name = new Label(tone.name());
+            name.getStyleClass().add("normal-text");
+            name.setStyle("-fx-text-alignment: left;");
+            name.setId("fading");
+
+            double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
+            name.setLayoutY(y - 15);
+            name.setLayoutX(20);
+
+            Line line = new Line(50, y, 5000, y);
+            line.getStyleClass().add("line");
+
+            toneLines.getChildren().addAll(name, line);
+        }
     }
 
     private void initTutorial() {
@@ -265,7 +271,6 @@ public class BuildViewController extends ViewController<MainApplication> {
         song.setLayoutX(0);
         song.getChildren().clear();
         songName.setText("");
-        songManager.addLast();
     }
 
 }

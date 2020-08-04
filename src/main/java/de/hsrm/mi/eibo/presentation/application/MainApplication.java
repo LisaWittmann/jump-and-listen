@@ -68,12 +68,11 @@ public class MainApplication extends Application {
             scene.getStylesheets().add(theme.getUrl());
             
             this.primaryStage = primaryStage;
-            this.primaryStage.setTitle("jump & listen");
-            this.primaryStage.setScene(scene);
-            this.primaryStage.initStyle(StageStyle.DECORATED);
-            this.primaryStage.show();
+            primaryStage.setTitle("jump & listen");
+            primaryStage.setScene(scene);
+            primaryStage.initStyle(StageStyle.DECORATED);
+            primaryStage.show();
 
-            initEscape();
             game.setSceneHeight(scene.getHeight());
 
             controller = new BuildViewController(this);
@@ -167,22 +166,15 @@ public class MainApplication extends Application {
             songManager.discardAll();
         }
 
+        if(sceneName.equals(Scenes.BUILD_VIEW)) {
+            songManager.addLast();
+        }
+
         if(scenes.containsKey(sceneName)){
             nextScene = scenes.get(sceneName);
             scene.setRoot(nextScene);
             currentScene = nextScene;
         }
-    }
-
-    public void initEscape() {
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ESCAPE)) {
-                    switchScene(Scenes.START_VIEW);
-                }
-            } 
-        });
     }
 
     /** 
