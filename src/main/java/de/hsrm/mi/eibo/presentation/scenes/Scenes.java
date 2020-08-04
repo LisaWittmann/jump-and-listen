@@ -8,6 +8,6 @@ package de.hsrm.mi.eibo.presentation.scenes;
  */
 public enum Scenes {
 
-    START_VIEW, BUILD_VIEW, SELECT_VIEW, GAME_VIEW, HIGHCSCORE_VIEW;
+    START_VIEW, BUILD_VIEW, SONG_VIEW, SELECT_VIEW, GAME_VIEW, HIGHCSCORE_VIEW;
     
 }

@@ -10,6 +10,7 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.scenes.buildview.*;
 import de.hsrm.mi.eibo.presentation.scenes.startview.*;
 import de.hsrm.mi.eibo.presentation.scenes.selectview.*;
+import de.hsrm.mi.eibo.presentation.scenes.songview.SongViewController;
 import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
@@ -77,6 +78,9 @@ public class MainApplication extends Application {
 
             controller = new BuildViewController(this);
             scenes.put(Scenes.BUILD_VIEW, controller.getRootView());
+
+            controller = new SongViewController(this);
+            scenes.put(Scenes.SONG_VIEW, controller.getRootView());
 
             controller = new SelectViewController(this);
             scenes.put(Scenes.SELECT_VIEW, controller.getRootView());

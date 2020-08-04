@@ -97,6 +97,7 @@ public class Menu extends VBox {
         });
 
         songs.addEventHandler(ActionEvent.ACTION, event -> {
+            application.switchScene(Scenes.SONG_VIEW);
             close();
         });
     }

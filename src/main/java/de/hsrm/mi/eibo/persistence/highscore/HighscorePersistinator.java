@@ -113,7 +113,7 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
             for(Highscore h : data) {
-                if(h.getSong().getName() != null  && !h.getSong().getName().equals(song.getName())) {
+                if(h.getSong() != null && h.getSong().getName() != null  && !h.getSong().getName().equals(song.getName())) {
                     writer.write(h.toString() + "\n");
                 }
             }
