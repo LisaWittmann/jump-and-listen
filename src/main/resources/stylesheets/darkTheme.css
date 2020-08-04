@@ -81,7 +81,13 @@
 #big-button {
     font-size: 32px;
     -fx-font-size: 32px;
+    -fx-text-fill: #fafafa;
 }
+
+#big-button:hover {
+    -fx-text-fill: #cef6e3;
+}
+
 
 #menu-button {
     min-height: 45px;

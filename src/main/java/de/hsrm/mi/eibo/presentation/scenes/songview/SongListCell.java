@@ -72,6 +72,8 @@ public class SongListCell extends ListCell<Song> {
             setGraphic(content);
         }
         else {
+            edit.setVisible(false);
+            remove.setVisible(false);
             setGraphic(null);
         }
     }

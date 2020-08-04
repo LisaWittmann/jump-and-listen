@@ -39,7 +39,6 @@ public class BuildViewController extends ViewController<MainApplication> {
     private TextField songName;
 
     private AnchorPane song;
-    private AnchorPane toneLines;
 
     private Block emptyBlock;
 
@@ -57,7 +56,6 @@ public class BuildViewController extends ViewController<MainApplication> {
         saveButton = view.saveButton;
         songName = view.songName;
         song = view.song;
-        toneLines = view.toneLines;
 
         tutorial = view.tutorial;
         layer = view.layer;
@@ -71,7 +69,6 @@ public class BuildViewController extends ViewController<MainApplication> {
     @Override
     public void initResizeable() {
         song.setPrefHeight(application.getScene().getHeight());
-        toneLines.setPrefHeight(application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         songName.setLayoutX(application.getWidth().get()/2 - songName.getPrefWidth()/2);
         tutorial.setPrefSize(400, 250);
@@ -200,19 +197,26 @@ public class BuildViewController extends ViewController<MainApplication> {
             if (tone.isHalbton())
                 continue;
 
+            double height = Block.getHeightByTone(tone);
+
             Label name = new Label(tone.name());
             name.getStyleClass().add("normal-text");
             name.setStyle("-fx-text-alignment: left;");
             name.setId("fading");
 
-            double y = application.getScene().getHeight() - Block.getHeightByTone(tone);
+            double y = application.getScene().getHeight() - height;
             name.setLayoutY(y - 15);
             name.setLayoutX(20);
 
             Line line = new Line(50, y, 5000, y);
             line.getStyleClass().add("line");
 
-            toneLines.getChildren().addAll(name, line);
+            AnchorPane.setBottomAnchor(line, height);
+            AnchorPane.setLeftAnchor(line, 50.0);
+
+            AnchorPane.setBottomAnchor(name, height - 15);
+
+            view.getChildren().addAll(name, line);
         }
     }
 

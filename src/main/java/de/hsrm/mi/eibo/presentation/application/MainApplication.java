@@ -16,17 +16,16 @@ import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
  * Klasse zum Starten der JavaFX-Oberfläche
+ * Manager der Applikation
+ * Scenenwechsel, Layoutkonfigurationen
  * 
  * @author pwieg001, lwitt001, lgers001
  */
@@ -148,24 +147,36 @@ public class MainApplication extends Application {
     }
 
     /**
-     * Ändert die angezeigte Scene
+     * Ändert die angezeigte Scene und setzte Scene gegebenenfalls zurück
+     * 
      * @param sceneName Scene, die angezeigt werden soll
      */
     public void switchScene(Scenes sceneName) {
         Pane nextScene;
 
-        if(game.isRunning()){
+        // Laufendes Spiel bei Scenenwechsel beenden
+        if(game.isRunning()) {
             game.close();
         }
 
-        if(sceneName.equals(Scenes.GAME_VIEW)) {
-            game.restart();
+        // Song des Games null setzen vor Editieren
+        if(sceneName.equals(Scenes.SONG_VIEW)) {
+            game.setSong(null);
         }
 
+        // Setze Spieleinstellungen zurück, wenn GameView betreten wird
+        if(sceneName.equals(Scenes.GAME_VIEW) && !(scene.getRoot() instanceof HighscoreView)) {
+            if(game.getSong() != null) {   
+                game.restart();
+            }
+        }
+
+        // Lösche Fortschritt wenn BuildView verlassen wird
         if(scene.getRoot() instanceof BuildView) {
             songManager.discardAll();
         }
 
+        // Füge leeren Block ein, wenn BuildView betreten wird
         if(sceneName.equals(Scenes.BUILD_VIEW)) {
             songManager.addLast();
         }

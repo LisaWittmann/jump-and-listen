@@ -12,7 +12,6 @@ public class BuildView extends AnchorPane {
     TextField songName;
 
     AnchorPane song;
-    AnchorPane toneLines;
 
     AnchorPane layer;
     TutorialView tutorial;
@@ -32,8 +31,6 @@ public class BuildView extends AnchorPane {
         songName.setPrefWidth(300);
         songName.setPromptText("name your song");
 
-        toneLines = new AnchorPane();
-
         layer = new AnchorPane();
         layer.setId("transparent");
         layer.setVisible(false);
@@ -46,11 +43,10 @@ public class BuildView extends AnchorPane {
         AnchorPane.setRightAnchor(saveButton, 0.0);
 
         AnchorPane.setBottomAnchor(song, 0.0);
-        AnchorPane.setBottomAnchor(toneLines, 0.0);;
         
         AnchorPane.setTopAnchor(songName, 10.0);
 
-        getChildren().addAll(song, toneLines, songName, menuButton, saveButton, layer);
+        getChildren().addAll(song, songName, menuButton, saveButton, layer);
         getStyleClass().add("window");
     }
     

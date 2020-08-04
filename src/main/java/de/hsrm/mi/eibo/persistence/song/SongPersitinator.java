@@ -107,6 +107,7 @@ public class SongPersitinator implements DataPersistinator<Song> {
     }
 
     public void removeData(Song song) {
+        if(!song.isEditable()) return;
         highscorePers.removeBySong(song);
         List<Song> data = loadAll();
         try {   

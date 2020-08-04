@@ -142,7 +142,6 @@ public class SongManager {
         discardAll();
         inputBlocks.addAll(convertToBlocks(song.getTones()));
         initBlockPosition();
-        //TODO: EditBlock ans Ende;
     }
 
     public ObservableList<Song> getSavedSongs() {

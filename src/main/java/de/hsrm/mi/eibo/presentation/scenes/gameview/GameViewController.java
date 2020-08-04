@@ -207,7 +207,7 @@ public class GameViewController extends ViewController<MainApplication> {
         
         addKeyListener();
         song.setValue(game.getSong().getName());
-        song.setOnAction(event -> game.setSong(song.getValue()));
+        song.setOnAction(event -> game.setSongByName(song.getValue())); //TODO: das macht
     }
 
     private void initTutoral() {

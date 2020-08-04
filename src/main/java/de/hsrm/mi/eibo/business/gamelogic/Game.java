@@ -170,14 +170,16 @@ public class Game {
 
     public void setSong(Song song) {
         this.song = song;
-        this.level = song.getLevel();
-        this.point = song.getLevel().point;
-        initBlocks(song);
+        if(song != null) {
+            this.level = song.getLevel();
+            this.point = song.getLevel().point;
+            initBlocks(song);
+        }
     }
 
-    public void setSong(String name) {
+    public void setSongByName(String name) {
         Song song = songManager.getSongByName(name);
-        if(this.song != null && !song.equals(this.song)) {
+        if(song != null && !song.equals(this.song)) {
             this.song = song;
             restart();
         }
