@@ -42,11 +42,5 @@ public class StartViewController extends ViewController<MainApplication> {
         
         createButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.BUILD_VIEW));
     }
-
-    @Override
-    public void initResizeable() { }
-
-
-
     
 }

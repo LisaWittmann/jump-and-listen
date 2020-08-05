@@ -64,7 +64,7 @@ public class MainApplication extends Application {
 
             currentScene = scenes.get(Scenes.START_VIEW);
             scene = new Scene(currentScene, 1400, 800);
-            scene.getStylesheets().add(theme.getUrl());
+            scene.getStylesheets().add(theme.getStylesheet());
             
             this.primaryStage = primaryStage;
             primaryStage.setTitle("jump & listen");
@@ -137,7 +137,7 @@ public class MainApplication extends Application {
     public void switchTheme(Theme theme) {
         this.theme = theme;
         scene.getStylesheets().clear();
-        scene.getStylesheets().add(theme.getUrl());
+        scene.getStylesheets().add(theme.getStylesheet());
         startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
     }
 

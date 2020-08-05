@@ -72,7 +72,8 @@ public class SettingView extends StackPane {
         content.getChildren().addAll(header, settings);
 
         setPadding(new Insets(40));
-        setPrefSize(600, 500);
+        prefWidthProperty().set(600);
+        prefHeightProperty().set(500);
         getChildren().add(content);
         setAlignment(content, Pos.TOP_CENTER);
         

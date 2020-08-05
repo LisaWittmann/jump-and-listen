@@ -43,8 +43,6 @@ public abstract class ViewController<T extends Application> {
     }
 
     public abstract void initialize();
-
-    public abstract void initResizeable();
     
 
 }

@@ -5,6 +5,7 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -15,9 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Controller der SelectView Initiiert die Wahlmöglichkeiten aus der
- * Businesslogik
- * 
+ * Controller der SelectView 
+ * Initiiert die Wahlmöglichkeiten aus der Businesslogik
  * @author pwieg001, lwitt001, lgers001
  */
 public class SelectViewController extends ViewController<MainApplication> {
@@ -44,46 +44,48 @@ public class SelectViewController extends ViewController<MainApplication> {
 
         view.getChildren().add(menu);
 
-        initResizeable();
         initialize();
-    }
-
-    @Override
-    public void initResizeable() {
-        content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
     
     @Override
     public void initialize() {
+
+        content.prefWidthProperty().bind(application.getScene().widthProperty());
+        content.prefHeightProperty().bind(application.getScene().heightProperty());
+
+        layer.prefWidthProperty().bind(application.getScene().widthProperty());
+        layer.prefHeightProperty().bind(application.getScene().heightProperty());
+
+        menu.prefHeightProperty().bind(application.getScene().heightProperty());
+        menu.prefWidthProperty().bind(application.getScene().widthProperty().divide(5));
+
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> menu.show());
+        layer.visibleProperty().bind(menu.visibleProperty());
+
         for (Level currentLevel : Level.values()) {
+            
             Label name = new Label(currentLevel.toString());
             name.getStyleClass().add("h3");
             options.getChildren().add(name);
 
             name.setOnMouseClicked(event -> {
                 game.setLevel(currentLevel);
-                application.switchScene(Scenes.GAME_VIEW);
+                Platform.runLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        application.switchScene(Scenes.GAME_VIEW);
+                    }
+
+                });
             });
         }
-
-        menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.show();
-        });
 
         application.getWidth().addListener(new ChangeListener<Number>(){
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				initResizeable();
+				//initResizeable();
 			}
-        });
-
-        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }
         });
     }
 

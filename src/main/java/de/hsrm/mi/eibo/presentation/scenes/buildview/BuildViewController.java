@@ -66,7 +66,6 @@ public class BuildViewController extends ViewController<MainApplication> {
         initialize();
     }
 
-    @Override
     public void initResizeable() {
         song.setPrefHeight(application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
@@ -79,7 +78,11 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
+
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
+            layer.visibleProperty().unbind();
+            layer.visibleProperty().bind(menu.visibleProperty());
+            
             menu.toFront();
             menu.show();
         });
@@ -100,17 +103,12 @@ public class BuildViewController extends ViewController<MainApplication> {
             }
         });
 
-        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }
-        });
-
         songManager.getInputBlocks().addListener(new ListChangeListener<Block>() {
+            
             @Override
             public void onChanged(Change<? extends Block> changes) {
                 while (changes.next()) {
+                    
                     if (changes.wasAdded()) {
                         
                         if(song.getChildren().isEmpty()) {
@@ -155,8 +153,8 @@ public class BuildViewController extends ViewController<MainApplication> {
             }
         });
 
-        addKeyListener();
         initToneLines();
+        
         initTutorial();
     }
 
@@ -238,17 +236,10 @@ public class BuildViewController extends ViewController<MainApplication> {
         steps.put("save", "you need to enter a name for your song to save it");
         tutorial.setSteps(steps);
 
-        layer.setVisible(true);
         layer.toFront();
+        layer.visibleProperty().bind(tutorial.visibleProperty());
         view.getChildren().add(tutorial);
         tutorial.show();
-
-        tutorial.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }
-        });
     }
 
     private void scrollSong(double x) {

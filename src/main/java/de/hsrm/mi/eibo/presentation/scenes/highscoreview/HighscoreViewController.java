@@ -19,9 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Controller der HighscoreView Initiiert angezeigte Elemente anhand der Daten
- * des Players
- * 
+ * Controller der HighscoreView
  * @author pwieg001, lwitt001, lgers001
  */
 public class HighscoreViewController extends ViewController<MainApplication> {
@@ -33,7 +31,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     private VBox highscores;
     private VBox content;
     private Button retryButton;
-    private Button levelButton;
+    private Button nextLevelButton;
     private Button menuButton;
     private AnchorPane layer;
 
@@ -51,8 +49,9 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         playerText = view.playerText;
         highscores = view.highscores;
         retryButton = view.retryButton;
-        levelButton = view.levelButton;
+        nextLevelButton = view.levelButton;
         content = view.content;
+        
         menuButton = view.menuButton;
         layer = view.layer;
 
@@ -61,7 +60,6 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         initialize();
     }
 
-    @Override
     public void initResizeable() {
         content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
@@ -70,11 +68,16 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
+
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> menu.show());
+        layer.visibleProperty().bind(menu.visibleProperty());
+
         application.getGame().endedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
                     Platform.runLater(new Runnable() {
+                        
                         @Override
                         public void run() {
                             show();
@@ -88,25 +91,35 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     }
 
     public void show() {
+        
         initResizeable();
+        
         playerScore.setText(String.valueOf(game.getScore()));
         values = game.getHighScores();
+        
+        // Wennn aktueller Highscore der höchste Wert in Liste ist
         if (game.getHighScores().size() > 0 && game.getScore() == values.get(0)) {
             playerText.setText("new personal record!");
-        } else {
+        } 
+        
+        else {
             playerText.setText("you should try again!");
         }
 
+        //Highscore-Anzeige leeren und wieder mit Modulen befüllen
         highscores.getChildren().clear();
+        
         for (int i = 0; i < values.size(); i++) {
+            
             HBox module = new HBox();
             module.getStyleClass().add("module");
             module.setSpacing(160);
             module.setPadding(new Insets(0, 0, 0, 40));
             module.setAlignment(Pos.CENTER_LEFT);
 
-            if (game.getScore() == values.get(i))
+            if (game.getScore() == values.get(i)) {
                 module.setId("highscore-module");
+            }
 
             Label rank = new Label(String.valueOf(i + 1));
             rank.getStyleClass().add("h3");
@@ -120,8 +133,9 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             highscores.getChildren().add(module);
         }
 
-        levelButton.addEventHandler(ActionEvent.ACTION, event -> {
+        nextLevelButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
+                
                 @Override
                 public void run() {
                     game.setLevel(game.getLevel().getNextLevel());
@@ -134,26 +148,18 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
         retryButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
+                
                 @Override
                 public void run() {
                     game.restart();
                     application.switchScene(Scenes.GAME_VIEW);
                 }
+
             });
         });
 
-        menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.show();
-        });
-
-        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }
-        });
-
         application.getWidth().addListener(new ChangeListener<Number>() {
+            
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 initResizeable();

@@ -38,7 +38,6 @@ public class SongViewController extends ViewController<MainApplication> {
         initialize();
     }
 
-    @Override
     public void initResizeable() {
         menu.setPrefSize(application.getWidth().get() / 5, application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
@@ -49,16 +48,9 @@ public class SongViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            menu.show();
-        });
-
-        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }  
-        });
+        
+        menuButton.addEventHandler(ActionEvent.ACTION, event -> menu.show());
+        layer.visibleProperty().bind(menu.visibleProperty());
 
         application.getWidth().addListener(new ChangeListener<Number>() {
             @Override

@@ -16,7 +16,6 @@ import de.hsrm.mi.eibo.persistence.DataPersistinator;
  * Speicherung von Highscore-Instanzen in einer .txt Datei
  * Laden und Erzeugen von Highscores anhand einer .txt Datei
  * Löschen von Einträgen der .txt Datei
- * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class HighscorePersistinator implements DataPersistinator<Highscore> {
@@ -25,6 +24,10 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     private BufferedReader reader = null;
     private BufferedWriter writer = null;
 
+    /**
+     * Speichert alle Daten einer Liste in der Datenbank ab
+     * Überschreibt vorherige Einträge nicht
+     */
     @Override
     public void saveAll(List<Highscore> data) {
         try {   
@@ -43,6 +46,10 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         }
     }
 
+    /**
+     * Lädt alle gespeicherten Highscores aus Datenbank
+     * @return Liste mit allen Einträgen
+     */
     @Override
     public List<Highscore> loadAll() {
         List<Highscore> loaded = new ArrayList<>();
@@ -64,6 +71,10 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         return loaded;
     }
 
+    /**
+     * Speichert einzelnen Highscore in Datenbank ab
+     * Überschreibt vorherige Einträge nicht
+     */
     @Override
     public void saveData(Highscore data) {
         List<Highscore> all = loadAll();
@@ -84,6 +95,10 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         }
     }
 
+    /**
+     * Lädt den ersten Eintrag aus der Datenbank
+     * @return erster Eintrag als Highscore-Objekt
+     */
     @Override
     public Highscore loadData() {
         Highscore highscore = null;

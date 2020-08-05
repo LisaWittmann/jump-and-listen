@@ -70,7 +70,6 @@ public class GameViewController extends ViewController<MainApplication> {
         initialize();
     }
 
-    @Override
     public void initResizeable() {
         mid = application.getWidth().get()/2;
         song.setLayoutX(application.getWidth().get()/2 - song.getPrefWidth()/2);

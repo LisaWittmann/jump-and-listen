@@ -3,7 +3,12 @@ package de.hsrm.mi.eibo.persistence.highscore;
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.persistence.song.SongPersitinator;
 
-public class Highscore implements Comparable<Highscore>{
+/** 
+ * Datenformat zur Speicherung eines Highscores für einen Song
+ * Implementierung des Comparable Interface um Highscores nach Wert sortieren zu können
+ * @author pwieg001, lwitt001, lgers001
+ */
+public class Highscore implements Comparable<Highscore> {
 
     protected Song song;
     protected int score;
@@ -12,12 +17,21 @@ public class Highscore implements Comparable<Highscore>{
 
     final String SEPERATOR = ";";
     
+    /**
+     * Konstruktor
+     * @param song Song, für den ein Highscore erzeugt werden soll
+     * @param score Highscore als Integer
+     */
     public Highscore(Song song, int score) {
         this.song = song;
         this.score = score;
         songPersitinator = new SongPersitinator();
     }
 
+    /**
+     * Konstruktor zur Erzeugug eines Highscores aus einem String
+     * @param line Format: "name;score"
+     */
     public Highscore(String line){
         songPersitinator = new SongPersitinator();
         String [] parts = line.split(SEPERATOR);
