@@ -32,11 +32,13 @@ public class TutorialView extends VBox {
         
         setAlignment(Pos.TOP_CENTER);
         setId("tutorial-window");
-        
-        close = new Button("×");
+
+        //        close = new Button("×");
+        close = new Button("\u0445");
         close.getStyleClass().add("text-button");
-        
-        forward = new Button("→");
+
+        //        forward = new Button("→");
+        forward = new Button("\u2192");
         forward.getStyleClass().add("text-button");
 
         buttons = new AnchorPane();
