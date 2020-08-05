@@ -38,6 +38,10 @@ public abstract class ViewController<T extends Application> {
         this.application = application;
     }
 
+    public T getApplication() {
+        return application;
+    }
+
     public abstract void initialize();
 
     public abstract void initResizeable();

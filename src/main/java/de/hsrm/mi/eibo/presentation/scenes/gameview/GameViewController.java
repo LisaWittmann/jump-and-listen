@@ -123,6 +123,7 @@ public class GameViewController extends ViewController<MainApplication> {
             
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
+                    player.stopAnimtion();
                     application.switchScene(Scenes.HIGHCSCORE_VIEW);
                 }
             }
@@ -158,13 +159,10 @@ public class GameViewController extends ViewController<MainApplication> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
+                            player.startAnimation();
                             game.start();
                         }
                     });
-                } else if (event.getCode().equals(KeyCode.ESCAPE)) {
-                    game.end();
-                    game.restart();
-                    application.switchScene(Scenes.START_VIEW);
                 }
             }
         });

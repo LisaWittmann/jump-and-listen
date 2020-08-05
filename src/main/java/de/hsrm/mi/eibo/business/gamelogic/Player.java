@@ -12,12 +12,17 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class Player {
 
     private SimpleBooleanProperty jump, boost, drop, move, right, left, landed;
+    private SimpleBooleanProperty start;
     protected double posX, posY;
+    private double startPosX, startPosY;
     private double vFalling;
 
     public PropertyChangeSupport changes;
 
     public Player(){
+        startPosX = 120;
+        startPosY = 400;
+
         jump = new SimpleBooleanProperty(false);
         boost = new SimpleBooleanProperty(false);
         drop = new SimpleBooleanProperty(false);
@@ -28,12 +33,15 @@ public class Player {
 
         changes = new PropertyChangeSupport(this.getClass());
 
+        start = new SimpleBooleanProperty(true);
+
         vFalling = 0;
-        moveTo(120, 400);
+        moveTo(startPosX, startPosY);
     }
 
     public void setOnStartPosition(){
-        moveTo(120, 400);
+        moveTo(startPosX, startPosY);
+        start.set(true);
         vFalling = 0;
         
         jump.set(false);
@@ -42,6 +50,7 @@ public class Player {
         move.set(false);
         right.set(false);
         left.set(false);
+        
         landed.set(true);
     }
     public double getPosX() {
@@ -52,32 +61,44 @@ public class Player {
         return posY;
     }
 
-    public SimpleBooleanProperty getJumpProperty() {
+    public double getStartPosX() {
+        return startPosX;
+    }
+
+    public double getStartPosY() {
+        return startPosY;
+    }
+
+    public SimpleBooleanProperty jumpProperty() {
         return jump;
     }
 
-    public SimpleBooleanProperty getBoostProperty() {
+    public SimpleBooleanProperty boostProperty() {
         return boost;
     }
 
-    public SimpleBooleanProperty getDropProperty() {
+    public SimpleBooleanProperty dropProperty() {
         return drop;
     }
 
-    public SimpleBooleanProperty getMoveProperty() {
+    public SimpleBooleanProperty moveProperty() {
         return move;
     }
 
-    public SimpleBooleanProperty getRightProperty() {
+    public SimpleBooleanProperty rightProperty() {
         return right;
     }
 
-    public SimpleBooleanProperty getLeftProperty() {
+    public SimpleBooleanProperty leftProperty() {
         return left;
     }
 
-    public SimpleBooleanProperty getLandedProperty() {
+    public SimpleBooleanProperty landedProperty() {
         return landed;
+    }
+
+    public SimpleBooleanProperty startProperty() {
+        return start;
     }
 
     public void setOnJump(boolean jump) {

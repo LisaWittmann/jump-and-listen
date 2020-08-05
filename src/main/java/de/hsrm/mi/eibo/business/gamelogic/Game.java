@@ -25,7 +25,7 @@ public class Game {
     private ToneMaker tonemaker;
     private LinkedList<Block> blocks;
 
-    private boolean paused, running;
+    private boolean running;
 
     private int point;
     private SimpleIntegerProperty score;
@@ -45,7 +45,6 @@ public class Game {
     final double BOOST_MULTI = 1.7;
     private double playerMinX = 0;
     private double playerMaxX = Double.POSITIVE_INFINITY;
-    private boolean movementActive = false;
     private boolean tutorial = false;
     private int falldepthGameOver = 1000;
     private double sceneHeight = 0;
@@ -68,7 +67,6 @@ public class Game {
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
 
-        paused = false;
         running = false;
     }
 
@@ -110,10 +108,6 @@ public class Game {
 
     public int getScore() {
         return score.get();
-    }
-
-    public boolean isPaused() {
-        return paused;
     }
 
     public boolean isRunning() {
@@ -235,6 +229,7 @@ public class Game {
             block.setPosX(x);
             x += block.getWidth() + distance;
         }
+        playerMaxX = blocks.getLast().getPosX() + blocks.getLast().getWidth();
     }
 
     public void start() {
@@ -245,12 +240,10 @@ public class Game {
     public void restart() {
         setScore(0);
         player.setOnStartPosition();
-        movementActive = false;
 
         initialized.set(false);
         ended.set(false);
 
-        paused = false;
         running = false;
 
         blocks.clear();
@@ -258,7 +251,6 @@ public class Game {
     }
 
     public void end() {
-        tutorial = false;
         if(score.get() != 0) saveScore();
         ended.set(true);
         running = false;  
@@ -317,10 +309,13 @@ public class Game {
         player.setOnRight(move);
     }
 
+    /**
+     * Simulation eines Sprungs
+     */
     public void playerJump() {
         if (player.vFalling(0.0, false) == 0) {
             player.posY -= 10;
-            if(player.getBoostProperty().get()) {
+            if(player.boostProperty().get()) {
                 player.vFalling(JUMP_FORCE * (BOOST_MULTI), true);
             } else {
                 player.vFalling(JUMP_FORCE, true);
@@ -328,6 +323,9 @@ public class Game {
         }
     }
 
+    /**
+     * Kalkuliert die Y Position des Spielers
+     */
     public void playerYCalculation() {
         if(checkBlockUnderPlayer()) {
             player.vFalling(0, true);
@@ -363,6 +361,12 @@ public class Game {
         return false;
     }
 
+    /**
+     * Überprüfung, ob Player auf einem Block ladet
+     * Berechnung der neuen Punktzahl
+     * Block bei Landung auf intersected setzen
+     * @return true, wenn ein ein Block berührt wird, false wenn nicht
+     */
     private boolean checkPlayerLanding() {
         for (Block block: blocks) {
             if (player.posX + 58 > block.getPosX()
@@ -395,35 +399,18 @@ public class Game {
         return false;
     }
 
-    private void activateMovement() {
-        if (!movementActive) {
-            Runnable runnable = () -> {
-                while (running) {
-                    try {
-                        Thread.sleep((int) 1000 / FPS);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    playerYCalculation();
-                    if (player.getLeftProperty().get()) {
-                        player.posX = ((player.posX - speedFactor * 10) < playerMinX) ? player.posX : (player.posX - speedFactor * 10);
-                    }
-                    if (player.getRightProperty().get()) {
-                        player.posX = ((player.posX + speedFactor * 10) > playerMaxX) ? player.posX : (player.posX + speedFactor * 10);
-                    }
+    public void activateMovement() {
+        if(running) {
+            playerYCalculation();
+            if (player.leftProperty().get()) {
+                player.posX = ((player.posX - speedFactor * 10) < playerMinX) ? player.posX : (player.posX - speedFactor * 10);
+            }
+            if (player.rightProperty().get()) {
+                player.posX = ((player.posX + speedFactor * 10) > playerMaxX) ? player.posX : (player.posX + speedFactor * 10);
+            }
 
-                    player.moveTo(player.getPosX(), player.getPosY());
-                }
-            };
-            Thread movement = new Thread(runnable, "movement");
-            movement.start();
-            movementActive = true;
+            player.moveTo(player.getPosX(), player.getPosY());
         }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        running = false;
     }
 
 }

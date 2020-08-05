@@ -2,7 +2,7 @@ package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.GameViewController;
-
+import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
@@ -17,10 +17,9 @@ import javafx.scene.layout.StackPane;
 public class PlayerView extends StackPane {
 
     private ImageView image;
-
-    private double posX, posY;
-
     private Image normalImg, moveImg;
+
+    private AnimationTimer timer;
 
     public PlayerView(Player player, GameViewController game) {
         normalImg = new Image(getClass().getResource("/images/player.png").toString());
@@ -34,56 +33,102 @@ public class PlayerView extends StackPane {
         setPrefSize(100, 100);
         getChildren().add(image);
 
-        posX = 120;
-        posY = 400;
-        setLayoutX(posX);
-        setLayoutY(posY);
+        setLayoutX(player.getPosX());
+        setLayoutY(player.getPosY());
 
-        player.getJumpProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
+        player.jumpProperty().addListener(new ChangeListener<Boolean>() {
+        
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(moveImg);
             }    
+
         });
 
-        player.getBoostProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
+        player.boostProperty().addListener(new ChangeListener<Boolean>() {
+        
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(moveImg);
             }    
+
         });
 
-        player.getDropProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
+        player.dropProperty().addListener(new ChangeListener<Boolean>() {
+        
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(moveImg);
-            }    
+            }   
+
         });
 
-        player.getMoveProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
+        player.moveProperty().addListener(new ChangeListener<Boolean>(){
+            
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(normalImg);
             } 
+
         });
 
-        player.getLandedProperty().addListener(new ChangeListener<Boolean>(){
-            @Override
+        player.landedProperty().addListener(new ChangeListener<Boolean>(){
+    
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) image.setImage(normalImg);
             }
             
         });
 
-        player.changes.addPropertyChangeListener("koordinaten", event -> {
-            if(player.getPosX() > game.getMid()) {
-                game.scrollBlocks((player.getPosX()-game.getMid()));
-                setLayoutY(player.getPosY());
+        player.startProperty().addListener(new ChangeListener<Boolean>(){
+
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) {
+                    setLayoutX(player.getStartPosX());
+                    setLayoutY(player.getStartPosY());
+                }
             }
-            else {
-                setLayoutX(player.getPosX());
-                setLayoutY(player.getPosY());
-            }
+            
         });
+
+        timer = new AnimationTimer() {
+
+            private long lastUpdated = 0;
+            private long lastRendered = 0;
+            private final int UPS = 30;
+            private final int FPS = 60;
+
+            private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000; 
+            private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
+            private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
+
+            @Override
+            public void handle(long now) {
+                
+                if(lastUpdated + UPNS_DELTA < now) {
+                    game.getApplication().getGame().activateMovement();
+                    lastUpdated = now;
+                }
+
+                if(lastRendered + FPNS_DELTA < now) {
+                    
+                    if(player.getPosX() > game.getMid()) {
+                        game.scrollBlocks(player.getPosX() - game.getMid());
+                        setLayoutY(player.getPosY());
+                    }
+                    
+                    else {
+                        setLayoutX(player.getPosX());
+                        setLayoutY(player.getPosY());
+                    }
+                }
+
+            }
+            
+        };
+    }
+
+    public void startAnimation() {
+        timer.start();
+    }
+
+    public void stopAnimtion() {
+        timer.stop();
     }
 }
