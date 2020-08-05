@@ -1,7 +1,6 @@
 package de.hsrm.mi.eibo.presentation.uicomponents.game;
 
 import de.hsrm.mi.eibo.business.gamelogic.*;
-import de.hsrm.mi.eibo.presentation.scenes.gameview.GameViewController;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -34,6 +33,7 @@ public class PlayerView extends StackPane {
         setLayoutX(player.getPosX());
         setLayoutY(player.getPosY());
 
+        // Ändern des Anzeigebilds, je nach gefeuertem Event
         player.jumpProperty().addListener(new ChangeListener<Boolean>() {
         
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -74,6 +74,8 @@ public class PlayerView extends StackPane {
             
         });
 
+        
+        // PlayerView auf Startposition setzen, wenn Game gestartet wird
         player.startProperty().addListener(new ChangeListener<Boolean>(){
 
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {

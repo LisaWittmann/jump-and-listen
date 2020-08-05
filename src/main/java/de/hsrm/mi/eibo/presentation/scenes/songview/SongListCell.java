@@ -15,6 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * Darstellung eines Songs als Listenzeile
+ * Kapselung der Song-Businessdaten
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class SongListCell extends ListCell<Song> {
 
     private MainApplication application;
@@ -66,9 +71,17 @@ public class SongListCell extends ListCell<Song> {
         super.updateItem(song, empty);
 
         if(song != null) {
+
+            // Name des Songs
             name.setText(song.getName());
+
             if(song.isEditable()) {
+
+                // Wenn Song editierbar ist, Funktionen zur Datenmanipulation anbieten
                 edit.setVisible(true);
+                remove.setVisible(true);
+
+                // Wechselt zur BuildView mit dem ausgewählten Song und ermöglicht dort editieren
                 edit.addEventHandler(ActionEvent.ACTION, event -> {
                     Platform.runLater(new Runnable() {
 	                    @Override
@@ -80,7 +93,7 @@ public class SongListCell extends ListCell<Song> {
                     });
                 });
 
-                remove.setVisible(true);
+                // Löscht ausgewählten Song aus der Datenbank
                 remove.addEventHandler(ActionEvent.ACTION, event -> {
                     Platform.runLater(new Runnable() {
 	                    @Override
@@ -90,11 +103,16 @@ public class SongListCell extends ListCell<Song> {
                     });
                 });
             }
+
             else {
                 edit.setVisible(false);
                 remove.setVisible(false);
             }
-            content.setOnMousePressed(new EventHandler<MouseEvent>(){
+
+            setGraphic(content);
+            
+            //Mit Doppelklick auf Zelle wird ein neues Spiel mit dem Song gestartet
+            setOnMousePressed(new EventHandler<MouseEvent>(){
                 @Override
                 public void handle(MouseEvent event) {
                     if(event.isPrimaryButtonDown() && event.getClickCount() == 2) {
@@ -108,8 +126,9 @@ public class SongListCell extends ListCell<Song> {
                     }
                 }
             });
-            setGraphic(content);
+    
         }
+
         else {
             setText(null);
             setGraphic(null);

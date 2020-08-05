@@ -66,6 +66,10 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
 
     @Override
     public void saveData(Highscore data) {
+        List<Highscore> all = loadAll();
+        for(Highscore highscore : all) {
+            if(highscore.equals(data)) return;
+        }
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(data.toString() + "\n");

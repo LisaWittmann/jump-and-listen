@@ -80,17 +80,6 @@ public class Song {
         return tones;
     }
 
-    @Override
-    public String toString() {
-        String erg = level.toString() + LEVELSEPERATOR;
-        erg += editable + EDITSEPERATOR;
-        erg += name + NAMESEPERATOR;
-        for (Tone tone : tones) {
-            erg = erg + tone.name() + TONSEPERATOR;
-        }
-        return erg;
-    }
-
 
     public static String getNameSeperator() {
         return NAMESEPERATOR;
@@ -102,6 +91,42 @@ public class Song {
 
     public static String getEditSeperator() {
         return EDITSEPERATOR;
+    }
+
+    @Override
+    public String toString() {
+        String erg = level.toString() + LEVELSEPERATOR;
+        erg += editable + EDITSEPERATOR;
+        erg += name + NAMESEPERATOR;
+        for (Tone tone : tones) {
+            erg = erg + tone.name() + TONSEPERATOR;
+        }
+        return erg;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Song other = (Song) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
 
 }
