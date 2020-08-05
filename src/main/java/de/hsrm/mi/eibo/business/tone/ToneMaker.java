@@ -55,10 +55,12 @@ public class ToneMaker {
         };
         Thread tut = new Thread(runnable);
         tut.start();
-
-
     }
 
+
+    /**
+     * Game-Over Ton
+     */
     public void fallingTone() {
         Runnable runnable = () -> {
             try {

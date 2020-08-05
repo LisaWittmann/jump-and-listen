@@ -1,6 +1,5 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
-import java.beans.PropertyChangeSupport;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
@@ -17,8 +16,6 @@ public class Player {
     private double startPosX, startPosY;
     private double vFalling;
 
-    public PropertyChangeSupport changes;
-
     public Player(){
         startPosX = 120;
         startPosY = 400;
@@ -31,14 +28,15 @@ public class Player {
         left = new SimpleBooleanProperty(false);
         landed = new SimpleBooleanProperty(false);
 
-        changes = new PropertyChangeSupport(this.getClass());
-
         start = new SimpleBooleanProperty(true);
 
         vFalling = 0;
         moveTo(startPosX, startPosY);
     }
 
+    /** 
+     * Setzt Player auf Anfangszustand, wenn Spiel neu gestartet wird
+     */
     public void setOnStartPosition(){
         moveTo(startPosX, startPosY);
         start.set(true);

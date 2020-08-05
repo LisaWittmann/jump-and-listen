@@ -127,6 +127,9 @@ public class Game {
         this.tutorial = false;
     }
 
+    /** 
+     * Überträgt Konfigurationen der Geschwindigkeit und berechnet neue Punktzahl pro Block
+     */
     public void setSpeedFactor(double speedFactor) {
         this.speedFactor = speedFactor;
         if(speedFactor < level.speedFactor) {
@@ -142,6 +145,9 @@ public class Game {
         songManager.setHeight(height);
     }
 
+     /** 
+     * Überträgt Konfigurationen der Blockdistanz und berechnet neue Punktzahl pro Block
+     */
     public void setBlockDistance(double distance) {
         this.distance = distance;
         if(distance < (level.distance - 10)) {
@@ -237,7 +243,6 @@ public class Game {
 
     public void start() {
         running = true;
-        activateMovement();
     }
 
     public void restart() {
@@ -402,6 +407,9 @@ public class Game {
         return false;
     }
 
+    /**
+     * Berechnung der neuen Koordinaten des Spielers
+     */
     public void activateMovement() {
         if(running) {
             playerYCalculation();

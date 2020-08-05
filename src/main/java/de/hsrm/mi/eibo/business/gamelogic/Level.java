@@ -8,6 +8,11 @@ public enum Level {
     protected double speedFactor;
     protected double distance;
     
+    /**
+     * @param point Punktzahl, die pro Block vergeben wird
+     * @param speedFactor Bewegungsgeschwindigkeit des Spielers
+     * @param distance Entfernung der Blöcke
+     */
     private Level(int point, double speedFactor, double distance) {
         this.point = point;
         this.speedFactor = speedFactor;

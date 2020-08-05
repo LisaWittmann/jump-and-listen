@@ -28,6 +28,9 @@ public class Song {
         editable = true;
     }
     
+    /**
+     * @param string Format: "level-edit;name: ton ton ton "
+     */
     public Song(String string) {
         this();
         string = string.toUpperCase();
@@ -80,7 +83,6 @@ public class Song {
         return tones;
     }
 
-
     public static String getNameSeperator() {
         return NAMESEPERATOR;
     }
@@ -93,6 +95,9 @@ public class Song {
         return EDITSEPERATOR;
     }
 
+    /**
+     * @return Format: "level-edit;name: ton ton ton "
+     */
     @Override
     public String toString() {
         String erg = level.toString() + LEVELSEPERATOR;

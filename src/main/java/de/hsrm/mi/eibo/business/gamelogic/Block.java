@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleBooleanProperty;
  * Kalkulationen eines Blocks aus einem Ton
  * Kalkulation eines Tons aus einem Block
  * Konfigurationen des Spiels
- * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class Block {
@@ -19,11 +18,19 @@ public class Block {
     private static double minHeight, maxHeight;
     private static double distance;
 
+    /**
+     * @param min Mindestbreite aller Blöcke
+     * @param max Maximalbreite aller Blöcke
+     */
     public static void configureWidth(double min, double max){
         minWidth = min;
         maxWidth = max;
     }
 
+    /**
+     * @param min Mindesthöhe aller Blöcke
+     * @param max Maximalhöhe aller Blöcke
+     */
     public static void configuteHeight(double min, double max){
         minHeight = min;
         maxHeight = max;
@@ -99,7 +106,6 @@ public class Block {
     /**
      * Konstukor für Blöcke, doe einen eindeutigen Ton abbilden
      * @param tone eindeutiger Ton, null darf nicht übergeben werden
-     * @param toneMaker ToneMaker der Ablaufumgebung
      */
     public Block(Tone tone){
         this.tone = tone;
@@ -172,10 +178,12 @@ public class Block {
         return tone;
     }
 
+    // true, wenn Spieler Block berühert
     public SimpleBooleanProperty isIntersected() {
         return intersected;
     }
 
+    // True, wenn Block nicht leer ist
     public SimpleBooleanProperty isInitialized() {
         return initialized;
     }
@@ -196,12 +204,4 @@ public class Block {
         return posY;
     }
     
-    public void playTone() {
-        ToneMaker toneMaker = new ToneMaker();
-        try {
-            toneMaker.createTone(tone.getFrequenz(), toneMaker.getVolume());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

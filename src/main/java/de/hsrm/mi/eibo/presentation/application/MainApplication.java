@@ -52,7 +52,7 @@ public class MainApplication extends Application {
             player = game.getPlayer();
             songManager = game.getSongManager();
 
-            theme = Theme.LIGHT;
+            theme = Theme.DARK;
             startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
 
             ViewController<MainApplication> controller;
