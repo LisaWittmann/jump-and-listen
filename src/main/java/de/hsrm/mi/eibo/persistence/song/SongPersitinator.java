@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.persistence.DataPersistinator;
@@ -170,6 +172,9 @@ public class SongPersitinator implements DataPersistinator<Song> {
     }
 
     public boolean nameAccepted(String name) {
+        String regex = "^[a-z\\s]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(name);
         for(Song s : loadAll()) {
             if(s.getName().equals(name)) {
                 return false;
@@ -179,6 +184,9 @@ public class SongPersitinator implements DataPersistinator<Song> {
             return false;
         }
         if(name.length() >= 30) {
+            return false;
+        }
+        if(matcher.matches() == false) {
             return false;
         }
         return true;
