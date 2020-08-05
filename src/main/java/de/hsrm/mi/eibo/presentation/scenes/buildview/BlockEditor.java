@@ -5,6 +5,10 @@ import de.hsrm.mi.eibo.presentation.uicomponents.game.BlockView;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Zum Editieren und Löschen der Blöcke
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class BlockEditor {
 
     private static final int RESIZE_MARGIN = 20;
@@ -16,12 +20,22 @@ public class BlockEditor {
 
     private SongManager manager;
 
+    /**
+     * Konstruktor
+     * @param blockView Block, der editierbar gemacht werden soll
+     * @param manager Songmanager, in dem erstellter Song verwaltet wird
+     */
     private BlockEditor(BlockView blockView, SongManager manager) {
         this.blockView = blockView;
         this.cursor = blockView.getCursor();
         this.manager = manager;
     }
 
+    /**
+     * Fügt einer BlockView Editier-Funktionen hinzu
+     * @param blockView
+     * @param manager
+     */
     public static void makeEditable(BlockView blockView, SongManager manager) {
         BlockEditor editor = new BlockEditor(blockView, manager);
         blockView.setOnMousePressed(event -> editor.mousePressed(event));

@@ -47,7 +47,7 @@ public class Menu extends VBox {
         header.setPadding(new Insets(20));
 
         // Button zum Schließen des Menüs
-        close = new Button("×");
+        close = new Button("\u0445");
         close.getStyleClass().add("text-button");
         header.getChildren().add(close);
 

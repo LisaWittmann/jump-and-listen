@@ -35,7 +35,7 @@ public class StartView extends VBox {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.getChildren().addAll(startButton, label, createButton);
         
-        Label titleLabel = new Label("Jump \u0026 Listen \u266b\u266a");
+        Label titleLabel = new Label("\u266b\u266a Jump \u0026 Listen \u266b\u266a");
         titleLabel.getStyleClass().add("h1");
         titleLabel.setStyle("-fx-text-alignment: left;");
 

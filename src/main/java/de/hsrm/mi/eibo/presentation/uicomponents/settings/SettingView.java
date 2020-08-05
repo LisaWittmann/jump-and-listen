@@ -11,8 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Overlay View für Spieleinstellungen
- * 
+ * Viewkomponente für Spieleinstellungen
  * @author pwieg001, lwitt001, lgers001
  */
 public class SettingView extends StackPane {

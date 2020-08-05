@@ -25,7 +25,7 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     private BufferedWriter writer = null;
 
     /**
-     * Speichert alle Daten einer Liste in der Datenbank ab
+     * Speichert alle Daten einer Liste in der Datei ab
      * Überschreibt vorherige Einträge nicht
      */
     @Override
@@ -47,7 +47,7 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     }
 
     /**
-     * Lädt alle gespeicherten Highscores aus Datenbank
+     * Lädt alle gespeicherten Highscores aus Datei
      * @return Liste mit allen Einträgen
      */
     @Override
@@ -72,7 +72,7 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     }
 
     /**
-     * Speichert einzelnen Highscore in Datenbank ab
+     * Speichert einzelnen Highscore in Datei ab
      * Überschreibt vorherige Einträge nicht
      */
     @Override
@@ -96,7 +96,7 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
     }
 
     /**
-     * Lädt den ersten Eintrag aus der Datenbank
+     * Lädt den ersten Eintrag aus der Datei
      * @return erster Eintrag als Highscore-Objekt
      */
     @Override
@@ -117,6 +117,11 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         return highscore;
     }
 
+    /**
+     * Lädt alle Einträge zu einem bestimmten Song
+     * @param song Song, nach dem gefiltert werden soll
+     * @return Liste gefilterter Daten
+     */
     public List<Highscore> loadBySong(Song song) {
         List<Highscore> levelScores = new ArrayList<>();
         for(Highscore h : loadAll()) {
@@ -127,15 +132,24 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
         return levelScores;
     }
 
+    /**
+     * Löscht alle Einträge zu einem Song, wenn dieser gelöscht oder verändert wurde
+     * @param song entfernter Song
+     */
     public void removeBySong(Song song) {
         List<Highscore> data = loadAll();
+        List<Highscore> newData = new ArrayList<>();
+
+        for(Highscore highscore : data) {
+            if(!highscore.getSong().equals(song)) {
+                newData.add(highscore);
+            }
+        }
+        
+        // Datei leeren
         try {   
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
-            for(Highscore h : data) {
-                if(h.getSong() != null && h.getSong().getName() != null  && !h.getSong().getName().equals(song.getName())) {
-                    writer.write(h.toString() + "\n");
-                }
-            }
+            writer.write("");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -145,6 +159,8 @@ public class HighscorePersistinator implements DataPersistinator<Highscore> {
                 e.printStackTrace();
             }
         }
+
+        saveAll(newData);
     }
     
 }

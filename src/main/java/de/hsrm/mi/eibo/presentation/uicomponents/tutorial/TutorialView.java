@@ -60,6 +60,7 @@ public class TutorialView extends VBox {
 
         text.getChildren().addAll(header, instruction);
 
+        setPrefSize(400, 250);
         getChildren().addAll(buttons, text);
     }
 

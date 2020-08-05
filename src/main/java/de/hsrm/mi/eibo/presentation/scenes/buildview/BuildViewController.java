@@ -70,7 +70,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         song.setPrefHeight(application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         songName.setLayoutX(application.getWidth().get()/2 - songName.getPrefWidth()/2);
-        tutorial.setPrefSize(400, 250);
+        
         tutorial.setLayoutX(application.getWidth().get() / 2 - tutorial.getPrefWidth() / 2);
         tutorial.setLayoutY(application.getScene().getHeight() / 2 - tutorial.getPrefHeight() / 2);
         menu.setPrefSize(application.getWidth().get() / 5, application.getScene().getHeight());
@@ -78,6 +78,11 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
+
+        song.prefHeightProperty().bind(application.getScene().heightProperty());
+        
+        layer.prefWidthProperty().bind(application.getScene().widthProperty());
+        layer.prefHeightProperty().bind(application.getScene().heightProperty());
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
             layer.visibleProperty().unbind();
