@@ -194,4 +194,14 @@ public class SongManager {
         }
         return levelSongs;
     }
+
+    public boolean hasBuildedSongs() {
+        List<Song> songs = getSavedSongs();
+        for (Song song : songs)  {
+            if (song.isEditable()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
