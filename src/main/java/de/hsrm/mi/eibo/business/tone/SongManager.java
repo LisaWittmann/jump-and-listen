@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 /**
  * Erzeugung eines Songs aus Blöcken
  * greift auf Song-Datenbank zu und kann Manipulationen durchführen
- * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class SongManager {
@@ -32,6 +31,10 @@ public class SongManager {
     private double distance = 50;
     private double height = 0;
 
+    /**
+     * Konstruktor
+     * Lädt alle gespeicherten Songs aus der Datenbank
+     */
     public SongManager() {
         buildedSong = null;
         editSong = null;
@@ -52,6 +55,9 @@ public class SongManager {
         return inputBlocks;
     }
 
+    /** 
+     * 
+     */
     public void initBlockPosition() {
         counter = 100;
         for(Block block : inputBlocks) {
@@ -179,7 +185,7 @@ public class SongManager {
         return null;
     }
 
-    public List<Song> getSongByLevel(Level level) {
+    public List<Song> getSongsByLevel(Level level) {
         List<Song> levelSongs = new ArrayList<>();
         for(Song s : savedSongs) {
             if(s.getLevel().equals(level)) {

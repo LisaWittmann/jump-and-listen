@@ -10,9 +10,10 @@ import de.hsrm.mi.eibo.business.tone.*;
 import de.hsrm.mi.eibo.persistence.highscore.*;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
- * 
+ * Spiellogik
  * @author pwieg001, lwitt001, lgers001
  */
 public class Game {
@@ -26,8 +27,8 @@ public class Game {
 
     private boolean paused, running;
 
-    private int score;
     private int point;
+    private SimpleIntegerProperty score;
     private SongManager songManager;
     private HighscorePersistinator highscorePersistinator;
 
@@ -54,7 +55,6 @@ public class Game {
     public Game() {
         level = null;
         song = null;
-        score = 0;
 
         blocks = new LinkedList<>();
         player = new Player();
@@ -64,21 +64,24 @@ public class Game {
         highscorePersistinator = new HighscorePersistinator();
         if(highscorePersistinator.loadAll().isEmpty()) tutorial = true;
 
+        score = new SimpleIntegerProperty(0);
         initialized = new SimpleBooleanProperty(false);
         ended = new SimpleBooleanProperty(false);
 
         paused = false;
         running = false;
-
-        changes = new PropertyChangeSupport(getClass());
     }
 
-    public SimpleBooleanProperty isInitialized() {
+    public SimpleBooleanProperty initializedProperty() {
         return initialized;
     }
 
-    public SimpleBooleanProperty gameEnded() {
+    public SimpleBooleanProperty endedProperty() {
         return ended;
+    }
+
+    public SimpleIntegerProperty scoreProperty() {
+        return score;
     }
 
     public ToneMaker getToneMaker() {
@@ -106,7 +109,7 @@ public class Game {
     }
 
     public int getScore() {
-        return score;
+        return score.get();
     }
 
     public boolean isPaused() {
@@ -161,26 +164,43 @@ public class Game {
         }
     }
 
+    /**
+     * Nach Setzen eines Levels werden die Settings des Levels übernommen 
+     * und ein zufälliger Song mit passendem Level ausgewählt
+     * @param level zu setzendes Level
+     */
     public void setLevel(Level level) {
         this.level = level;
         setBlockDistance(level.distance);
         setSpeedFactor(level.speedFactor);
         point = level.point;
 
-        List<Song> matchingSongs = songManager.getSongByLevel(level);
+        List<Song> matchingSongs = songManager.getSongsByLevel(level);
         int random = (int) (Math.random() * matchingSongs.size());
         setSong(matchingSongs.get(random));
     }
 
+    /**
+     * Wenn der neue Song nicht leer ist, wird die Erzeugung des Spielfelds angestoßen
+     * @param song zu setzender Song
+     */
     public void setSong(Song song) {
         this.song = song;
         if(song != null) {
+
+            // Abgleichen, damit Level sicher gesetzt ist 
             this.level = song.getLevel();
             this.point = song.getLevel().point;
+
             initBlocks(song);
         }
     }
 
+    /**
+     * Setzen eines Songs über den Songnamen
+     * Spielfeld zurücksetzen
+     * @param name Songname
+     */
     public void setSongByName(String name) {
         Song song = songManager.getSongByName(name);
         if(song != null && !song.equals(this.song)) {
@@ -189,12 +209,21 @@ public class Game {
         }
     }
 
+    /**
+     * Kalkulation des Spielfelds
+     * @param song Song, aus dem ein Spielfeld erzeug werden soll
+     */
     public void initBlocks(Song song) {
-        blocks.addFirst(new Block(true)); 
-        for(Tone tone : song.getTones()) {
-            blocks.addLast(new Block(tone));
-        }
-        blocks.add(new Block(true));
+
+        // Startblock
+        blocks.addFirst(new Block(true));
+        
+        // Alle Töne
+        blocks.addAll(songManager.convertToBlocks(song.getTones()));
+        
+        // Endblock
+        blocks.addLast(new Block(true));
+
         initBlockPosition();
         initialized.set(true);
     }
@@ -230,7 +259,7 @@ public class Game {
 
     public void end() {
         tutorial = false;
-        if(score != 0) saveScore();
+        if(score.get() != 0) saveScore();
         ended.set(true);
         running = false;  
     }
@@ -243,13 +272,11 @@ public class Game {
      * Speichert den aktuellen Score ab 
      */
     public void saveScore() {
-        highscorePersistinator.saveData(new Highscore(song,score));
+        highscorePersistinator.saveData(new Highscore(song, score.get()));
     }
     
     public synchronized void setScore(int score) {
-        int oldValue = this.score;
-        this.score = score;
-        changes.firePropertyChange("score", oldValue, this.score);
+        this.score.set(score);
     }
 
     /**

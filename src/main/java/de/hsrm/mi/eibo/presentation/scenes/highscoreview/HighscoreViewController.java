@@ -70,7 +70,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        application.getGame().gameEnded().addListener(new ChangeListener<Boolean>() {
+        application.getGame().endedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {

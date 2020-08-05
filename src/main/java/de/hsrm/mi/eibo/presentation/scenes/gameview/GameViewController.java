@@ -75,8 +75,8 @@ public class GameViewController extends ViewController<MainApplication> {
         field.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
         tutorial.setPrefSize(400, 250);
-        tutorial.setLayoutX(mid - tutorial.getPrefWidth());
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight());
+        tutorial.setLayoutX(mid - tutorial.getPrefWidth()/2);
+        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
         menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
     }
 
@@ -85,12 +85,16 @@ public class GameViewController extends ViewController<MainApplication> {
         score.setText(String.valueOf(game.getScore()));
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
+            
+            layer.visibleProperty().unbind();
+            layer.visibleProperty().bind(menu.visibleProperty());
             layer.toFront();
+            
             menu.toFront();
             menu.show();
         });
 
-        game.isInitialized().addListener(new ChangeListener<Boolean>() {
+        game.initializedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
@@ -100,35 +104,37 @@ public class GameViewController extends ViewController<MainApplication> {
                     field.getChildren().clear();
                 }
             }
+
         });
 
-        game.changes.addPropertyChangeListener("score", event -> {
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    score.setText(String.valueOf(game.getScore()));
-                }
-            });
-        });
-        game.gameEnded().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue)
-                    application.switchScene(Scenes.HIGHCSCORE_VIEW);
+        game.scoreProperty().addListener(new ChangeListener<Number>() {
+            
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        score.setText(String.valueOf(newValue.intValue()));
+                    }
+                });
             }
-        });
 
-        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				layer.setVisible(newValue);
-			}
+        });
+    
+        game.endedProperty().addListener(new ChangeListener<Boolean>() {
+            
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    application.switchScene(Scenes.HIGHCSCORE_VIEW);
+                }
+            }
+
         });
 
         application.getWidth().addListener(new ChangeListener<Number>() {
-            @Override
+         
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 initResizeable();
-            } 
+            }
+
         });
 
 
@@ -196,18 +202,18 @@ public class GameViewController extends ViewController<MainApplication> {
 
         if (!song.getItems().contains(game.getSong().getName())) {
             song.getItems().clear();
-            for (Song s : game.getSongManager().getSongByLevel(game.getLevel())) {
+            for (Song s : game.getSongManager().getSongsByLevel(game.getLevel())) {
                 song.getItems().add(s.getName());
             }
         }
         
         if (game.needsTutorial()) {
             initTutoral();
-        }
+        } 
         
         addKeyListener();
         song.setValue(game.getSong().getName());
-        song.setOnAction(event -> game.setSongByName(song.getValue())); //TODO: das macht
+        song.setOnAction(event -> game.setSongByName(song.getValue()));
     }
 
     private void initTutoral() {
@@ -219,28 +225,14 @@ public class GameViewController extends ViewController<MainApplication> {
         steps.put("settings", "customize speed, blocks and theme in settings");
         tutorial.setSteps(steps);
 
-        layer.setVisible(true);
+        layer.visibleProperty().bind(tutorial.visibleProperty());
         layer.toFront();
+    
         tutorial.toFront();
         view.getChildren().add(tutorial);
-        tutorial.toFront();
         tutorial.show();
 
         game.setTutorial(false);
-
-        tutorial.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }
-        });
-
-        menu.visibleProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                layer.setVisible(newValue);
-            }
-        });
     }
 
     public void scrollBlocks(double x) {
