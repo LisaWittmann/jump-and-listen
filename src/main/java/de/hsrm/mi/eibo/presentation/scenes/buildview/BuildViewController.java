@@ -154,8 +154,9 @@ public class BuildViewController extends ViewController<MainApplication> {
         });
 
         initToneLines();
-        
-        initTutorial();
+        if (songManager.hasBuildedSongs() == false) {
+            initTutorial();
+        }    
     }
 
     private void addKeyListener() {
