@@ -20,12 +20,11 @@ public enum Level {
     }
     
     public Level getNextLevel() {
-        if(this.equals(Level.EXPERT)) return this;
-        else {
-            for(Level level : Level.values()) {
-                if(level.ordinal() == this.ordinal()+1) return level;
-            }
+        switch(this) {
+            case BEGINNER: return INTERMEDIATE;
+            case INTERMEDIATE: return EXPERT;
+            case EXPERT: return EXPERT;
+            default: return BEGINNER;
         }
-        return null;
     }
 }

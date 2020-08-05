@@ -88,7 +88,7 @@ public class Block {
 
     private Tone tone;
 
-    private double posX, posY; //Achtung: Die sind bisher noch nicht gesetzt! 
+    private double posX, posY; 
     private double height, width;
 
     private SimpleBooleanProperty initialized;

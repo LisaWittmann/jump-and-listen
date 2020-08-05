@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 /**
  * Controller der StartView 
  * Auswahl des Spielmodus
- * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class StartViewController extends ViewController<MainApplication> {

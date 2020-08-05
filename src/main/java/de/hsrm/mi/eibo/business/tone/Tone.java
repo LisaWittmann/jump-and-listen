@@ -1,19 +1,10 @@
 package de.hsrm.mi.eibo.business.tone;
 
 /**
- * 
+ * Definierte Töne mit Frequenz
  * @author pwieg001, lwitt001, lgers001
  */
 public enum Tone {
-    /*
-    C(264),
-    D(297),
-    E(330),
-    F(352),
-    G(396),
-    A(440),
-    H(495);
-    */
     C(262),
     CS(277),
     D(294),
@@ -29,6 +20,7 @@ public enum Tone {
     H(494);
 
     private int freq;
+    
     private Tone(int freq) {
         this.freq = freq;
     }

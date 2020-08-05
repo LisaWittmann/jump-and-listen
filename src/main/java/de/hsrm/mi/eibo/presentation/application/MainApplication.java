@@ -15,7 +15,6 @@ import de.hsrm.mi.eibo.presentation.scenes.highscoreview.*;
 import de.hsrm.mi.eibo.presentation.scenes.gameview.*;
 
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -47,7 +46,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            setDesktopLayout();
+            configure();
 
             game = new Game();
             player = game.getPlayer();
@@ -72,7 +71,7 @@ public class MainApplication extends Application {
             primaryStage.initStyle(StageStyle.DECORATED);
             primaryStage.show();
 
-            game.setSceneHeight(scene.getHeight());
+            game.setHeight(scene.getHeight());
 
             controller = new BuildViewController(this);
             scenes.put(Scenes.BUILD_VIEW, controller.getRootView());
@@ -122,18 +121,10 @@ public class MainApplication extends Application {
         return theme;
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public ReadOnlyDoubleProperty getWidth() {
-        return primaryStage.widthProperty();
-    }
-
-    public ReadOnlyDoubleProperty getHeight() {
-        return primaryStage.heightProperty();
-    }
-
+    /**
+     * Tauscht Stylesheet der Applikation aus
+     * @param theme Theme, dessen Stylesheet verwendet werden soll
+     */
     public void switchTheme(Theme theme) {
         this.theme = theme;
         scene.getStylesheets().clear();
@@ -141,14 +132,13 @@ public class MainApplication extends Application {
         startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
     }
 
-    public void setDesktopLayout(){
+    public void configure(){
         Block.configureWidth(100, 250);
         Block.configuteHeight(300, 600);
     }
 
     /**
      * Ändert die angezeigte Scene und setzte Scene gegebenenfalls zurück
-     * 
      * @param sceneName Scene, die angezeigt werden soll
      */
     public void switchScene(Scenes sceneName) {

@@ -8,7 +8,6 @@ import javafx.scene.layout.Pane;
 /**
  * gibt einheitliche Implementierung von Controller-Klassen vor
  * @param <T> laufende Applikaion
- * 
  * @author pwieg001, lwitt001, lgers001
  */
 public abstract class ViewController<T extends Application> {

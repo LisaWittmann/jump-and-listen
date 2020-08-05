@@ -60,14 +60,17 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         initialize();
     }
 
-    public void initResizeable() {
-        content.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        menu.setPrefSize(application.getWidth().get()/5, application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-    }
-
     @Override
     public void initialize() {
+
+        content.prefWidthProperty().bind(application.getScene().widthProperty());
+        content.prefHeightProperty().bind(application.getScene().heightProperty());
+
+        layer.prefWidthProperty().bind(application.getScene().widthProperty());
+        layer.prefHeightProperty().bind(application.getScene().heightProperty());
+
+        menu.prefHeightProperty().bind(application.getScene().heightProperty());
+        menu.prefWidthProperty().bind(application.getScene().widthProperty().divide(5));
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> menu.show());
         layer.visibleProperty().bind(menu.visibleProperty());
@@ -91,8 +94,6 @@ public class HighscoreViewController extends ViewController<MainApplication> {
     }
 
     public void show() {
-        
-        initResizeable();
         
         playerScore.setText(String.valueOf(game.getScore()));
         values = game.getHighScores();
@@ -149,21 +150,12 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         retryButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
                 
-                @Override
                 public void run() {
                     game.restart();
                     application.switchScene(Scenes.GAME_VIEW);
                 }
 
             });
-        });
-
-        application.getWidth().addListener(new ChangeListener<Number>() {
-            
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                initResizeable();
-            }
         });
     }
 

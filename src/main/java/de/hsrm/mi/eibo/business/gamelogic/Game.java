@@ -1,6 +1,5 @@
 package de.hsrm.mi.eibo.business.gamelogic;
 
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -47,9 +46,7 @@ public class Game {
     private double playerMaxX = Double.POSITIVE_INFINITY;
     private boolean tutorial = false;
     private int falldepthGameOver = 1000;
-    private double sceneHeight = 0;
-
-    public PropertyChangeSupport changes;
+    private double height = 0;
 
     public Game() {
         level = null;
@@ -133,24 +130,24 @@ public class Game {
     public void setSpeedFactor(double speedFactor) {
         this.speedFactor = speedFactor;
         if(speedFactor < level.speedFactor) {
-            point = level.point+10;
+            point = level.point-10;
         } else if(speedFactor > level.speedFactor) {
             point = level.point+10;
         }
     }
 
-    public void setSceneHeight(double sceneHeight){
-        this.sceneHeight = sceneHeight;
-        falldepthGameOver = (int) sceneHeight + 50;
-        songManager.setHeight(sceneHeight);
+    public void setHeight(double height){
+        this.height = height;
+        falldepthGameOver = (int) height + 50;
+        songManager.setHeight(height);
     }
 
     public void setBlockDistance(double distance) {
         this.distance = distance;
         if(distance < (level.distance - 10)) {
-            point = level.point+10;
+            point = level.point-10;
         } else if(distance > (level.distance + 10)) {
-            point += level.point+10;
+            point = level.point+10;
         }
 
         if (this.initialized.get()) {
@@ -186,7 +183,7 @@ public class Game {
             this.level = song.getLevel();
             this.distance = level.distance;
             this.speedFactor = level.speedFactor;
-            this.point = song.getLevel().point;
+            this.point = level.point;
 
             initBlocks(song);
         }
@@ -201,6 +198,10 @@ public class Game {
         Song song = songManager.getSongByName(name);
         if(song != null && !song.equals(this.song)) {
             this.song = song;
+            this.level = song.getLevel();
+            this.distance = level.distance;
+            this.speedFactor = level.speedFactor;
+            this.point = level.point;
             restart();
         }
     }
@@ -227,7 +228,7 @@ public class Game {
     public void initBlockPosition() {
         double x = 0;
         for(Block block : blocks) {
-            block.setPosY(sceneHeight - block.getHeight());
+            block.setPosY(height - block.getHeight());
             block.setPosX(x);
             x += block.getWidth() + distance;
         }

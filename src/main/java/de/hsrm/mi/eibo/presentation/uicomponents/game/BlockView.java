@@ -10,7 +10,6 @@ import javafx.scene.layout.StackPane;
 
 /**
  * Darstellung eines Blocks
- * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class BlockView extends StackPane {
@@ -22,10 +21,15 @@ public class BlockView extends StackPane {
         this.block = block;
 
         setPrefSize(block.getWidth(), block.getHeight());
+        
         if (block.isInitialized().get()) {
             getStyleClass().add("block");
-        } else
+        } 
+        
+        else {
             initEmptyBlock();
+        }
+
         setLayoutX(block.getPosX());
         setLayoutY(block.getPosY());
         addChangeListener();
@@ -43,24 +47,28 @@ public class BlockView extends StackPane {
     }
 
     public void addChangeListener() {
-        if (block == null)
-            return;
+        if (block == null) return;
+
         block.changes.addPropertyChangeListener("posX", event -> setLayoutX(block.getPosX()));
         block.changes.addPropertyChangeListener("posY", event -> setLayoutY(block.getPosY()));
         block.changes.addPropertyChangeListener("height", event -> setPrefHeight(block.getHeight()));
 
+        
+        // Anpassung der Darstellung an Events
+
         block.isIntersected().addListener(new ChangeListener<Boolean>() {
-            @Override
+            
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
                     getStyleClass().clear();
                     getStyleClass().add("hit");
                 }
-            }          
+            }    
+
         });
 
         block.isInitialized().addListener(new ChangeListener<Boolean>(){
-            @Override
+            
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 getStyleClass().clear();
                 getStyleClass().add("block");
@@ -68,6 +76,7 @@ public class BlockView extends StackPane {
                     addButton.setVisible(false);
                 }
             }   
+
         });
     }
 

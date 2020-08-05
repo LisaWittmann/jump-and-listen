@@ -1,6 +1,11 @@
 package de.hsrm.mi.eibo.presentation.application;
 
+/**
+ * Theme mit zugehörigem Stylesheet
+ * @author pwieg001, lwitt001, lgers001
+ */
 public enum Theme {
+    
     LIGHT, DARK;
 
     private String stylesheet;

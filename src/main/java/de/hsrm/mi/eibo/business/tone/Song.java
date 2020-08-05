@@ -6,7 +6,7 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
 
 /**
- * 
+ * verwaltung von Tönen als Song
  * @author pwieg001, lwitt001, lgers001
  */
 public class Song {

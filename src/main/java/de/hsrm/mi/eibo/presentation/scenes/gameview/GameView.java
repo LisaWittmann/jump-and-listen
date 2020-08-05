@@ -8,6 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * Abbildung der Spielelemente
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class GameView extends AnchorPane {
 
     Button menuButton;

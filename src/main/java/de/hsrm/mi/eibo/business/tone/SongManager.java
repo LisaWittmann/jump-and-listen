@@ -56,7 +56,7 @@ public class SongManager {
     }
 
     /** 
-     * 
+     * Initialisiert Koordinaten aller Blöcke
      */
     public void initBlockPosition() {
         counter = 100;
@@ -67,6 +67,9 @@ public class SongManager {
         }
     }
 
+    /**
+     * Fügt am Ende der Liste von Blöcken ein leeres Element ein
+     */
     public void addLast() {
         Block block = new Block(false);
         block.setPosX(counter);
@@ -76,21 +79,38 @@ public class SongManager {
         emptyBlock = block;
     }
 
+    /**
+     * Block wird aus der Liste entfernt und Koordinaten aller Blöcke neu berechnet
+     * @param block zu entfernender Block
+     */
     public void discard(Block block) {
         if(inputBlocks.contains(block)) inputBlocks.remove(block);
         initBlockPosition();
     }
 
+    /** 
+     * Alle Blöcke verwerfen
+     * Counter zum Errechnen der Koordinaten auf Anfangszustand setzen
+     */
     public void discardAll() {
         counter = 100;
         inputBlocks.clear();
     }
 
+    /**
+     * Konvertierung eines Songs bestehend aus Blöcken in eine Song aus Tönen
+     * Anschließend Abspeichgerung des Songs und Zurücksetzen der Blöcke
+     * @param name Name unter dem Song abgespeichert werden soll
+     * @return abgespeicherter Song
+     * @throws NameException Eingegebener Name kann nicht akzeptiert werden
+     */
     public Song confirm(String name) throws NameException {
         if(name == null || name.equals("")){
+            // wenn Name leer ist, Fehler werfen
             throw new NameException();
         }
         else {
+            // Konvertierung
             inputBlocks.remove(emptyBlock);
             buildedSong = new Song();
             buildedSong.setTones(convertToTones());
@@ -102,6 +122,7 @@ public class SongManager {
                 addSong(buildedSong);
             }
 
+            // bestehenden Song überschrieben, wenn im Editiermodus
             else if(editSong != null) {
                 savedSongs.clear();
                 buildedSong.setName(editSong.getName());
@@ -120,6 +141,11 @@ public class SongManager {
         return buildedSong;
     }
 
+    /**
+     * Errechnet das Level für einen erstellten Song anhand der Distanz und Anzahl der Töne 
+     * @param tones konvertierte Töne
+     * @return Level des erstellten Songs
+     */
     public Level calcLevel(List<Tone> tones) {
         int maxdist = 0;
         int dist;
@@ -151,12 +177,20 @@ public class SongManager {
         return blocks;
     }  
 
+    /**
+     * Fügt einen Song in Datei ein und aktualisiert die Liste mit verwalteten Songs
+     * @param song Song, der der Datei hinzugefügt werden soll
+     */
     public void addSong(Song song) {
         songPersitinator.saveData(buildedSong);
         savedSongs.clear();
         savedSongs.addAll(songPersitinator.loadAll());
     }
 
+    /**
+     * Entfernt einen Song aus Datei und aktualisiert die Liste mit verwalteten Songs
+     * @param song Song, der aus der Datei entfetrnt werden soll
+     */
     public void removeSong(Song song) {
         if(!song.isEditable()) return;
         savedSongs.clear();
@@ -195,6 +229,10 @@ public class SongManager {
         return levelSongs;
     }
 
+    /**
+     * Ermittelt, ob Nutzer bereits eigene Songs erstellt hat
+     * @return true, wenn eigene Songs vorliegen, sonst false
+     */
     public boolean hasBuildedSongs() {
         List<Song> songs = getSavedSongs();
         for (Song song : songs)  {

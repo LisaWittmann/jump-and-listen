@@ -10,8 +10,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Startbildschirm
- * Leitet weiter zur SelectView
- * 
+ * Leitet weiter zur SelectView oder BuildView
  * @author pwieg001, lwitt001, lgers001
  */
 public class StartView extends VBox {

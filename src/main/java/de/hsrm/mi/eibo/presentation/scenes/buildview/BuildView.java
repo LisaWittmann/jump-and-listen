@@ -6,6 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Ansicht zum Editieren und Erstellen von Songs
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class BuildView extends AnchorPane {
 
     Button saveButton, menuButton;

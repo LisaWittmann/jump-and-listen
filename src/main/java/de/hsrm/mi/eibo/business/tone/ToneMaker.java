@@ -6,6 +6,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.util.List;
 
+/**
+ * Erzeugung eines Tons anhand einer Frequenz
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class ToneMaker {
 
     private int volume;
@@ -13,8 +17,6 @@ public class ToneMaker {
     public ToneMaker() {
         volume = 80;
     }
-
-
 
     public void createTone(int Hertz, int volume)
             throws LineUnavailableException {

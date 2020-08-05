@@ -2,12 +2,10 @@ package de.hsrm.mi.eibo.presentation.scenes.selectview;
 
 import de.hsrm.mi.eibo.presentation.application.*;
 import de.hsrm.mi.eibo.presentation.scenes.*;
-
 import de.hsrm.mi.eibo.business.gamelogic.Game;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
+
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -80,13 +78,6 @@ public class SelectViewController extends ViewController<MainApplication> {
                 });
             });
         }
-
-        application.getWidth().addListener(new ChangeListener<Number>(){
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				//initResizeable();
-			}
-        });
     }
 
     

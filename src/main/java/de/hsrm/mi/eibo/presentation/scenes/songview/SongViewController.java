@@ -34,29 +34,37 @@ public class SongViewController extends ViewController<MainApplication> {
 
         view.getChildren().add(menu);
 
-        initResizeable();
         initialize();
     }
 
-    public void initResizeable() {
-        menu.setPrefSize(application.getWidth().get() / 5, application.getScene().getHeight());
-        layer.setPrefSize(application.getWidth().get(), application.getScene().getHeight());
-        songs.setPrefSize(application.getWidth().get()/2, (application.getScene().getHeight()/6)*5);
-        songs.setLayoutX(application.getWidth().get()/2 - songs.getPrefWidth()/2);
+    public void placeCenter() {
+        songs.setLayoutX(application.getScene().getWidth()/2 - songs.getPrefWidth()/2);
         songs.setLayoutY(application.getScene().getHeight()/2 - songs.getPrefHeight()/2);
     }
 
     @Override
     public void initialize() {
-        
+
+        menu.prefHeightProperty().bind(application.getScene().heightProperty());
+        menu.prefWidthProperty().bind(application.getScene().widthProperty().divide(5));
+
+        layer.prefHeightProperty().bind(application.getScene().heightProperty());
+        layer.prefWidthProperty().bind(application.getScene().widthProperty());
+
+        songs.prefHeightProperty().bind(application.getScene().heightProperty().divide(6).multiply(5));
+        songs.prefWidthProperty().bind(application.getScene().widthProperty().divide(2));
+
+        placeCenter();
+
         menuButton.addEventHandler(ActionEvent.ACTION, event -> menu.show());
         layer.visibleProperty().bind(menu.visibleProperty());
 
-        application.getWidth().addListener(new ChangeListener<Number>() {
-            @Override
+        application.getScene().widthProperty().addListener(new ChangeListener<Number>() {
+            
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                initResizeable();   
+                placeCenter();   
             }
+
         });
 
         songs.setItems(songManager.getSavedSongs());
