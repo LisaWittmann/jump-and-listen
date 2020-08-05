@@ -30,8 +30,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 
 /**
- * Controller der BuildView
- * Kapselung der Daten des SongManagers
+ * Controller der BuildView Kapselung der Daten des {@link SongManager}
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class BuildViewController extends ViewController<MainApplication> {
@@ -72,9 +72,9 @@ public class BuildViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-        
+
         song.prefHeightProperty().bind(application.getScene().heightProperty());
-        
+
         layer.prefWidthProperty().bind(application.getScene().widthProperty());
         layer.prefHeightProperty().bind(application.getScene().heightProperty());
 
@@ -86,7 +86,7 @@ public class BuildViewController extends ViewController<MainApplication> {
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
             layer.visibleProperty().unbind();
             layer.visibleProperty().bind(menu.visibleProperty());
-            
+
             menu.toFront();
             menu.show();
         });
@@ -103,7 +103,7 @@ public class BuildViewController extends ViewController<MainApplication> {
 
         // Wenn Fenstergröße geändert wird, Elemente erneut mittig platzieren
         application.getScene().widthProperty().addListener(new ChangeListener<Number>() {
-            
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 placeCenter();
             }
@@ -111,47 +111,47 @@ public class BuildViewController extends ViewController<MainApplication> {
         });
 
         songManager.getInputBlocks().addListener(new ListChangeListener<Block>() {
-            
+
             @Override
             public void onChanged(Change<? extends Block> changes) {
                 while (changes.next()) {
-                    
+
                     if (changes.wasAdded()) {
                         // KeyListener initialisieren, wenn View aufgerufen wird
-                        if(song.getChildren().isEmpty()) {
+                        if (song.getChildren().isEmpty()) {
                             addKeyListener();
                         }
                         // Bei Bearbeiten eines Songs Namen übernehmen
-                        if(songManager.getEditSong() != null) {
+                        if (songManager.getEditSong() != null) {
                             songName.setText(songManager.getEditSong().getName());
                         }
 
                         // Alle Blöcke abbilden
                         for (Block block : changes.getAddedSubList()) {
-                            if(block.getPosX() > application.getScene().getWidth()) {
+                            if (block.getPosX() > application.getScene().getWidth()) {
                                 scrollSong(-150);
                             }
                             convert(block, block.isInitialized().get());
                         }
                     }
 
-                    else if(changes.wasRemoved()) {
+                    else if (changes.wasRemoved()) {
                         // Wenn alle Blöcke gelöscht werden, View zurücksetzen
-                        if(songManager.getInputBlocks().isEmpty()) {   
+                        if (songManager.getInputBlocks().isEmpty()) {
                             resetView();
                         }
 
                         else {
                             List<BlockView> remove = new ArrayList<>();
                             // Sonst zu löschende Töne ermitteln ...
-                            for(Node node : song.getChildren()) {
+                            for (Node node : song.getChildren()) {
                                 BlockView blockView = (BlockView) node;
-                                if(changes.getRemoved().contains(blockView.getBlock())){
+                                if (changes.getRemoved().contains(blockView.getBlock())) {
                                     remove.add(blockView);
                                 }
                             }
                             // ... und aus der View entfernen
-                            for(BlockView blockView : remove) {
+                            for (BlockView blockView : remove) {
                                 song.getChildren().remove(blockView);
                             }
                         }
@@ -162,10 +162,10 @@ public class BuildViewController extends ViewController<MainApplication> {
         // Hilfslinien für Tonhöhen initialisieren
         initToneLines();
 
-        // Wenn noch kein eigener Song hinzugefügt wurde Tutorial einblenden
-        if (!songManager.hasBuildedSongs()) {
+        // Wenn noch kein eigener Song hinzugefügt wurde Create-Tutorial einblenden
+        if (!songManager.hasBuiltSongs()) {
             initTutorial();
-        }    
+        }
     }
 
     private void addKeyListener() {
@@ -205,17 +205,17 @@ public class BuildViewController extends ViewController<MainApplication> {
                 // Bildschirm nach links bewegen
                 else if (event.getCode().equals(KeyCode.L)) {
                     scrollSong(-150);
-                } 
+                }
                 // Bildschirm nach rechts bewegen
                 else if (event.getCode().equals(KeyCode.R)) {
                     scrollSong(150);
-                } 
+                }
             }
         });
     }
 
     /**
-     * Bildet Hilfslinien für Tonhöhen mit jeweiligem Ton Namen in der View ab
+     * Bildet Hilfslinien für Tonhöhen mit jeweiligem Tonnamen in der View ab
      */
     private void initToneLines() {
         for (Tone tone : Tone.values()) {
@@ -248,7 +248,7 @@ public class BuildViewController extends ViewController<MainApplication> {
     }
 
     /**
-     * Füllt die TutorialView mit Texten und zeigt sich danach an
+     * Füllt die {@link TutorialView} mit Texten und zeigt sie danach an
      */
     private void initTutorial() {
 
@@ -278,31 +278,31 @@ public class BuildViewController extends ViewController<MainApplication> {
     }
 
     /**
-     * Erzeugt aus Block eine BlockView
-     * Wenn Block leer, wird Listener gesetzt,
-     * sonst wird Block editierbar gemacht
+     * Erzeugt aus Block eine {@link BlockView} Wenn Block leer, wird Listener
+     * gesetzt, sonst wird Block editierbar gemacht
      */
     private void convert(Block block, boolean initialized) {
         BlockView blockView = new BlockView(block);
         song.getChildren().add(blockView);
         AnchorPane.setBottomAnchor(blockView, 0.0);
 
-        if(!initialized) {
+        if (!initialized) {
             emptyBlock = block;
 
-            // Wenn leerer Block initialisiert wurde, Block editierbar machen und nächsten Leeren Block einfügen
-            block.isInitialized().addListener(new InvalidationListener(){
-				
-				public void invalidated(Observable observable) {
-					if(block.isInitialized().get()){
+            // Wenn leerer Block initialisiert wurde, Block editierbar machen und nächsten
+            // Leeren Block einfügen
+            block.isInitialized().addListener(new InvalidationListener() {
+
+                public void invalidated(Observable observable) {
+                    if (block.isInitialized().get()) {
                         BlockEditor.makeEditable(blockView, songManager);
                         songManager.addLast();
                     }
                 }
-                
+
             });
         }
-        
+
         else {
             // Alle bereits initialisierten Blöcke editierbar machen
             BlockEditor.makeEditable(blockView, songManager);
@@ -313,9 +313,9 @@ public class BuildViewController extends ViewController<MainApplication> {
         // Zurück an Anfang scrollen und alle Blöcke entfernen
         song.setLayoutX(0);
         song.getChildren().clear();
-        
+
         // Textfeld zurücksetzen
-        if(songName.getStyleClass().contains("error")) {
+        if (songName.getStyleClass().contains("error")) {
             songName.getStyleClass().remove("error");
         }
         songName.setText("");
@@ -325,9 +325,9 @@ public class BuildViewController extends ViewController<MainApplication> {
      * Elemente mittig platzieren
      */
     public void placeCenter() {
-        songName.setLayoutX(application.getScene().getWidth()/2 - songName.getPrefWidth()/2);
-        tutorial.setLayoutX(application.getScene().getWidth()/2 - tutorial.getPrefWidth()/2);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
+        songName.setLayoutX(application.getScene().getWidth() / 2 - songName.getPrefWidth() / 2);
+        tutorial.setLayoutX(application.getScene().getWidth() / 2 - tutorial.getPrefWidth() / 2);
+        tutorial.setLayoutY(application.getScene().getHeight() / 2 - tutorial.getPrefHeight() / 2);
     }
 
 }

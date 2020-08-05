@@ -19,8 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
- * Menü zum Navigieren durch die Applikation
- * stößt keine Programmlogik an
+ * Menü zum Navigieren durch die Applikation stößt keine Programmlogik an
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class Menu extends VBox {
@@ -51,7 +51,7 @@ public class Menu extends VBox {
         close.getStyleClass().add("text-button");
         header.getChildren().add(close);
 
-        // Buttons zur Navigation innerhalb der Anwendung 
+        // Buttons zur Navigation innerhalb der Anwendung
         home = new Button("home");
         home.getStyleClass().add("text-button");
 
@@ -129,45 +129,44 @@ public class Menu extends VBox {
         transition.setToX(0 - getPrefWidth());
         transition.play();
 
-        transition.setOnFinished(new EventHandler<ActionEvent>(){
-            
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+
             @Override
-			public void handle(ActionEvent event) {
-				setVisible(false);
+            public void handle(ActionEvent event) {
+                setVisible(false);
             }
-            
+
         });
     }
 
     /**
-     * Bietet Settings als zusätzlichen Menüpunkt an
-     * Kann nur in der GameView angezeigt werden
+     * Bietet Settings als zusätzlichen Menüpunkt an, kann nur in der GameView
+     * angezeigt werden
      */
     public void enableSettings() {
-        if(view instanceof GameView) {
+        if (view instanceof GameView) {
 
             settings.setVisible(true);
             settings.addEventHandler(ActionEvent.ACTION, event -> {
-               
+
                 SettingViewController controller = new SettingViewController(application);
                 view.getChildren().add(controller.getRootView());
                 controller.initPosition();
 
                 // Mit Klick "irgendwo" verschwindet SettingView wieder
                 view.setOnMousePressed(new EventHandler<MouseEvent>() {
-				    
-				    public void handle(MouseEvent event) {
-					    if(view.getChildren().contains(controller.getRootView())) {
+
+                    public void handle(MouseEvent event) {
+                        if (view.getChildren().contains(controller.getRootView())) {
                             view.getChildren().remove(controller.getRootView());
                             close();
                         }
                     }
 
                 });
-            
+
             });
         }
     }
-
 
 }

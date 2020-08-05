@@ -22,9 +22,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * Klasse zum Starten der JavaFX-Oberfläche
- * Manager der Applikation
- * Scenenwechsel, Layoutkonfigurationen
+ * Klasse zum Starten der JavaFX-Oberfläche Manager der Applikation
+ * Szenenwechsel, Layoutkonfigurationen
  * 
  * @author pwieg001, lwitt001, lgers001
  */
@@ -53,7 +52,8 @@ public class MainApplication extends Application {
             songManager = game.getSongManager();
 
             theme = Theme.DARK;
-            startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
+            startImage = new Image(
+                    getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
 
             ViewController<MainApplication> controller;
             scenes = new HashMap<>();
@@ -64,9 +64,9 @@ public class MainApplication extends Application {
             currentScene = scenes.get(Scenes.START_VIEW);
             scene = new Scene(currentScene, 1400, 800);
             scene.getStylesheets().add(theme.getStylesheet());
-            
+
             this.primaryStage = primaryStage;
-            primaryStage.setTitle("jump & listen");
+            primaryStage.setTitle("Jump \u0026 Listen");
             primaryStage.setScene(scene);
             primaryStage.initStyle(StageStyle.DECORATED);
             primaryStage.show();
@@ -87,7 +87,7 @@ public class MainApplication extends Application {
 
             controller = new HighscoreViewController(this);
             scenes.put(Scenes.HIGHCSCORE_VIEW, controller.getRootView());
-            
+
             this.primaryStage.setOnCloseRequest(event -> {
                 game.close();
             });
@@ -123,6 +123,7 @@ public class MainApplication extends Application {
 
     /**
      * Tauscht Stylesheet der Applikation aus
+     * 
      * @param theme Theme, dessen Stylesheet verwendet werden soll
      */
     public void switchTheme(Theme theme) {
@@ -132,57 +133,59 @@ public class MainApplication extends Application {
         startImage = new Image(getClass().getResource("/images/intro_" + theme.toString() + ".png").toExternalForm());
     }
 
-    public void configure(){
+    public void configure() {
         Block.configureWidth(100, 250);
         Block.configuteHeight(300, 600);
     }
 
     /**
-     * Ändert die angezeigte Scene und setzte Scene gegebenenfalls zurück
+     * Ändert die angezeigte Scene und setzt Scene gegebenenfalls zurück
+     * 
      * @param sceneName Scene, die angezeigt werden soll
      */
     public void switchScene(Scenes sceneName) {
         Pane nextScene;
 
-        // Laufendes Spiel bei Scenenwechsel beenden
-        if(game.isRunning()) {
+        // Laufendes Spiel bei Szenenwechsel beenden
+        if (game.isRunning()) {
             game.close();
         }
 
-        // Song des Games null setzen vor Editieren
-        if(sceneName.equals(Scenes.SONG_VIEW)) {
+        // Song des Games vor Editieren auf null setzen
+        if (sceneName.equals(Scenes.SONG_VIEW)) {
             game.setSong(null);
         }
 
         // Setze Spieleinstellungen zurück, wenn GameView betreten wird
-        if(sceneName.equals(Scenes.GAME_VIEW) && !(scene.getRoot() instanceof HighscoreView)) {
-            if(game.getSong() != null) {   
+        if (sceneName.equals(Scenes.GAME_VIEW) && !(scene.getRoot() instanceof HighscoreView)) {
+            if (game.getSong() != null) {
                 game.restart();
             }
         }
 
         // Lösche Fortschritt wenn BuildView verlassen wird
-        if(scene.getRoot() instanceof BuildView) {
+        if (scene.getRoot() instanceof BuildView) {
             songManager.discardAll();
         }
 
         // Füge leeren Block ein, wenn BuildView betreten wird
-        if(sceneName.equals(Scenes.BUILD_VIEW)) {
+        if (sceneName.equals(Scenes.BUILD_VIEW)) {
             songManager.addLast();
         }
 
-        if(scenes.containsKey(sceneName)){
+        if (scenes.containsKey(sceneName)) {
             nextScene = scenes.get(sceneName);
             scene.setRoot(nextScene);
             currentScene = nextScene;
         }
     }
 
-    /** 
+    /**
      * Hauptprogramm
+     * 
      * @param args Komandozeilenparameter
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 }

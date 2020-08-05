@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 
 /**
  * Abbildung der Spielelemente
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class GameView extends AnchorPane {
@@ -19,7 +20,7 @@ public class GameView extends AnchorPane {
     ComboBox<String> song;
     HBox songBox;
     AnchorPane field;
-    
+
     AnchorPane layer;
     TutorialView tutorial;
 
@@ -37,7 +38,7 @@ public class GameView extends AnchorPane {
         song.setId("transparent-combo-box");
 
         field = new AnchorPane();
-        
+
         layer = new AnchorPane();
         layer.setId("transparent");
         layer.setVisible(false);
@@ -56,8 +57,8 @@ public class GameView extends AnchorPane {
         AnchorPane.setTopAnchor(score, 10.0);
         AnchorPane.setRightAnchor(score, 15.0);
 
-        setPadding(new Insets(0,20,0,0));
+        setPadding(new Insets(0, 20, 0, 0));
         getStyleClass().add("window");
     }
-    
+
 }

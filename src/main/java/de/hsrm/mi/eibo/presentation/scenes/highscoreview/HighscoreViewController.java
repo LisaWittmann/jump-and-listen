@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Controller der HighscoreView
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class HighscoreViewController extends ViewController<MainApplication> {
@@ -51,7 +52,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
         retryButton = view.retryButton;
         nextLevelButton = view.levelButton;
         content = view.content;
-        
+
         menuButton = view.menuButton;
         layer = view.layer;
 
@@ -80,7 +81,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
                     Platform.runLater(new Runnable() {
-                        
+
                         @Override
                         public void run() {
                             show();
@@ -89,29 +90,28 @@ public class HighscoreViewController extends ViewController<MainApplication> {
                 }
             }
         });
-        
 
     }
 
     public void show() {
-        
+
         playerScore.setText(String.valueOf(game.getScore()));
         values = game.getHighScores();
-        
+
         // Wennn aktueller Highscore der höchste Wert in Liste ist
         if (game.getHighScores().size() > 0 && game.getScore() == values.get(0)) {
             playerText.setText("new personal record!");
-        } 
-        
+        }
+
         else {
             playerText.setText("you should try again!");
         }
 
-        //Highscore-Anzeige leeren und wieder mit Modulen befüllen
+        // Highscore-Anzeige leeren und wieder mit Modulen befüllen
         highscores.getChildren().clear();
-        
+
         for (int i = 0; i < values.size(); i++) {
-            
+
             HBox module = new HBox();
             module.getStyleClass().add("module");
             module.setSpacing(160);
@@ -136,7 +136,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
         nextLevelButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
-                
+
                 @Override
                 public void run() {
                     game.setLevel(game.getLevel().getNextLevel());
@@ -149,7 +149,7 @@ public class HighscoreViewController extends ViewController<MainApplication> {
 
         retryButton.addEventHandler(ActionEvent.ACTION, event -> {
             Platform.runLater(new Runnable() {
-                
+
                 public void run() {
                     game.restart();
                     application.switchScene(Scenes.GAME_VIEW);

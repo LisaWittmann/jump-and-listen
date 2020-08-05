@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * Ansicht zum Editieren und Erstellen von Songs
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class BuildView extends AnchorPane {
@@ -19,10 +20,10 @@ public class BuildView extends AnchorPane {
 
     AnchorPane layer;
     TutorialView tutorial;
-    
+
     public BuildView() {
-        
-        menuButton = new Button("");        
+
+        menuButton = new Button("");
         menuButton.setId("menu-button");
 
         saveButton = new Button("save");
@@ -30,7 +31,7 @@ public class BuildView extends AnchorPane {
 
         song = new AnchorPane();
         song.setLayoutX(0);
-        
+
         songName = new TextField();
         songName.setPrefWidth(300);
         songName.setPromptText("name your song");
@@ -47,11 +48,11 @@ public class BuildView extends AnchorPane {
         AnchorPane.setRightAnchor(saveButton, 0.0);
 
         AnchorPane.setBottomAnchor(song, 0.0);
-        
+
         AnchorPane.setTopAnchor(songName, 10.0);
 
         getChildren().addAll(song, songName, menuButton, saveButton, layer);
         getStyleClass().add("window");
     }
-    
+
 }

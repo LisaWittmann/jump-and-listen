@@ -3,9 +3,10 @@ package de.hsrm.mi.eibo.persistence.highscore;
 import de.hsrm.mi.eibo.business.tone.Song;
 import de.hsrm.mi.eibo.persistence.song.SongPersitinator;
 
-/** 
- * Datenformat zur Speicherung eines Highscores für einen Song
- * Implementierung des Comparable Interface um Highscores nach Wert sortieren zu können
+/**
+ * Datenformat zur Speicherung eines Highscores für einen Song Implementierung
+ * des Comparable Interface um Highscores nach Wert sortieren zu können
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class Highscore implements Comparable<Highscore> {
@@ -16,10 +17,11 @@ public class Highscore implements Comparable<Highscore> {
     private SongPersitinator songPersitinator;
 
     final String SEPERATOR = ";";
-    
+
     /**
      * Konstruktor
-     * @param song Song, für den ein Highscore erzeugt werden soll
+     * 
+     * @param song  Song, für den ein Highscore erzeugt werden soll
      * @param score Highscore als Integer
      */
     public Highscore(Song song, int score) {
@@ -30,11 +32,12 @@ public class Highscore implements Comparable<Highscore> {
 
     /**
      * Konstruktor zur Erzeugug eines Highscores aus einem String
+     * 
      * @param line Format: "name;score"
      */
-    public Highscore(String line){
+    public Highscore(String line) {
         songPersitinator = new SongPersitinator();
-        String [] parts = line.split(SEPERATOR);
+        String[] parts = line.split(SEPERATOR);
         setSong(songPersitinator.loadByName(parts[0]));
         setScore(Integer.parseInt(parts[1]));
     }
@@ -63,7 +66,7 @@ public class Highscore implements Comparable<Highscore> {
     @Override
     public int compareTo(Highscore highscore) {
         int compare = (score > highscore.getScore()) ? 1 : 0;
-        if(compare == 0) {
+        if (compare == 0) {
             compare = (score == highscore.getScore()) ? 0 : -1;
         }
         return compare;

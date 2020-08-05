@@ -23,7 +23,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * Controller der GameView handled Kommunikation während des Spiels mit dem Nutzer
+ * Controller der GameView, handled Kommunikation während des Spiels mit dem
+ * Nutzer
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class GameViewController extends ViewController<MainApplication> {
@@ -88,47 +90,48 @@ public class GameViewController extends ViewController<MainApplication> {
             private final int UPS = 40;
             private final int FPS = 50;
 
-            private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000; 
+            private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000;
             private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
             private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
 
             @Override
             public void handle(long now) {
-                
-                if(lastUpdated + UPNS_DELTA < now) {
+
+                if (lastUpdated + UPNS_DELTA < now) {
                     game.activateMovement();
                     lastUpdated = now;
                 }
 
-                if(lastRendered + FPNS_DELTA < now) {
-                    
-                    if(game.getPlayer().getPosX() > application.getScene().getWidth()/2) {
-                        scrollBlocks(game.getPlayer().getPosX() - application.getScene().getWidth()/2);
+                if (lastRendered + FPNS_DELTA < now) {
+
+                    if (game.getPlayer().getPosX() > application.getScene().getWidth() / 2) {
+                        scrollBlocks(game.getPlayer().getPosX() - application.getScene().getWidth() / 2);
                         player.setLayoutY(game.getPlayer().getPosY());
                     }
-                    
+
                     else {
                         player.setLayoutX(game.getPlayer().getPosX());
                         player.setLayoutY(game.getPlayer().getPosY());
                     }
                 }
             }
-            
+
         };
-    
+
         score.setText(String.valueOf(game.getScore()));
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
-            
+
             layer.visibleProperty().unbind();
             layer.visibleProperty().bind(menu.visibleProperty());
             layer.toFront();
-            
+
             menu.toFront();
             menu.show();
         });
 
-        // Wenn Spiel initialisiert wurde, Spielfeld aufbauen, wenn Spiel beendet wurde, Spielfeld zurück setzen
+        // Wenn Spiel initialisiert wurde, Spielfeld aufbauen, wenn Spiel beendet wurde,
+        // Spielfeld zurücksetzen
         game.initializedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -144,7 +147,7 @@ public class GameViewController extends ViewController<MainApplication> {
 
         // Änderungen des Scores abbilden
         game.scoreProperty().addListener(new ChangeListener<Number>() {
-            
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 Platform.runLater(new Runnable() {
                     public void run() {
@@ -154,10 +157,10 @@ public class GameViewController extends ViewController<MainApplication> {
             }
 
         });
-    
+
         // Wenn Spiel beendet ist, Animation stoppen und zur HighscoreView wechseln
         game.endedProperty().addListener(new ChangeListener<Boolean>() {
-            
+
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
                     gameThread.stop();
@@ -168,7 +171,7 @@ public class GameViewController extends ViewController<MainApplication> {
         });
 
         application.getScene().widthProperty().addListener(new ChangeListener<Number>() {
-         
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 placeCenter();
             }
@@ -179,35 +182,35 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public void addKeyListener() {
         application.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-            
+
             public void handle(KeyEvent event) {
 
                 // BoostJump
                 if (event.getCode().equals(KeyCode.SHIFT)) {
                     game.getPlayer().setOnBoost(true);
                     game.playerJump();
-                } 
-                
+                }
+
                 // Jump
                 else if (event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnJump(true);
                     game.playerJump();
-                } 
-                
+                }
+
                 // Bewegen nach links
                 else if (event.getCode().equals(KeyCode.A)) {
                     game.movePlayerLeft(true);
-                } 
-                
+                }
+
                 // Bewegen nach rechts
                 else if (event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(true);
-                } 
-                
+                }
+
                 // Spiel starten
                 else if (event.getCode().equals(KeyCode.S)) {
                     Platform.runLater(new Runnable() {
-                        
+
                         public void run() {
                             game.start();
                             gameThread.start();
@@ -220,24 +223,24 @@ public class GameViewController extends ViewController<MainApplication> {
 
         // Zum Setzen der Bilder des Players
         application.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
-            
+
             public void handle(KeyEvent event) {
-                
+
                 if (event.getCode().equals(KeyCode.SHIFT)) {
                     game.getPlayer().setOnBoost(true);
                     game.getPlayer().setOnBoost(false);
-                } 
-                
+                }
+
                 else if (event.getCode().equals(KeyCode.W)) {
                     game.getPlayer().setOnBoost(false);
                     game.getPlayer().setOnJump(true);
                     game.getPlayer().setOnJump(false);
-                } 
-                
+                }
+
                 else if (event.getCode().equals(KeyCode.A)) {
                     game.movePlayerLeft(false);
-                } 
-                
+                }
+
                 else if (event.getCode().equals(KeyCode.D)) {
                     game.movePlayerRight(false);
                 }
@@ -254,7 +257,7 @@ public class GameViewController extends ViewController<MainApplication> {
             blockview = new BlockView(block);
             field.getChildren().add(blockview);
         }
-        
+
         // player einfügen
         if (!view.getChildren().contains(player)) {
             view.getChildren().add(player);
@@ -270,12 +273,12 @@ public class GameViewController extends ViewController<MainApplication> {
 
         song.setValue(game.getSong().getName());
         song.setOnAction(event -> game.setSongByName(song.getValue()));
-        
+
         // Tutorial
         if (game.needsTutorial()) {
             initTutoral();
-        } 
-        
+        }
+
         addKeyListener();
     }
 
@@ -295,7 +298,7 @@ public class GameViewController extends ViewController<MainApplication> {
         // Tutorial anzeigen
         layer.visibleProperty().bind(tutorial.visibleProperty());
         layer.toFront();
-    
+
         tutorial.toFront();
         view.getChildren().add(tutorial);
         tutorial.show();
@@ -304,9 +307,9 @@ public class GameViewController extends ViewController<MainApplication> {
     }
 
     public void placeCenter() {
-        song.setLayoutX(application.getScene().getWidth()/2 - song.getPrefWidth()/2);
-        tutorial.setLayoutX(application.getScene().getWidth()/2 - tutorial.getPrefWidth()/2);
-        tutorial.setLayoutY(application.getScene().getHeight()/2 - tutorial.getPrefHeight()/2);
+        song.setLayoutX(application.getScene().getWidth() / 2 - song.getPrefWidth() / 2);
+        tutorial.setLayoutX(application.getScene().getWidth() / 2 - tutorial.getPrefWidth() / 2);
+        tutorial.setLayoutY(application.getScene().getHeight() / 2 - tutorial.getPrefHeight() / 2);
     }
 
     public void scrollBlocks(double x) {

@@ -9,8 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Startbildschirm
- * Leitet weiter zur SelectView oder BuildView
+ * Startbildschirm Leitet weiter zur SelectView oder BuildView
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class StartView extends VBox {
@@ -33,7 +33,7 @@ public class StartView extends VBox {
         buttonBox.setSpacing(-10);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.getChildren().addAll(startButton, label, createButton);
-        
+
         Label titleLabel = new Label("\u266b\u266a Jump \u0026 Listen \u266b\u266a");
         titleLabel.getStyleClass().add("h1");
         titleLabel.setStyle("-fx-text-alignment: left;");
@@ -50,5 +50,5 @@ public class StartView extends VBox {
 
         getChildren().addAll(image, titleLabel, buttonBox);
     }
-    
+
 }

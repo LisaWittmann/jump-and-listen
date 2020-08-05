@@ -6,7 +6,8 @@ import java.util.List;
 import de.hsrm.mi.eibo.business.gamelogic.Level;
 
 /**
- * verwaltung von Tönen als Song
+ * Verwaltung von Tönen als Song
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class Song {
@@ -27,21 +28,21 @@ public class Song {
         name = "unknown";
         editable = true;
     }
-    
+
     /**
-     * @param string Format: "level-edit;name: ton ton ton "
+     * @param string Format: "level-editable;name: ton ton ton "
      */
     public Song(String string) {
         this();
         string = string.toUpperCase();
-        String [] first = string.split(LEVELSEPERATOR);
+        String[] first = string.split(LEVELSEPERATOR);
         level = Level.valueOf(first[0]);
-        String [] second = first[1].split(EDITSEPERATOR);
+        String[] second = first[1].split(EDITSEPERATOR);
         editable = (second[0].equals("TRUE")) ? true : false;
         String[] third = second[1].split(NAMESEPERATOR);
         setName(third[0]);
-        String [] notes = third[1].split(TONSEPERATOR);
-        for (String note: notes) {
+        String[] notes = third[1].split(TONSEPERATOR);
+        for (String note : notes) {
             for (Tone tone : Tone.values()) {
                 if (note.equals(tone.name())) {
                     tones.add(tone);
@@ -61,7 +62,7 @@ public class Song {
 
     public void setName(String name) {
         this.name = name.toLowerCase();
-    } 
+    }
 
     public void setEditable(boolean editable) {
         this.editable = editable;
@@ -96,7 +97,7 @@ public class Song {
     }
 
     /**
-     * @return Format: "level-edit;name: ton ton ton "
+     * @return Format: "level-editable;name: ton ton ton "
      */
     @Override
     public String toString() {

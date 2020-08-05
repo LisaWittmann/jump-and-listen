@@ -14,8 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Controller der SelectView 
- * Initiiert die Wahlmöglichkeiten aus der Businesslogik
+ * Controller der SelectView, Initiiert die Wahlmöglichkeiten aus der
+ * Businesslogik
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class SelectViewController extends ViewController<MainApplication> {
@@ -44,7 +45,7 @@ public class SelectViewController extends ViewController<MainApplication> {
 
         initialize();
     }
-    
+
     @Override
     public void initialize() {
 
@@ -61,7 +62,7 @@ public class SelectViewController extends ViewController<MainApplication> {
         layer.visibleProperty().bind(menu.visibleProperty());
 
         for (Level currentLevel : Level.values()) {
-            
+
             Label name = new Label(currentLevel.toString());
             name.getStyleClass().add("h3");
             options.getChildren().add(name);
@@ -80,5 +81,4 @@ public class SelectViewController extends ViewController<MainApplication> {
         }
     }
 
-    
 }

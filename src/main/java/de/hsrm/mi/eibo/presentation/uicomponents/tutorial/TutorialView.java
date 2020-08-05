@@ -12,6 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Viewkomponente für das Tutorial, dieses wird schrittweise angezeigt
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class TutorialView extends VBox {
 
     private AnchorPane buttons;
@@ -29,7 +34,7 @@ public class TutorialView extends VBox {
         text = new VBox();
         text.setAlignment(Pos.TOP_CENTER);
         text.setSpacing(15);
-        
+
         setAlignment(Pos.TOP_CENTER);
         setId("tutorial-window");
 
@@ -66,7 +71,7 @@ public class TutorialView extends VBox {
         header.setText(keyList.getFirst());
         instruction.setText(steps.get(keyList.getFirst()));
 
-        close.addEventHandler(ActionEvent.ACTION, event ->  {
+        close.addEventHandler(ActionEvent.ACTION, event -> {
             setVisible(false);
         });
 
@@ -75,17 +80,17 @@ public class TutorialView extends VBox {
 
     private void nextStep(Map<String, String> steps) {
         boolean breakAfterNext = false;
-        for(Map.Entry<String, String> entry : steps.entrySet()) {
-            if(breakAfterNext) {
+        for (Map.Entry<String, String> entry : steps.entrySet()) {
+            if (breakAfterNext) {
                 header.setText(entry.getKey());
                 instruction.setText(entry.getValue());
-                if(entry.getKey().equals(keyList.getLast())) { 
+                if (entry.getKey().equals(keyList.getLast())) {
                     forward.setVisible(false);
                 }
                 break;
             }
-            if(header.getText().equals(entry.getKey())) {
-                breakAfterNext = true;   
+            if (header.getText().equals(entry.getKey())) {
+                breakAfterNext = true;
             }
         }
     }
@@ -94,5 +99,5 @@ public class TutorialView extends VBox {
         this.steps = steps;
         keyList = new LinkedList<>(steps.keySet());
     }
-    
+
 }

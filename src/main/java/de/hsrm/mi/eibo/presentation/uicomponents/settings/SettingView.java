@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Viewkomponente für Spieleinstellungen
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class SettingView extends StackPane {
@@ -75,9 +76,8 @@ public class SettingView extends StackPane {
         prefHeightProperty().set(500);
         getChildren().add(content);
         setAlignment(content, Pos.TOP_CENTER);
-        
+
         getStyleClass().add("overlay");
     }
-    
-    
+
 }

@@ -16,8 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 /**
- * Darstellung eines Songs als Listenzeile
- * Kapselung der Song-Businessdaten
+ * Darstellung eines Songs als Listenzeile Kapselung der Song-Businessdaten
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class SongListCell extends ListCell<Song> {
@@ -33,7 +33,7 @@ public class SongListCell extends ListCell<Song> {
 
     public SongListCell(MainApplication application) {
         this.application = application;
-        
+
         content = new AnchorPane();
         content.setPadding(new Insets(10));
 
@@ -70,35 +70,36 @@ public class SongListCell extends ListCell<Song> {
     protected void updateItem(Song song, boolean empty) {
         super.updateItem(song, empty);
 
-        if(song != null) {
+        if (song != null) {
 
             // Name des Songs
             name.setText(song.getName());
 
-            if(song.isEditable()) {
+            if (song.isEditable()) {
 
                 // Wenn Song editierbar ist, Funktionen zur Datenmanipulation anbieten
                 edit.setVisible(true);
                 remove.setVisible(true);
 
-                // Wechselt zur BuildView mit dem ausgewählten Song und ermöglicht dort editieren
+                // Wechselt zur BuildView mit dem ausgewählten Song und ermöglicht dort
+                // editieren
                 edit.addEventHandler(ActionEvent.ACTION, event -> {
                     Platform.runLater(new Runnable() {
-	                    @Override
-	                    public void run() {
-		                    application.getSongManager().editSong(song);
+                        @Override
+                        public void run() {
+                            application.getSongManager().editSong(song);
                             application.switchScene(Scenes.BUILD_VIEW);
-		
+
                         }
                     });
                 });
 
-                // Löscht ausgewählten Song aus der Datenbank
+                // Löscht ausgewählten Song aus der Datei
                 remove.addEventHandler(ActionEvent.ACTION, event -> {
                     Platform.runLater(new Runnable() {
-	                    @Override
-	                    public void run() {
-		                    application.getSongManager().removeSong(song);
+                        @Override
+                        public void run() {
+                            application.getSongManager().removeSong(song);
                         }
                     });
                 });
@@ -110,12 +111,12 @@ public class SongListCell extends ListCell<Song> {
             }
 
             setGraphic(content);
-            
-            //Mit Doppelklick auf Zelle wird ein neues Spiel mit dem Song gestartet
-            setOnMousePressed(new EventHandler<MouseEvent>(){
+
+            // Mit Doppelklick auf Zelle wird ein neues Spiel mit dem Song gestartet
+            setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if(event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                    if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
@@ -126,7 +127,7 @@ public class SongListCell extends ListCell<Song> {
                     }
                 }
             });
-    
+
         }
 
         else {
@@ -138,5 +139,5 @@ public class SongListCell extends ListCell<Song> {
     public void setApplication(MainApplication application) {
         this.application = application;
     }
-    
+
 }

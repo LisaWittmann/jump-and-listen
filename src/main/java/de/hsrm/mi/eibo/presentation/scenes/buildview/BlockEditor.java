@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  * Zum Editieren und Löschen der Blöcke
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class BlockEditor {
@@ -14,7 +15,7 @@ public class BlockEditor {
     private static final int RESIZE_MARGIN = 20;
 
     private double y;
-    
+
     private BlockView blockView;
     private Cursor cursor;
 
@@ -22,8 +23,10 @@ public class BlockEditor {
 
     /**
      * Konstruktor
-     * @param blockView Block, der editierbar gemacht werden soll
-     * @param manager Songmanager, in dem erstellter Song verwaltet wird
+     * 
+     * @param blockView {@link BlockView} für Block, der editierbar gemacht werden
+     *                  soll
+     * @param manager   {@link SongManager}, in dem erstellter Song verwaltet wird
      */
     private BlockEditor(BlockView blockView, SongManager manager) {
         this.blockView = blockView;
@@ -33,8 +36,10 @@ public class BlockEditor {
 
     /**
      * Fügt einer BlockView Editier-Funktionen hinzu
-     * @param blockView
-     * @param manager
+     * 
+     * @param blockView {@link BlockView} für Block, der editierbar gemacht werden
+     *                  soll
+     * @param manager   {@link SongManager}, in dem erstellter Song verwaltet wird
      */
     public static void makeEditable(BlockView blockView, SongManager manager) {
         BlockEditor editor = new BlockEditor(blockView, manager);
@@ -50,38 +55,37 @@ public class BlockEditor {
     }
 
     protected void mousePressed(MouseEvent event) {
-        y = event.getSceneY();   
-        
-        if(event.isSecondaryButtonDown()) {
+        y = event.getSceneY();
+
+        if (event.isSecondaryButtonDown()) {
             manager.discard(blockView.getBlock());
         }
     }
 
     protected void mouseOver(MouseEvent event) {
-        cursor = getCursor(event); 
-        if(cursor != null) blockView.setCursor(cursor); 
-        else blockView.setCursor(Cursor.DEFAULT);
+        cursor = getCursor(event);
+        if (cursor != null)
+            blockView.setCursor(cursor);
+        else
+            blockView.setCursor(Cursor.DEFAULT);
     }
 
     protected void mouseDragged(MouseEvent event) {
-        if(cursor.equals(Cursor.N_RESIZE)) {
-            double height = blockView.getPrefHeight() + (y-event.getSceneY());
+        if (cursor.equals(Cursor.N_RESIZE)) {
+            double height = blockView.getPrefHeight() + (y - event.getSceneY());
             blockView.setPrefHeight(height);
         }
         y = event.getSceneY();
     }
 
     private Cursor getCursor(MouseEvent event) {
-        if(event.getY() < RESIZE_MARGIN) {
+        if (event.getY() < RESIZE_MARGIN) {
             return Cursor.N_RESIZE;
-        } 
-        else if(event.getX() >= (blockView.getWidth() - RESIZE_MARGIN)) {
+        } else if (event.getX() >= (blockView.getWidth() - RESIZE_MARGIN)) {
             return Cursor.E_RESIZE;
-        } 
-        else if(event.getY() > RESIZE_MARGIN) {
+        } else if (event.getY() > RESIZE_MARGIN) {
             return Cursor.S_RESIZE;
-        }
-        else if(event.getX() <= (blockView.getWidth())) {
+        } else if (event.getX() <= (blockView.getWidth())) {
             return Cursor.W_RESIZE;
         }
         return null;

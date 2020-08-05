@@ -9,10 +9,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Anzeige Wahlmöglichkeiten bezüglich des Spiels vor Beginn
- * Auswahl der Schwierigkeitsstufe
- * Wird vor Start des Spiels gezeigt
- * Leitet nach Auswahl auf GameView weiter
+ * Anzeige der Wahlmöglichkeiten bezüglich des Spiels vor Beginn, Auswahl der
+ * Schwierigkeitsstufe, Wird vor Start des Spiels gezeigt, Leitet nach Auswahl
+ * auf GameView weiter
+ * 
  * @author pwieg001, lwitt001, lger001
  */
 public class SelectView extends AnchorPane {
@@ -32,9 +32,9 @@ public class SelectView extends AnchorPane {
 
         content = new VBox();
         content.getStyleClass().add("window");
-        content.setSpacing(50); 
+        content.setSpacing(50);
         content.setAlignment(Pos.CENTER);
-        content.setPadding(new Insets(60,40,60, 40));
+        content.setPadding(new Insets(60, 40, 60, 40));
         content.getChildren().addAll(header, options);
 
         layer = new AnchorPane();
@@ -43,12 +43,12 @@ public class SelectView extends AnchorPane {
 
         menuButton = new Button("");
         menuButton.setId("menu-button");
-        
+
         AnchorPane.setTopAnchor(menuButton, 10.0);
         AnchorPane.setLeftAnchor(menuButton, 10.0);
 
         getChildren().addAll(content, menuButton, layer);
         getStyleClass().add("window");
     }
-    
+
 }

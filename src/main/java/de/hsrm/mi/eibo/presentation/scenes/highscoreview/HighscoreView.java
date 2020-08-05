@@ -8,8 +8,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Anzeige des Spielstands und der persönlichen Highscores
- * Wird nach Abschluss eines Spiels angezeigt
+ * Anzeige des Spielstands und der Highscores für den Song, Wird nach Abschluss
+ * eines Spiels angezeigt
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class HighscoreView extends AnchorPane {
@@ -32,7 +33,7 @@ public class HighscoreView extends AnchorPane {
         playerScore = new Label();
         playerScore.getStyleClass().add("h2");
         playerScore.setStyle("-fx-font-size: 65px;");
-        
+
         playerText = new Label();
         playerText.getStyleClass().add("h3");
 
@@ -64,7 +65,7 @@ public class HighscoreView extends AnchorPane {
         buttonBox.setSpacing(-5);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.getChildren().addAll(levelButton, retryButton);
-        
+
         content = new VBox();
         content.setSpacing(20);
         content.setPadding(new Insets(40, 20, 40, 20));
@@ -78,5 +79,5 @@ public class HighscoreView extends AnchorPane {
         getStyleClass().add("window");
         getChildren().addAll(content, menuButton, layer);
     }
-    
+
 }

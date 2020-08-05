@@ -9,8 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
- * Darstellung eines Spielers
- * Wechsel des Anzeigebildes
+ * Darstellung eines Spielers, Wechsel des Anzeigebildes
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class PlayerView extends StackPane {
@@ -35,56 +35,60 @@ public class PlayerView extends StackPane {
 
         // Ändern des Anzeigebilds, je nach gefeuertem Event
         player.jumpProperty().addListener(new ChangeListener<Boolean>() {
-        
+
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(moveImg);
-            }    
+                if (newValue)
+                    image.setImage(moveImg);
+            }
 
         });
 
         player.boostProperty().addListener(new ChangeListener<Boolean>() {
-        
+
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(moveImg);
-            }    
+                if (newValue)
+                    image.setImage(moveImg);
+            }
 
         });
 
         player.dropProperty().addListener(new ChangeListener<Boolean>() {
-        
+
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(moveImg);
-            }   
-
-        });
-
-        player.moveProperty().addListener(new ChangeListener<Boolean>(){
-            
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(normalImg);
-            } 
-
-        });
-
-        player.landedProperty().addListener(new ChangeListener<Boolean>(){
-    
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) image.setImage(normalImg);
+                if (newValue)
+                    image.setImage(moveImg);
             }
-            
+
         });
 
-        
-        // PlayerView auf Startposition setzen, wenn Game gestartet wird
-        player.startProperty().addListener(new ChangeListener<Boolean>(){
+        player.moveProperty().addListener(new ChangeListener<Boolean>() {
 
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
+                if (newValue)
+                    image.setImage(normalImg);
+            }
+
+        });
+
+        player.landedProperty().addListener(new ChangeListener<Boolean>() {
+
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue)
+                    image.setImage(normalImg);
+            }
+
+        });
+
+        // PlayerView auf Startposition setzen, wenn Game gestartet wird
+        player.startProperty().addListener(new ChangeListener<Boolean>() {
+
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
                     setLayoutX(player.getStartPosX());
                     setLayoutY(player.getStartPosY());
                 }
             }
-            
+
         });
     }
 }

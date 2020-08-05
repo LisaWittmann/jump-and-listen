@@ -8,8 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 /**
- * Controller der StartView 
- * Auswahl des Spielmodus
+ * Controller der StartView Auswahl des Spielmodus
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class StartViewController extends ViewController<MainApplication> {
@@ -36,10 +36,10 @@ public class StartViewController extends ViewController<MainApplication> {
     @Override
     public void initialize() {
         image.setImage(application.getStartImage());
-        
+
         startButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.SELECT_VIEW));
-        
+
         createButton.addEventHandler(ActionEvent.ACTION, e -> application.switchScene(Scenes.BUILD_VIEW));
     }
-    
+
 }

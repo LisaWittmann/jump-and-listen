@@ -11,8 +11,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 
 /**
- * Controller für die Overlay SettingsView 
- * Gibt neue Einstellungen an das Game weiter
+ * Controller für die Overlay SettingsView Gibt neue Einstellungen an das Game
+ * weiter
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class SettingViewController extends ViewController<MainApplication> {
@@ -41,7 +42,7 @@ public class SettingViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
-    
+
         // Alle Themes als Auswahlmöglichkeit in DropDown anbieten
         theme.getItems().addAll(Theme.values());
         theme.setValue(application.getTheme());
@@ -49,7 +50,7 @@ public class SettingViewController extends ViewController<MainApplication> {
 
         // Slider, der Blockdistanz im Spiel ändert
         blockdistance.valueProperty().addListener(new ChangeListener<Number>() {
-        
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 game.setBlockDistance(newValue.doubleValue());
             }
@@ -58,7 +59,7 @@ public class SettingViewController extends ViewController<MainApplication> {
 
         // Slider, der Geschwindigkeit des Spielers ändert
         speed.valueProperty().addListener(new ChangeListener<Number>() {
-         
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 game.setSpeedFactor(newValue.doubleValue());
             }
@@ -67,7 +68,7 @@ public class SettingViewController extends ViewController<MainApplication> {
 
         // Slider, der Lautstärke der Töne ändert
         volume.valueProperty().addListener(new ChangeListener<Number>() {
-            
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 game.getToneMaker().setVolume((int) newValue.doubleValue());
             }
@@ -75,19 +76,19 @@ public class SettingViewController extends ViewController<MainApplication> {
         });
 
         // View neu zentrieren, wenn Breite verändert wird
-        application.getScene().widthProperty().addListener(new ChangeListener<Number> () {
+        application.getScene().widthProperty().addListener(new ChangeListener<Number>() {
 
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 initPosition();
             }
 
         });
-        
+
     }
 
     public void initPosition() {
-        view.setLayoutX(application.getScene().getWidth()/2 - view.getPrefWidth()/2);    
-        view.setLayoutY(application.getScene().getHeight()/2 - view.getPrefHeight()/2);    
+        view.setLayoutX(application.getScene().getWidth() / 2 - view.getPrefWidth() / 2);
+        view.setLayoutY(application.getScene().getHeight() / 2 - view.getPrefHeight() / 2);
     }
-    
+
 }

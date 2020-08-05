@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 
 /**
  * Darstellung eines Blocks
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class BlockView extends StackPane {
@@ -21,11 +22,11 @@ public class BlockView extends StackPane {
         this.block = block;
 
         setPrefSize(block.getWidth(), block.getHeight());
-        
+
         if (block.isInitialized().get()) {
             getStyleClass().add("block");
-        } 
-        
+        }
+
         else {
             initEmptyBlock();
         }
@@ -47,48 +48,48 @@ public class BlockView extends StackPane {
     }
 
     public void addChangeListener() {
-        if (block == null) return;
+        if (block == null)
+            return;
 
         block.changes.addPropertyChangeListener("posX", event -> setLayoutX(block.getPosX()));
         block.changes.addPropertyChangeListener("posY", event -> setLayoutY(block.getPosY()));
         block.changes.addPropertyChangeListener("height", event -> setPrefHeight(block.getHeight()));
 
-        
         // Anpassung der Darstellung an Events
 
         block.isIntersected().addListener(new ChangeListener<Boolean>() {
-            
+
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
+                if (newValue) {
                     getStyleClass().clear();
                     getStyleClass().add("hit");
                 }
-            }    
+            }
 
         });
 
-        block.isInitialized().addListener(new ChangeListener<Boolean>(){
-            
+        block.isInitialized().addListener(new ChangeListener<Boolean>() {
+
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 getStyleClass().clear();
                 getStyleClass().add("block");
-                if(addButton != null) {
+                if (addButton != null) {
                     addButton.setVisible(false);
                 }
-            }   
+            }
 
         });
     }
 
     public Block getBlock() {
-       return block;
+        return block;
     }
 
     public void setBlock(Block block) {
         this.block = block;
     }
 
-    public void setLayout(){
+    public void setLayout() {
         block.setPosX(getLayoutX());
         block.setPosY(getLayoutY());
     }

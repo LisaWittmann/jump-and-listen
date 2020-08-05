@@ -6,10 +6,9 @@ import de.hsrm.mi.eibo.business.tone.*;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- * Schnittstelle zwischen SongBuilding und Game
- * Kalkulationen eines Blocks aus einem Ton
- * Kalkulation eines Tons aus einem Block
- * Konfigurationen des Spiels
+ * Schnittstelle zwischen SongBuilding und Game Kalkulationen eines Blocks aus
+ * einem Ton Kalkulation eines Tons aus einem Block Konfigurationen des Spiels
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class Block {
@@ -22,7 +21,7 @@ public class Block {
      * @param min Mindestbreite aller Blöcke
      * @param max Maximalbreite aller Blöcke
      */
-    public static void configureWidth(double min, double max){
+    public static void configureWidth(double min, double max) {
         minWidth = min;
         maxWidth = max;
     }
@@ -31,10 +30,10 @@ public class Block {
      * @param min Mindesthöhe aller Blöcke
      * @param max Maximalhöhe aller Blöcke
      */
-    public static void configuteHeight(double min, double max){
+    public static void configuteHeight(double min, double max) {
         minHeight = min;
         maxHeight = max;
-        distance = (maxHeight-minHeight) / (Tone.values().length-1);
+        distance = (maxHeight - minHeight) / (Tone.values().length - 1);
     }
 
     public static double getMinHeight() {
@@ -54,48 +53,57 @@ public class Block {
     }
 
     /**
-     * rundet Höhe, sodass diese in den min/max Grenzen und in der Schrittweite liegt
+     * rundet Höhe, sodass diese in den min/max Grenzen und in der Schrittweite
+     * liegt
+     * 
      * @return gerundende Höhe
      */
     public static double roundHeight(double height) {
-        if(height < minHeight) return minHeight;
-        if(height > maxHeight) return maxHeight;
+        if (height < minHeight)
+            return minHeight;
+        if (height > maxHeight)
+            return maxHeight;
 
-        for(double i = minHeight; i <= maxHeight; i += distance) {
-            if(height > i + distance/2) continue;
-            else return i;
+        for (double i = minHeight; i <= maxHeight; i += distance) {
+            if (height > i + distance / 2)
+                continue;
+            else
+                return i;
         }
         return height;
     }
 
     /**
      * Sucht passende Höhe zu einem Ton anhand der konfigurierten Klassen-Variablen
+     * 
      * @param tone Ton zu dem Höhe ermittelt werden soll
      * @return kalkulierte Höhe
      */
     public static double getHeightByTone(Tone tone) {
-        for(int i = 0; i < Tone.values().length; i++){
-            if(Tone.values()[i].equals(tone)) return minHeight + i*distance;
+        for (int i = 0; i < Tone.values().length; i++) {
+            if (Tone.values()[i].equals(tone))
+                return minHeight + i * distance;
         }
         return minHeight;
     }
 
     /**
-     * Sucht Ton zu angegebener Höhe 
+     * Sucht Ton zu angegebener Höhe
+     * 
      * @return getroffener Ton, sonst null
      */
     public static Tone getToneByHeight(double height) {
         height = roundHeight(height);
-        for(int i = 0; i < Tone.values().length; i++) {
-            if((minHeight + i*distance) == height) return Tone.values()[i];
+        for (int i = 0; i < Tone.values().length; i++) {
+            if ((minHeight + i * distance) == height)
+                return Tone.values()[i];
         }
         return null;
     }
 
-
     private Tone tone;
 
-    private double posX, posY; 
+    private double posX, posY;
     private double height, width;
 
     private SimpleBooleanProperty initialized;
@@ -104,10 +112,11 @@ public class Block {
     public PropertyChangeSupport changes;
 
     /**
-     * Konstukor für Blöcke, doe einen eindeutigen Ton abbilden
+     * Konstukor für Blöcke, die einen eindeutigen Ton abbilden
+     * 
      * @param tone eindeutiger Ton, null darf nicht übergeben werden
      */
-    public Block(Tone tone){
+    public Block(Tone tone) {
         this.tone = tone;
 
         width = minWidth;
@@ -118,19 +127,19 @@ public class Block {
     }
 
     /**
-     * Konstukror für Blöcke, die keinen Ton abbilden
-     * und für Blöcke, aus denen Töne konstuiert werden
+     * Konstukror für Blöcke, die keinen Ton abbilden und für Blöcke, aus denen Töne
+     * konstuiert werden
+     * 
      * @param platform Block ist Spielerplattform (also Start und Ende)
      */
     public Block(boolean platform) {
         tone = null;
 
-        if(platform) {
+        if (platform) {
             height = minHeight;
             width = maxWidth;
             initialized = new SimpleBooleanProperty(true);
-        } 
-        else {
+        } else {
             height = minHeight;
             width = minWidth;
             initialized = new SimpleBooleanProperty(false);
@@ -163,12 +172,13 @@ public class Block {
         changes.firePropertyChange("posY", oldValue, posY);
     }
 
-    public void setTone() { 
-        tone = getToneByHeight(height); 
+    public void setTone() {
+        tone = getToneByHeight(height);
     }
 
     public void setTone(Tone tone) {
-        if(initialized.get()) return;
+        if (initialized.get())
+            return;
         this.tone = tone;
         setHeight(getHeightByTone(tone));
         initialized.set(true);
@@ -203,5 +213,5 @@ public class Block {
     public double getPosY() {
         return posY;
     }
-    
+
 }

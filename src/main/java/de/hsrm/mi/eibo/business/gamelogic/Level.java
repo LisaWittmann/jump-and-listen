@@ -7,29 +7,38 @@ public enum Level {
     protected int point;
     protected double speedFactor;
     protected double distance;
-    
+
     /**
-     * @param point Punktzahl, die pro Block vergeben wird
+     * @param point       Punktzahl, die pro Block vergeben wird
      * @param speedFactor Bewegungsgeschwindigkeit des Spielers
-     * @param distance Entfernung der Blöcke
+     * @param distance    Entfernung der Blöcke
      */
     private Level(int point, double speedFactor, double distance) {
         this.point = point;
         this.speedFactor = speedFactor;
         this.distance = distance;
     }
-    
-    @Override 
-    public String toString(){
+
+    @Override
+    public String toString() {
         return name().toLowerCase();
     }
-    
+
+    /**
+     * Folgendes Level ermitteln
+     * 
+     * @return nächsthöheres Level
+     */
     public Level getNextLevel() {
-        switch(this) {
-            case BEGINNER: return INTERMEDIATE;
-            case INTERMEDIATE: return EXPERT;
-            case EXPERT: return EXPERT;
-            default: return BEGINNER;
+        switch (this) {
+            case BEGINNER:
+                return INTERMEDIATE;
+            case INTERMEDIATE:
+                return EXPERT;
+            case EXPERT:
+                return EXPERT;
+            default:
+                return BEGINNER;
         }
     }
 }

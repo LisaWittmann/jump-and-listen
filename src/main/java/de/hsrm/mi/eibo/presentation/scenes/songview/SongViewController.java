@@ -11,13 +11,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Controller für die SongView
+ * 
+ * @author pwieg001, lwitt001, lgers001
+ */
 public class SongViewController extends ViewController<MainApplication> {
 
     private SongView view;
     private SongManager songManager;
 
     private ListView<Song> songs;
-    
+
     private AnchorPane layer;
     private Button menuButton;
 
@@ -38,8 +43,8 @@ public class SongViewController extends ViewController<MainApplication> {
     }
 
     public void placeCenter() {
-        songs.setLayoutX(application.getScene().getWidth()/2 - songs.getPrefWidth()/2);
-        songs.setLayoutY(application.getScene().getHeight()/2 - songs.getPrefHeight()/2);
+        songs.setLayoutX(application.getScene().getWidth() / 2 - songs.getPrefWidth() / 2);
+        songs.setLayoutY(application.getScene().getHeight() / 2 - songs.getPrefHeight() / 2);
     }
 
     @Override
@@ -60,9 +65,9 @@ public class SongViewController extends ViewController<MainApplication> {
         layer.visibleProperty().bind(menu.visibleProperty());
 
         application.getScene().widthProperty().addListener(new ChangeListener<Number>() {
-            
+
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                placeCenter();   
+                placeCenter();
             }
 
         });
@@ -70,5 +75,5 @@ public class SongViewController extends ViewController<MainApplication> {
         songs.setItems(songManager.getSavedSongs());
         songs.setCellFactory(event -> new SongListCell(application));
     }
-    
+
 }

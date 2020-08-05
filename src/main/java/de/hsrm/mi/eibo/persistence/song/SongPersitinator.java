@@ -16,9 +16,8 @@ import de.hsrm.mi.eibo.persistence.DataPersistinator;
 import de.hsrm.mi.eibo.persistence.highscore.HighscorePersistinator;
 
 /**
- * Speicherung von Song-Instanzen in einer .txt Datei
- * Laden und Erzeugen von Songs anhand einer .txt Datei
- * Löschen von Einträgen der .txt Datei
+ * Speicherung von Song-Instanzen in einer .txt Datei Laden und Erzeugen von
+ * Songs anhand einer .txt Datei Löschen von Einträgen aus der .txt Datei
  * 
  * @author pwieg001, lwitt001, lgers001
  */
@@ -32,18 +31,20 @@ public class SongPersitinator implements DataPersistinator<Song> {
     @Override
     public void saveAll(List<Song> data) {
         StringBuilder sb = new StringBuilder();
-        for(Song s : data) {
-            if(!nameAccepted(s.getName())) continue;
+        for (Song s : data) {
+            if (!nameAccepted(s.getName()))
+                continue;
             sb.append(s.toString()).append("\n");
         }
-        try {   
+        try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(writer != null) writer.close();
+                if (writer != null)
+                    writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,15 +57,16 @@ public class SongPersitinator implements DataPersistinator<Song> {
         try {
             reader = new BufferedReader(new FileReader(dataPath));
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 loaded.add(new Song(line));
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(reader != null) reader.close();
-            } catch(IOException e) {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -73,15 +75,17 @@ public class SongPersitinator implements DataPersistinator<Song> {
 
     @Override
     public void saveData(Song data) {
-        if(!nameAccepted(data.getName())) return;
-        try {   
-            writer =  new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
+        if (!nameAccepted(data.getName()))
+            return;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath, true)));
             writer.write(data.toString() + "\n");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(writer != null) writer.close();
+                if (writer != null)
+                    writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -100,33 +104,40 @@ public class SongPersitinator implements DataPersistinator<Song> {
             e.printStackTrace();
         } finally {
             try {
-                if(reader != null) reader.close();
-            } catch(IOException e) {
+                if (reader != null)
+                    reader.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return song;
     }
 
+    /**
+     * Löschen eines Songs, es werden auch die Highscores für diesen Song entfernt
+     * 
+     * @param song zu löschender Song
+     * @return überarbeitete Liste aller Songs
+     */
     public List<Song> removeData(Song song) {
         List<Song> data = loadAll();
         List<Song> newData = new ArrayList<>();
-        for(Song s : data) {
-            if(!s.getName().equalsIgnoreCase(song.getName())) {
+        for (Song s : data) {
+            if (!s.getName().equalsIgnoreCase(song.getName())) {
                 newData.add(s);
-            }
-            else {
+            } else {
                 highscorePers.removeBySong(song);
             }
         }
-        try {   
+        try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
             writer.write("");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(writer != null) writer.close();
+                if (writer != null)
+                    writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,27 +146,33 @@ public class SongPersitinator implements DataPersistinator<Song> {
         return newData;
     }
 
+    /**
+     * Überschreiben eines Songs (nach Bearbeitung)
+     * 
+     * @param song neuer Song mit gleichem Namen wie zu überschreibender Song
+     * @return überarbeitete Liste aller Songs
+     */
     public List<Song> overrideData(Song song) {
         List<Song> data = loadAll();
         List<Song> newData = new ArrayList<>();
-        
-        for(Song s : data) {
-            if(!s.getName().equalsIgnoreCase(song.getName())) {
+
+        for (Song s : data) {
+            if (!s.getName().equalsIgnoreCase(song.getName())) {
                 newData.add(s);
-            }
-            else {
+            } else {
                 highscorePers.removeBySong(s);
                 newData.add(song);
             }
         }
-        try {   
+        try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataPath)));
             writer.write("");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if(writer != null) writer.close();
+                if (writer != null)
+                    writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -165,31 +182,39 @@ public class SongPersitinator implements DataPersistinator<Song> {
     }
 
     public Song loadByName(String name) {
-        for(Song s : loadAll()) {
-            if(s.getName().equals(name)) return s;
+        for (Song s : loadAll()) {
+            if (s.getName().equals(name))
+                return s;
         }
         return null;
     }
 
+    /**
+     * Überprüfung, ob ein Name den Regeln entspricht Namen dürfen nur aus maximal
+     * 29 Kleinbuchstaben und Leerzeichen bestehen
+     * 
+     * @param name zu prüfender Name
+     * @return true wenn Name akzeptiert, sonst false
+     */
     public boolean nameAccepted(String name) {
         String regex = "^[a-z\\s]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(name);
-        for(Song s : loadAll()) {
-            if(s.getName().equals(name)) {
+        for (Song s : loadAll()) {
+            if (s.getName().equals(name)) {
                 return false;
             }
         }
-        if(name.contains(Song.getLevelSeperator()) || name.contains(Song.getNameSeperator())) {
+        if (name.contains(Song.getLevelSeperator()) || name.contains(Song.getNameSeperator())) {
             return false;
         }
-        if(name.length() >= 30) {
+        if (name.length() >= 30) {
             return false;
         }
-        if(matcher.matches() == false) {
+        if (matcher.matches() == false) {
             return false;
         }
         return true;
     }
-    
+
 }

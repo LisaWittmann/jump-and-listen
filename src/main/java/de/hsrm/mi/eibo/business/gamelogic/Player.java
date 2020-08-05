@@ -3,8 +3,8 @@ package de.hsrm.mi.eibo.business.gamelogic;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- * Spieler bzw User
- * Schnittstelle für Persistence Schicht zum Speichern und Laden persönlicher Highscores
+ * Spieler bzw User Schnittstelle für Persistence Schicht zum Speichern und
+ * Laden persönlicher Highscores
  * 
  * @author pwieg001, lwitt001, lger001
  */
@@ -16,7 +16,7 @@ public class Player {
     private double startPosX, startPosY;
     private double vFalling;
 
-    public Player(){
+    public Player() {
         startPosX = 120;
         startPosY = 400;
 
@@ -34,23 +34,24 @@ public class Player {
         moveTo(startPosX, startPosY);
     }
 
-    /** 
+    /**
      * Setzt Player auf Anfangszustand, wenn Spiel neu gestartet wird
      */
-    public void setOnStartPosition(){
+    public void setOnStartPosition() {
         moveTo(startPosX, startPosY);
         start.set(true);
         vFalling = 0;
-        
+
         jump.set(false);
         boost.set(false);
         drop.set(false);
         move.set(false);
         right.set(false);
         left.set(false);
-        
+
         landed.set(true);
     }
+
     public double getPosX() {
         return posX;
     }

@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Erzeugung eines Tons anhand einer Frequenz
+ * 
  * @author pwieg001, lwitt001, lgers001
  */
 public class ToneMaker {
@@ -18,26 +19,25 @@ public class ToneMaker {
         volume = 80;
     }
 
-    public void createTone(int Hertz, int volume)
-            throws LineUnavailableException {
+    public void createTone(int hertz, int volume) throws LineUnavailableException {
 
         float rate = 44100;
         byte[] buf;
         AudioFormat audioF;
 
         buf = new byte[1];
-        audioF = new AudioFormat(rate,8,1,true,false);
-        //sampleRate, sampleSizeInBits,channels,signed,bigEndian
+        audioF = new AudioFormat(rate, 8, 1, true, false);
+        // AudioFormat:sampleRate,sampleSizeInBits,channels,signed,bigEndian
 
         SourceDataLine sourceDL = AudioSystem.getSourceDataLine(audioF);
         sourceDL = AudioSystem.getSourceDataLine(audioF);
         sourceDL.open(audioF);
         sourceDL.start();
 
-        for(int i=0; i<rate/3; i++){
-            double angle = (i/rate)*Hertz*2.0*Math.PI;
-            buf[0]=(byte)(Math.sin(angle)*volume);
-            sourceDL.write(buf,0,1);
+        for (int i = 0; i < rate / 3; i++) {
+            double angle = (i / rate) * hertz * 2.0 * Math.PI;
+            buf[0] = (byte) (Math.sin(angle) * volume);
+            sourceDL.write(buf, 0, 1);
         }
 
         sourceDL.drain();
@@ -57,7 +57,6 @@ public class ToneMaker {
         tut.start();
     }
 
-
     /**
      * Game-Over Ton
      */
@@ -69,8 +68,8 @@ public class ToneMaker {
                 AudioFormat audioF;
 
                 buf = new byte[1];
-                audioF = new AudioFormat(rate,8,1,true,false);
-                //sampleRate, sampleSizeInBits,channels,signed,bigEndian
+                audioF = new AudioFormat(rate, 8, 1, true, false);
+                // AudioFormat:sampleRate,sampleSizeInBits,channels,signed,bigEndian
 
                 SourceDataLine sourceDL = AudioSystem.getSourceDataLine(audioF);
                 sourceDL = AudioSystem.getSourceDataLine(audioF);
@@ -78,7 +77,7 @@ public class ToneMaker {
                 sourceDL.start();
                 int startHertz = 450;
                 double hertz = startHertz;
-                for (int i = 0; i <rate * 1; i++) {
+                for (int i = 0; i < rate * 1; i++) {
                     hertz -= (startHertz - 300) / (rate * 1);
                     double angle = (i / rate) * hertz * 2.0 * Math.PI;
                     buf[0] = (byte) (Math.sin(angle) * volume);
@@ -96,6 +95,11 @@ public class ToneMaker {
         tut.start();
     }
 
+    /**
+     * Spielt eine Reihenfolge von Tönen ab
+     * 
+     * @param tones abzuspielende Töne
+     */
     public void playList(List<Tone> tones) {
         for (Tone tone : tones) {
             try {
@@ -111,7 +115,8 @@ public class ToneMaker {
     }
 
     public void setVolume(int volume) {
-        if (volume < 0 || volume > 100) throw new IllegalArgumentException("Volume has to be between 0 and 100 but was " + volume);
+        if (volume < 0 || volume > 100)
+            throw new IllegalArgumentException("Volume has to be between 0 and 100 but was " + volume);
         this.volume = volume;
     }
 }

@@ -6,7 +6,8 @@ import javafx.application.Application;
 import javafx.scene.layout.Pane;
 
 /**
- * gibt einheitliche Implementierung von Controller-Klassen vor
+ * Gibt einheitliche Implementierung von Controller-Klassen vor
+ * 
  * @param <T> laufende Applikaion
  * @author pwieg001, lwitt001, lgers001
  */
@@ -17,8 +18,9 @@ public abstract class ViewController<T extends Application> {
     protected Pane rootView;
     protected T application;
 
-    public ViewController() {}
-    
+    public ViewController() {
+    }
+
     public ViewController(T application) {
         this.application = application;
         this.menu = new Menu(application);
@@ -42,6 +44,5 @@ public abstract class ViewController<T extends Application> {
     }
 
     public abstract void initialize();
-    
 
 }
