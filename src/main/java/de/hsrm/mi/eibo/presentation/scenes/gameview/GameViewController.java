@@ -9,6 +9,7 @@ import de.hsrm.mi.eibo.presentation.scenes.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.game.*;
 import de.hsrm.mi.eibo.presentation.uicomponents.tutorial.TutorialView;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -43,6 +44,7 @@ public class GameViewController extends ViewController<MainApplication> {
 
     private double mid;
     private PlayerView player;
+    private AnimationTimer gameThread;
 
     public GameViewController(MainApplication application) {
         super(application);
@@ -51,7 +53,7 @@ public class GameViewController extends ViewController<MainApplication> {
         view = new GameView();
         setRootView(view);
 
-        player = new PlayerView(game.getPlayer(), this);
+        player = new PlayerView(game.getPlayer());
 
         menuButton = view.menuButton;
         score = view.score;
@@ -82,6 +84,42 @@ public class GameViewController extends ViewController<MainApplication> {
 
     @Override
     public void initialize() {
+
+        gameThread = new AnimationTimer() {
+
+            private long lastUpdated = 0;
+            private long lastRendered = 0;
+            private final int UPS = 40;
+            private final int FPS = 50;
+
+            private final int SECONDS2NANO_SECONDS = 1_000 * 1_000_000; 
+            private final int UPNS_DELTA = SECONDS2NANO_SECONDS / UPS;
+            private final int FPNS_DELTA = SECONDS2NANO_SECONDS / FPS;
+
+            @Override
+            public void handle(long now) {
+                
+                if(lastUpdated + UPNS_DELTA < now) {
+                    game.activateMovement();
+                    lastUpdated = now;
+                }
+
+                if(lastRendered + FPNS_DELTA < now) {
+                    
+                    if(game.getPlayer().getPosX() > mid) {
+                        scrollBlocks(game.getPlayer().getPosX() - mid);
+                        player.setLayoutY(game.getPlayer().getPosY());
+                    }
+                    
+                    else {
+                        player.setLayoutX(game.getPlayer().getPosX());
+                        player.setLayoutY(game.getPlayer().getPosY());
+                    }
+                }
+            }
+            
+        };
+    
         score.setText(String.valueOf(game.getScore()));
 
         menuButton.addEventHandler(ActionEvent.ACTION, event -> {
@@ -123,7 +161,7 @@ public class GameViewController extends ViewController<MainApplication> {
             
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
-                    player.stopAnimtion();
+                    gameThread.stop();
                     application.switchScene(Scenes.HIGHCSCORE_VIEW);
                 }
             }
@@ -137,7 +175,6 @@ public class GameViewController extends ViewController<MainApplication> {
             }
 
         });
-
 
     }
 
@@ -159,8 +196,8 @@ public class GameViewController extends ViewController<MainApplication> {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            player.startAnimation();
                             game.start();
+                            gameThread.start();
                         }
                     });
                 }
@@ -235,10 +272,6 @@ public class GameViewController extends ViewController<MainApplication> {
 
     public void scrollBlocks(double x) {
         field.setLayoutX(-x);
-    }
-
-    public double getMid() {
-        return mid;
     }
 
 }

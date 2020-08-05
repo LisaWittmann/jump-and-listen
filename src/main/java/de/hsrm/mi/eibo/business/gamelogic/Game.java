@@ -184,6 +184,8 @@ public class Game {
 
             // Abgleichen, damit Level sicher gesetzt ist 
             this.level = song.getLevel();
+            this.distance = level.distance;
+            this.speedFactor = level.speedFactor;
             this.point = song.getLevel().point;
 
             initBlocks(song);

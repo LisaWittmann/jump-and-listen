@@ -132,7 +132,7 @@ public class Player {
     public void moveTo(double x, double y) {
         posX = x;
         posY = y;
-        changes.firePropertyChange("koordinaten", null, null);
+        start.set(false);
     }
 
     public synchronized double getVFalling() {
